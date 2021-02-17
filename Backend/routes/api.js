@@ -1,10 +1,10 @@
 const router = require('express').Router();
-// const authRoute = require('./auth/auth');
+const formsRoute = require('./forms');
 
 router.use(function(req, res, next) {
 	next();
 });
 
-// router.use('/user', authRoute);
+router.use('/forms', formsRoute);
 
 module.exports = router;
