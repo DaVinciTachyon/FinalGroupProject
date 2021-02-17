@@ -1,11 +1,12 @@
 const router = require('express').Router();
 const Form = require('../models/Form');
+const verify = require('./verifyToken');
 
 router.use(function(req, res, next) {
 	next();
 });
 
-router.post('/', async (req, res) => {
+router.post('/', verify.monitor, async (req, res) => {
     const form = new Form(req.body);
     try {
         await form.save();
@@ -15,7 +16,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', verify.admin, async (req, res) => {
     const forms = await Form.find();
     res.status(200).send({
         forms: forms,

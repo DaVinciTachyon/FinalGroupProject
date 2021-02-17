@@ -30,7 +30,8 @@ services:
     environment:
       - DB_CONNECT=${DB_CONNECT}
       - PORT=${PORT}
-      - TOKEN_SECRET=${TOKEN_SECRET}
+      - ADMIN_TOKEN_SECRET=${ADMIN_TOKEN_SECRET}
+      - MONITOR_TOKEN_SECRET=${MONITOR_TOKEN_SECRET}
     networks:
       - monitor-network
 
