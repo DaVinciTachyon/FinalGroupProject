@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const formSchema = new mongoose.Schema({
+module.exports = mongoose.model('Form', new mongoose.Schema({
+    //TODO - monitorID
     incidentDate: {
         type: Date,
         default: Date.now(),
@@ -234,10 +235,7 @@ const formSchema = new mongoose.Schema({
         },
         relationship: {
             type: String,
-            enum: ['current partner', 'former partner', 'relative', 'neighbour', 'friend', 'association', 'other' ],
-            required: true
+            enum: ['current partner', 'former partner', 'relative', 'neighbour', 'friend', 'association', 'other' ]
         }
     }
-});
-
-module.exports = mongoose.model('Form', formSchema);
+}));
