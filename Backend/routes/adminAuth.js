@@ -11,14 +11,14 @@ router.use(function(req, res, next) {
 
 router.post('/register/administrator', async (req, res) => {
 	const { error } = validate.administrator.register(req.body);
-	if (error) return res.status(400).send(error.details[0].message);
+	if (error) return res.status(400).send({ error: error.details[0].message });
 
 	const salt = await bcrypt.genSalt(10);
 	const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
 	const existingUser = await Administrator.findOne({ email: req.body.email });
 	if(existingUser)
-		return res.status(400).send('Email already exists');
+		return res.status(400).send({ error: 'Email already exists' });
 
 	let id = randomstring.generate(30);
 
@@ -38,17 +38,17 @@ router.post('/register/administrator', async (req, res) => {
 
 router.post('/login/administrator', async (req, res) => {
 	const { error } = validate.administrator.login(req.body);
-	if (error) return res.status(400).send(error.details[0].message);
+	if (error) return res.status(400).send({ error: error.details[0].message });
 
 	const user = await Administrator.findOne({ email: req.body.email });
 	if(!user)
-		return res.status(400).send('User does not exist');
+		return res.status(400).send({ error: 'User does not exist' });
 
 	const validPass = await bcrypt.compare(req.body.password, user.password);
-	if (!validPass) return res.status(400).send('Invalid Password');
+	if (!validPass) return res.status(400).send({ error: 'Invalid Password' });
 
 	const token = jwt.sign({ _id: user.id }, process.env.ADMIN_TOKEN_SECRET);
-	res.header('auth-token', token).send(token);
+	res.header('auth-token', token).send({ token });
 });
 
 module.exports = router;
