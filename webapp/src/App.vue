@@ -5,7 +5,9 @@
       color="primary"
       dark
     >
-    <h1>Admin Hub</h1>
+    <router-link to="/"><h1 class="homelink">Admin Hub</h1></router-link>
+    
+    <router-link to="/users"> <h3 class="userlink">Users</h3> </router-link>
     </v-app-bar>
 
     <v-content>
@@ -27,3 +29,14 @@ export default {
   }),
 };
 </script>
+
+<style>
+  .userlink{
+    color: #fff;
+    padding: 20px;
+  }
+
+  .homelink{
+    color: #fff
+  }
+</style>
