@@ -19,7 +19,7 @@ router.post('/register/monitor', async (req, res) => {
 	const existingEmail = await Monitor.findOne({ email: req.body.email });
 	if(existingEmail)
         return res.status(400).send({ error: 'Email already exists' });
-        
+
     const existingMacAddress = await Monitor.findOne({ macAddress: req.body.macAddress });
     if(existingMacAddress)
         return res.status(400).send({ error: 'MAC Address already exists' });
@@ -42,18 +42,21 @@ router.post('/register/monitor', async (req, res) => {
 });
 
 router.post('/login/monitor', async (req, res) => {
-	const { error } = validate.monitor.login(req.body);
-	if (error) return res.status(400).send({ error: error.details[0].message });
+	//Temporary only!
+	res.header('auth-token', token).send({ "_id": "insert_uid_here" });
 
-	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
-	if(!user)
-		return res.status(400).send({ error: 'User does not exist' });
+	// const { error } = validate.monitor.login(req.body);
+	// if (error) return res.status(400).send({ error: error.details[0].message });
 
-	const validPass = await bcrypt.compare(req.body.password, user.password);
-	if (!validPass) return res.status(400).send({ error: 'Invalid Password' });
+	// const user = await Monitor.findOne({ macAddress: req.body.macAddress });
+	// if(!user)
+	// 	return res.status(400).send({ error: 'User does not exist' });
 
-	const token = jwt.sign({ _id: user.id }, process.env.MONITOR_TOKEN_SECRET);
-	res.header('auth-token', token).send({ token });
+	// const validPass = await bcrypt.compare(req.body.password, user.password);
+	// if (!validPass) return res.status(400).send({ error: 'Invalid Password' });
+
+	// const token = jwt.sign({ _id: user.id }, process.env.MONITOR_TOKEN_SECRET);
+	// res.header('auth-token', token).send({ token });
 });
 
 module.exports = router;
