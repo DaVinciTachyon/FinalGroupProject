@@ -1,18 +1,18 @@
 <template>
   <div class="home">
     HOME
-    <DataTable></DataTable>
+    <FormTable></FormTable>
   </div>
 
 </template>
 
 <script>
-import DataTable from '../components/DataTable'
+import FormTable from '../components/FormTable'
 
 export default {
   name: 'Home',
   components: {
-    DataTable
+    FormTable
   }
 
 }

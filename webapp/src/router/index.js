@@ -20,7 +20,15 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
-  routes
+  routes,
+  scrollBehavior (to) {
+    if (to.hash) {
+      return {
+        selector: to.hash,
+        behavior: 'smooth',
+      }
+    }
+  }
 })
 
 export default router
