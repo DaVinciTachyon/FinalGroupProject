@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hidden_helper/screens/form.dart';
 import 'package:hidden_helper/screens/home_screen.dart';
 import 'package:hidden_helper/screens/sos_screen.dart';
+import 'package:intl/intl.dart';
 import 'Note.dart';
 
 
@@ -16,7 +17,7 @@ class NotesOperation extends ChangeNotifier{
     //addNewNote('First Note', 'First Note Description');
   }
 
-  void addNewNote(String title, String description , BuildContext context){
+  void addNewNote(String title, String description , BuildContext context ){
     if(title == 'Password'){
       Navigator.push(
         context,
@@ -30,7 +31,8 @@ class NotesOperation extends ChangeNotifier{
       );
     }
     else {
-      Note note = Note(title, description);
+      String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
+      Note note = Note(title, description, now);
       _notes.add(note);
       notifyListeners();
       Navigator.push(

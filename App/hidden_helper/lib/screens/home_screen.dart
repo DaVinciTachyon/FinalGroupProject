@@ -49,19 +49,22 @@ class NotesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.only( bottom: 0),
       padding: EdgeInsets.all(15),
       height: 120,
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(
-          color: Colors.blueGrey,
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.blueGrey,
+          ),
         ),
-        borderRadius: BorderRadius.circular(5)
+        //borderRadius: BorderRadius.circular(5)
     ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children:[
+          Text(note.date, style: TextStyle(fontSize: 15, color: Colors.blueGrey), ),
           Text(note.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),  overflow: TextOverflow.ellipsis,),
           SizedBox(
             height: 5,
