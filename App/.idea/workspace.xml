@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="95edbbcf-1aec-4dcc-9629-eb576fe259b4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/hidden_helper/android/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/hidden_helper/android/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hidden_helper/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/hidden_helper/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hidden_helper/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/hidden_helper/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hidden_helper/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/hidden_helper/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/App.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/App.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hidden_helper/lib/models/NotesOperation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/hidden_helper/lib/models/NotesOperation.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hidden_helper/lib/screens/add_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/hidden_helper/lib/screens/add_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hidden_helper/lib/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/hidden_helper/lib/screens/home_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,11 +71,26 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
-    <state x="-1828" y="92" width="1736" height="856" key="AVDManager" timestamp="1614091022086">
+    <state x="-1506" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1614264441483">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1828" y="92" width="1736" height="856" key="AVDManager/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1614091022086" />
+    <state x="-1506" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1614264441483" />
+    <state x="-1828" y="92" width="1736" height="856" key="AVDManager" timestamp="1614263367812">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1828" y="92" width="1736" height="856" key="AVDManager/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1614263367812" />
     <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1614091932137">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
@@ -65,9 +99,17 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1459" y="165" key="SettingsEditor/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1614091944416" />
-    <state x="-1304" y="240" key="run.anything.popup" timestamp="1614091773520">
+    <state x="-1151" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1614263200095">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1304" y="240" key="run.anything.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1614091773520" />
+    <state x="-1151" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1614263200095" />
+    <state x="-1253" y="76" width="586" height="888" key="find.popup" timestamp="1614278815647">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1253" y="76" width="586" height="888" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1614278815647" />
+    <state x="-1304" y="240" key="run.anything.popup" timestamp="1614264492590">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1304" y="240" key="run.anything.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1614264492590" />
   </component>
 </project>

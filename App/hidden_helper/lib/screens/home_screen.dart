@@ -51,18 +51,22 @@ class NotesCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(15),
-      height: 150,
+      height: 120,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15)
+        border: Border.all(
+          color: Colors.blueGrey,
+        ),
+        borderRadius: BorderRadius.circular(5)
     ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children:[
-          Text(note.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          Text(note.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),  overflow: TextOverflow.ellipsis,),
           SizedBox(
             height: 5,
           ),
-          Text(note.description, style: TextStyle(fontSize: 17))
+          Text(note.description, style: TextStyle(fontSize: 17),  overflow: TextOverflow.ellipsis,)
         ]
       )
     );
