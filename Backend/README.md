@@ -3,9 +3,16 @@
 ## Set Up
 
 1. Install docker and docker-compose.
-2. Run the command `docker-compose up --build` (if this fails run `docker-compose up --build`).
+2. Add `.env` file.
+```
+DB_CONNECT=mongodb://monitorDB:27017/<Database Name>
+PORT=8080
+ADMIN_TOKEN_SECRET=<Random String>
+MONITOR_TOKEN_SECRET=<Random String>
+```
+3. Run the command `docker-compose up --build` (if this fails run `docker-compose up --build`).
     The server will be running on `localhost:8080/`.
-3. To stop the server, press `ctrl + C`.
+4. To stop the server, press `ctrl + C`.
 
 ## API Specification
 
