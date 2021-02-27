@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  monitordb:
+    container_name: monitordb
+    image: mongo
+    restart: on-failure
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - monitor-network
+  monitorapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: monitorapi
+    container_name: monitorapi
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+    volumes:
+      - .:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    depends_on:
+      - monitordb
+    environment:
+      - DB_CONNECT=${DB_CONNECT}
+      - PORT=${PORT}
+      - ADMIN_TOKEN_SECRET=${ADMIN_TOKEN_SECRET}
+      - MONITOR_TOKEN_SECRET=${MONITOR_TOKEN_SECRET}
+    networks:
+      - monitor-network
+
+volumes:
+  dbdata:
+  node_modules:
+
+networks:
+  monitor-network:
+    driver: bridge

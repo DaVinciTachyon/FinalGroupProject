@@ -1,24 +1,28 @@
-const express = require('express');
-const app = express();
-const apiRoute = require('./routes/api');
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const express = require('express');
 const cors = require('cors');
+const apiRoute = require('./routes/api');
+const app = express();
 
 dotenv.config();
 
 mongoose.connect(
     process.env.DB_CONNECT,
     { useNewUrlParser: true, useUnifiedTopology: true },
-    () => console.log("Connected To Database")
+    (err) => {
+        if(err)
+            console.log(err);
+        else
+            console.log("Connected To Database");
+    }
 );
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 
-//TODO - create db
-
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+// app.use(express.static('public'));
 app.use('/api', apiRoute);
 
 const port = process.env.PORT || 8080;
