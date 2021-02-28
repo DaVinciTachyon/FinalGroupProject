@@ -4,9 +4,50 @@ import 'package:hidden_helper/models/FormsOperation.dart';
 import 'package:provider/provider.dart';
 
 class FormScreen extends StatelessWidget {
-  final dateController = TextEditingController();
+  final incidentDateController = TextEditingController();
+  final attentionDateController = TextEditingController();
+
+  List<String> genderList = GenderEnum.values.map((gender) {
+    return gender.toGenderString();
+  }).toList();
+
+  List<String> ageRangeList = AgeRangeEnum.values.map((age) {
+    return age.toNumberString();
+  }).toList();
+
+  List<String> seekedAttentionList = SeekedAttentionEnum.values.map((attention) {
+    return attention.toSeekedAttentionString();
+  }).toList();
+
+ List<String> offeredAttentionList = OfferedAttentionEnum.values.map((attention) {
+    return attention.toOfferedAttentionString();
+  }).toList();
+
+  _showSelectDialog(context, isRadio, theList, headingText) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(headingText),
+            content: MultiSelect(theList, isRadio),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Okay"),
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
+    var incidentDate, attentionDate;
+    GenderEnum victimGender;
+    AgeRangeEnum victimAgeRange;
+    String municipality;
+    String community;
+
     String type;
     String location;
     return MaterialApp(
@@ -61,37 +102,95 @@ class FormScreen extends StatelessWidget {
                         type = value;
                       },
                     ),
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Enter the location of the abuse.',
-                            hintStyle:
-                                TextStyle(fontSize: 18, color: Colors.black54)),
-                        style: TextStyle(fontSize: 18, color: Colors.black54),
-                        onChanged: (value) {
-                          location = value;
-                        },
-                      ),
+                    TextField(
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Enter the location of the abuse.',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      style: TextStyle(fontSize: 18, color: Colors.black54),
+                      onChanged: (value) {
+                        location = value;
+                      },
                     ),
-                    Expanded(
-                        child: TextField(
+                    TextField(
                       readOnly: true,
-                      controller: dateController,
+                      controller: incidentDateController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Incident Date',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
                       onTap: () async {
-                        var date = await showDatePicker(
+                        incidentDate = await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100));
-                        dateController.text = date.toString().substring(0, 10);
+                        incidentDateController.text =
+                            incidentDate.toString().substring(0, 10);
                       },
-                    )),
+                    ),
+                    TextField(
+                      readOnly: true,
+                      controller: attentionDateController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Attention Date',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      onTap: () async {
+                        attentionDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100));
+                        attentionDateController.text =
+                            attentionDate.toString().substring(0, 10);
+                      },
+                    ),
+                    RaisedButton(
+                      child: Text("Victim Gender"),
+                      onPressed: () => _showSelectDialog(
+                          context, true, genderList, "Victim Gender"),
+                    ),
+                    RaisedButton(
+                      child: Text("Victim Age Range"),
+                      onPressed: () => _showSelectDialog(
+                          context, true, ageRangeList, "Victim Age Range"),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Municipality',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      style: TextStyle(fontSize: 18, color: Colors.black54),
+                      onChanged: (value) {
+                        municipality = value;
+                      },
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Community',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      style: TextStyle(fontSize: 18, color: Colors.black54),
+                      onChanged: (value) {
+                        community = value;
+                      },
+                    ),
+                    RaisedButton( //TODO add 'other' type bar
+                      child: Text("Seeked Attention"),
+                      onPressed: () => _showSelectDialog(
+                          context, false, seekedAttentionList, "Seeked Attention"),
+                    ),
+                    RaisedButton( //TODO add 'other' type bar
+                      child: Text("Offered Attention"),
+                      onPressed: () => _showSelectDialog(
+                          context, false, offeredAttentionList, "Offered Attention"),
+                    ),
                     FlatButton(
                       onPressed: () {
                         Provider.of<FormsOperation>(context, listen: false)
@@ -140,5 +239,54 @@ class PastSubmissions extends StatelessWidget {
           ),
           Text(form.location, style: TextStyle(fontSize: 17))
         ]));
+  }
+}
+
+class MultiSelect extends StatefulWidget {
+  List<String> selectList = [];
+  final Function(List<String>) onSelectionChanged;
+  final bool isRadio;
+
+  MultiSelect(this.selectList, this.isRadio, {this.onSelectionChanged});
+
+  @override
+  _MultiSelectState createState() => _MultiSelectState();
+}
+
+class _MultiSelectState extends State<MultiSelect> {
+  List<String> selectedChoices = List();
+  _buildChoiceList() {
+    List<Widget> choices = List();
+    widget.selectList.forEach((item) {
+      choices.add(Container(
+        padding: const EdgeInsets.all(2.0),
+        child: ChoiceChip(
+          label: Text(item),
+          selected: selectedChoices.contains(item),
+          onSelected: (selected) {
+            setState(() {
+              if (!widget.isRadio) {
+                selectedChoices.contains(item)
+                    ? selectedChoices.remove(item)
+                    : selectedChoices.add(item);
+              } else {
+                selectedChoices = [item];
+              }
+              if(widget.onSelectionChanged != null){
+                widget.onSelectionChanged(selectedChoices);
+              }
+            });
+          },
+        ),
+      ));
+    });
+    return choices;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      children: _buildChoiceList(),
+    );
   }
 }

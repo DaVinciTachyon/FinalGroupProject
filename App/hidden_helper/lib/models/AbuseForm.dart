@@ -1,6 +1,12 @@
 //This should probably be 'sex'
 enum GenderEnum { male, female }
 
+extension ParseToGenderString on GenderEnum {
+  String toGenderString() {
+    return this.toString().split('.').last;
+  }
+}
+
 enum AgeRangeEnum {
   underTwelve,
   twelveToSeventeen,
@@ -13,6 +19,61 @@ enum AgeRangeEnum {
   overSeventyfive
 }
 
+extension ParseToAgeString on AgeRangeEnum {
+  String toNumberString() {
+    switch (this) {
+      case AgeRangeEnum.underTwelve:
+        return "<12";
+      case AgeRangeEnum.twelveToSeventeen:
+        return "12-17";
+      case AgeRangeEnum.eighteenToTwentyfour:
+        return "18-24";
+      case AgeRangeEnum.twentyfiveToThirtyfour:
+        return "25-34";
+      case AgeRangeEnum.thirtyfiveToFourtyfour:
+        return "35-44";
+      case AgeRangeEnum.fourtyfiveToFiftyfour:
+        return "45-54";
+      case AgeRangeEnum.fiftyfiveToSixtyfour:
+        return "55-64";
+      case AgeRangeEnum.sixtyfiveToSeventyfour:
+        return "65-74";
+      default:
+        return "75+";
+    }
+  }
+}
+
+enum SeekedAttentionEnum {
+  information,
+  legal,
+  psychosocial,
+  medical,
+  refuge,
+  other
+}
+extension ParseToSeekedAttentionString on SeekedAttentionEnum {
+  String toSeekedAttentionString() {
+    return this.toString().split('.').last;
+  }
+}
+
+enum OfferedAttentionEnum {
+  information,
+  legal,
+  psychosocial,
+  medical,
+  refuge,
+  other
+}
+extension ParseToOfferedAttentionString on OfferedAttentionEnum {
+  String toOfferedAttentionString() {
+    return this.toString().split('.').last;
+  }
+}
+
+
+
 enum RelationshipEnum {
   currentPartner,
   formerPartner,
@@ -24,37 +85,39 @@ enum RelationshipEnum {
 }
 
 //Dart only supports library-level privacy, don't use this
-class Attention {
-  bool legal;
-  bool psychosocial;
-  bool medical;
-  bool other;
-  String otherDetails;
+// class Attention {
+//   bool legal;
+//   bool psychosocial;
+//   bool medical;
+//   bool other;
+//   String otherDetails;
 
-  Attention(this.legal, this.psychosocial, this.medical, this.other, this.otherDetails);
-}
+//   Attention(this.legal, this.psychosocial, this.medical, this.other,
+//       this.otherDetails);
+// }
 
-class ReferredAttention extends Attention {
-  ReferredAttention(legal, psychosocial, medical, other, otherDetails)
-      : super(legal, psychosocial, medical, other, otherDetails);
-}
+// class ReferredAttention extends Attention {
+//   ReferredAttention(legal, psychosocial, medical, other, otherDetails)
+//       : super(legal, psychosocial, medical, other, otherDetails);
+// }
 
-class AttentionSeeked extends Attention {
-  bool refuge;
-  bool information;
+// class AttentionSeeked extends Attention {
+//   bool refuge;
+//   bool information;
 
-  AttentionSeeked(this.information, legal, psychosocial, medical, this.refuge, other, otherDetails)
-      : super(legal, psychosocial, medical, other, otherDetails);
-}
+//   AttentionSeeked(this.information, legal, psychosocial, medical, this.refuge,
+//       other, otherDetails)
+//       : super(legal, psychosocial, medical, other, otherDetails);
+// }
 
-class AttentionOffered extends Attention {
-  bool refuge;
-  bool information;
+// class AttentionOffered extends Attention {
+//   bool refuge;
+//   bool information;
 
-  AttentionOffered(
-      this.information, legal, psychosocial, medical, this.refuge, other, otherDetails)
-      : super(legal, psychosocial, medical, other, otherDetails);
-}
+//   AttentionOffered(this.information, legal, psychosocial, medical, this.refuge,
+//       other, otherDetails)
+//       : super(legal, psychosocial, medical, other, otherDetails);
+// }
 
 class Rights {
   bool economicResources;
@@ -70,8 +133,23 @@ class Rights {
 }
 
 class CaseClassification {
-  bool physicalHitting, physicalPushing, physicalChoking, physicalCutting, physicalBurning, physicalWeaponUsage, physicalAcid, physicalOtherPainfulAttack;
-  bool psychologicalViolenceThreats, psychologicalMurderThreats, psychologicalIntimidation, psychologicalHumiliation, psychologicalIsolation, psychologicalStalking, psychologicalVerbalHarrassment, psychologicalUnwantedAttention, psychologicalNonVerbalThreats;
+  bool physicalHitting,
+      physicalPushing,
+      physicalChoking,
+      physicalCutting,
+      physicalBurning,
+      physicalWeaponUsage,
+      physicalAcid,
+      physicalOtherPainfulAttack;
+  bool psychologicalViolenceThreats,
+      psychologicalMurderThreats,
+      psychologicalIntimidation,
+      psychologicalHumiliation,
+      psychologicalIsolation,
+      psychologicalStalking,
+      psychologicalVerbalHarrassment,
+      psychologicalUnwantedAttention,
+      psychologicalNonVerbalThreats;
 }
 
 class Perpetrator {
@@ -93,8 +171,8 @@ class AbuseForm {
   AgeRangeEnum ageRange;
   String municipality;
   String community;
-  AttentionSeeked seekedAttention;
-  AttentionOffered offeredAttention;
+  // AttentionSeeked seekedAttention;
+  // AttentionOffered offeredAttention;
   CaseClassification classification; //TODO
   Rights rightDenied;
   Perpetrator perpetrator;
