@@ -1,5 +1,5 @@
 //This should probably be 'sex'
-enum GenderEnum { male, female }G
+enum GenderEnum { male, female }
 
 enum AgeRangeEnum {
   underTwelve,
@@ -69,17 +69,24 @@ class Rights {
       this.healthcare, this.resourceConflict, this.other, this.otherDetails);
 }
 
-class CaseClassification {}
+class CaseClassification {
+  bool physicalHitting, physicalPushing, physicalChoking, physicalCutting, physicalBurning, physicalWeaponUsage, physicalAcid, physicalOtherPainfulAttack;
+  bool psychologicalViolenceThreats, psychologicalMurderThreats, psychologicalIntimidation, psychologicalHumiliation, psychologicalIsolation, psychologicalStalking, psychologicalVerbalHarrassment, psychologicalUnwantedAttention, psychologicalNonVerbalThreats;
+}
 
 class Perpetrator {
   GenderEnum gender;
   bool isKnown;
   RelationshipEnum relationShip;
 
-  Perpetrator(this.gender, this.isKnown, this.relationShip)
+  Perpetrator(this.gender, this.isKnown, this.relationShip);
 }
 
 class AbuseForm {
+  //tmp
+  String type;
+  String location;
+
   DateTime incidentDate;
   DateTime attentionDate;
   GenderEnum gender;
@@ -88,14 +95,14 @@ class AbuseForm {
   String community;
   AttentionSeeked seekedAttention;
   AttentionOffered offeredAttention;
-  Rights rightDenied;
   CaseClassification classification; //TODO
+  Rights rightDenied;
   Perpetrator perpetrator;
 
-
-
-  String type;
-  String location;
+  // AbuseForm(this.incidentDate, this.attentionDate, this.gender, this.ageRange,
+  //     this.municipality, this.community, this.seekedAttention,
+  //     this.offeredAttention, this.classification, this.rightDenied,
+  //     this.perpetrator);
 
   AbuseForm(this.type, this.location);
 }
