@@ -19,7 +19,11 @@ module.exports = mongoose.model('Form', new mongoose.Schema({
     },
     ageRange: {
         type: String,
-        enum: ['0-9', '10-19', '20-29', '30-39', '40-49', '50+'],
+        enum: ['<12', '12-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65-74', '75+'],
+        required: true
+    },
+    municipality: {
+        type: String,
         required: true
     },
     community: {
@@ -43,9 +47,17 @@ module.exports = mongoose.model('Form', new mongoose.Schema({
             type: Boolean,
             default: false
         },
+        refuge: {
+            type: Boolean,
+            default: false
+        },
         other: {
             type: Boolean,
             default: false
+        },
+        otherDetails: {
+            type: String,
+            default: ""
         }
     },
     offeredAttention: {
@@ -72,6 +84,10 @@ module.exports = mongoose.model('Form', new mongoose.Schema({
         other: {
             type: Boolean,
             default: false
+        },
+        otherDetails: {
+            type: String,
+            default: ""
         }
     },
     referredAttention: {
@@ -90,33 +106,11 @@ module.exports = mongoose.model('Form', new mongoose.Schema({
         other: {
             type: Boolean,
             default: false
+        },
+        otherDetails: {
+            type: String,
+            default: ""
         }
-    },
-    rightDenied: {
-        economicResources: {
-            type: Boolean,
-            default: false
-        },
-        opportunities: {
-            type: Boolean,
-            default: false
-        },
-        education: {
-            type: Boolean,
-            default: false
-        },
-        healthcare: {
-            type: Boolean,
-            default: false
-        },
-        resourceConflict: {
-            type: Boolean,
-            default: false
-        },
-        other: {
-            type: Boolean,
-            default: false
-        },
     },
     classification: {
         physical: {
@@ -132,6 +126,10 @@ module.exports = mongoose.model('Form', new mongoose.Schema({
                 type: Boolean,
                 default: false
             },
+            cutting: {
+                type: Boolean,
+                default: false
+            },
             burning: {
                 type: Boolean,
                 default: false
@@ -144,7 +142,7 @@ module.exports = mongoose.model('Form', new mongoose.Schema({
                 type: Boolean,
                 default: false
             },
-            painfulAttack: {
+            otherPainfulAttack: {
                 type: Boolean,
                 default: false
             }
@@ -220,6 +218,36 @@ module.exports = mongoose.model('Form', new mongoose.Schema({
         forcedMarriage: {
             type: Boolean,
             default: false
+        }
+    },
+    rightDenied: {
+        economicResources: {
+            type: Boolean,
+            default: false
+        },
+        opportunities: {
+            type: Boolean,
+            default: false
+        },
+        education: {
+            type: Boolean,
+            default: false
+        },
+        healthcare: {
+            type: Boolean,
+            default: false
+        },
+        resourceConflict: {
+            type: Boolean,
+            default: false
+        },
+        other: {
+            type: Boolean,
+            default: false
+        },
+        otherDetails: {
+            type: String,
+            default: ""
         }
     },
     perpetrator: {
