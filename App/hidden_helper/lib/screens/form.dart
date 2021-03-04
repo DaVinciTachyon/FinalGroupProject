@@ -15,12 +15,44 @@ class FormScreen extends StatelessWidget {
     return age.toNumberString();
   }).toList();
 
-  List<String> seekedAttentionList = SeekedAttentionEnum.values.map((attention) {
+  List<String> seekedAttentionList =
+      SeekedAttentionEnum.values.map((attention) {
     return attention.toSeekedAttentionString();
   }).toList();
 
- List<String> offeredAttentionList = OfferedAttentionEnum.values.map((attention) {
+  List<String> offeredAttentionList =
+      OfferedAttentionEnum.values.map((attention) {
     return attention.toOfferedAttentionString();
+  }).toList();
+
+  List<String> referredAttentionList =
+      ReferredAttentionEnum.values.map((attention) {
+    return attention.toReferredAttentionString();
+  }).toList();
+
+  List<String> physicalAbuseList =
+      PhysicalAbuseClassificationEnum.values.map((abuse) {
+    return abuse.toPhysicalAbuseClassificationString();
+  }).toList();
+
+  List<String> psychologicalAbuseList =
+      PsychologicalAbuseClassificationEnum.values.map((abuse) {
+    return abuse.toPsychologicalAbuseClassificationString();
+  }).toList();
+
+  List<String> sexualAbuseList =
+      SexualAbuseClassificationEnum.values.map((abuse) {
+    return abuse.toSexualAbuseClassificationString();
+  }).toList();
+
+  List<String> booleanOptions = ["Yes", "No"];
+
+  List<String> rightsDeniedList = RightsEnum.values.map((right) {
+    return right.toRightsString();
+  }).toList();
+
+  List<String> relationshipList = RelationshipEnum.values.map((relationship) {
+    return relationship.toRelationshipString();
   }).toList();
 
   _showSelectDialog(context, isRadio, theList, headingText) {
@@ -83,8 +115,8 @@ class FormScreen extends StatelessWidget {
             elevation: 0,
             backgroundColor: Color(0xFF568889),
           ),
-          body: TabBarView(
-            children: [
+          body: ListView(
+            children: <Widget>[
               // Form Submission, going to move this to its own widget (similar to the pastSubmissions widget below)
               Padding(
                 padding: const EdgeInsets.all(15),
@@ -181,15 +213,67 @@ class FormScreen extends StatelessWidget {
                         community = value;
                       },
                     ),
-                    RaisedButton( //TODO add 'other' type bar
+                    RaisedButton(
+                      //TODO add 'other' type bar
                       child: Text("Seeked Attention"),
-                      onPressed: () => _showSelectDialog(
-                          context, false, seekedAttentionList, "Seeked Attention"),
+                      onPressed: () => _showSelectDialog(context, false,
+                          seekedAttentionList, "Seeked Attention"),
                     ),
-                    RaisedButton( //TODO add 'other' type bar
+                    RaisedButton(
+                      //TODO add 'other' type bar
                       child: Text("Offered Attention"),
+                      onPressed: () => _showSelectDialog(context, false,
+                          offeredAttentionList, "Offered Attention"),
+                    ),
+                    RaisedButton(
+                      //TODO add 'other' type bar
+                      child: Text("Referred Attention"),
+                      onPressed: () => _showSelectDialog(context, false,
+                          referredAttentionList, "Referred Attention"),
+                    ),
+                    RaisedButton(
+                      //TODO add 'other' type bar
+                      child: Text("Physical Abuse"),
                       onPressed: () => _showSelectDialog(
-                          context, false, offeredAttentionList, "Offered Attention"),
+                          context, false, physicalAbuseList, "Physical Abuse"),
+                    ),
+                    RaisedButton(
+                      //TODO add 'other' type bar
+                      child: Text("Psychological Abuse"),
+                      onPressed: () => _showSelectDialog(context, false,
+                          psychologicalAbuseList, "Psychological Abuse"),
+                    ),
+                    RaisedButton(
+                      //TODO add 'other' type bar
+                      child: Text("Sexual Abuse"),
+                      onPressed: () => _showSelectDialog(
+                          context, false, sexualAbuseList, "Sexual Abuse"),
+                    ),
+                    RaisedButton(
+                      child: Text("Forced Marriage"),
+                      onPressed: () => _showSelectDialog(
+                          context, true, booleanOptions, "Forced Marriage"),
+                    ),
+                    RaisedButton(
+                      //TODO add 'other' type bar
+                      child: Text("Rights Denied"),
+                      onPressed: () => _showSelectDialog(
+                          context, false, rightsDeniedList, "Rights Denied"),
+                    ),
+                    RaisedButton(
+                      child: Text("Perpetrator Gender"),
+                      onPressed: () => _showSelectDialog(
+                          context, true, genderList, "Perpetrator Gender"),
+                    ),
+                    RaisedButton(
+                      child: Text("Perpetrator Is Known"),
+                      onPressed: () => _showSelectDialog(context, true,
+                          booleanOptions, "Perpetrator Is Known"),
+                    ),
+                    RaisedButton(
+                      child: Text("Perpetrator Relationship"),
+                      onPressed: () => _showSelectDialog(context, true,
+                          relationshipList, "Perpetrator Relationship"),
                     ),
                     FlatButton(
                       onPressed: () {
@@ -207,7 +291,6 @@ class FormScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Text('Past Submissions')
             ],
           ),
         ),
@@ -272,7 +355,7 @@ class _MultiSelectState extends State<MultiSelect> {
               } else {
                 selectedChoices = [item];
               }
-              if(widget.onSelectionChanged != null){
+              if (widget.onSelectionChanged != null) {
                 widget.onSelectionChanged(selectedChoices);
               }
             });
