@@ -1,70 +1,98 @@
 import 'package:flutter/material.dart';
-import 'package:hidden_helper/models/NotesOperation.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
+import 'package:hidden_helper/models/Note.dart';
+import 'package:hidden_helper/screens/sos_screen.dart';
+import 'package:hive/hive.dart';
+import 'package:hidden_helper/screens/form.dart';
+import 'package:intl/intl.dart';
+import 'package:get_mac/get_mac.dart';
 
-class AddScreen extends StatelessWidget {
+
+class NewNoteForm extends StatefulWidget {
+  @override
+  _NewNoteFormState createState() => _NewNoteFormState();
+}
+
+class _NewNoteFormState extends State<NewNoteForm> {
+  final _formKey = GlobalKey<FormState>();
+
+  String _title;
+  String _description;
+  String _platformVersion = 'Unknown';
+
+
+  void addNote(Note note) async {
+    String platformVersion;
+    print('Title: ${note.title}, Description: ${note.description} , Date: ${note.date} ' );
+    try {
+      platformVersion = await GetMac.macAddress;
+    } on PlatformException {
+      platformVersion = 'Failed to get Device MAC Address.';
+    }
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _platformVersion = platformVersion;
+    });
+
+    if(note.title == 'Password' ){
+      print('Password Entered');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => FormScreen()),
+      );
+    }
+    else if(note.title == 'SOS'){
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SOSScreen()),
+      );
+    }
+    else{
+      final notesBox = Hive.box('NotesBox');
+      notesBox.add(note);
+      print(_platformVersion);
+    }
+
+    
+  }
+
   @override
   Widget build(BuildContext context) {
-    String titleText;
-    String descriptionText;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Notes'),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Color(0xFF568889),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Enter Title',
-                      hintStyle: TextStyle(fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black54)
-                ),
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54),
-                onChanged:(value){
-                  titleText = value;
-                },
-              ),
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
               Expanded(
-                child: TextField(
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Enter Description',
-                    hintStyle: TextStyle(fontSize: 18,
-                        color: Colors.black54)
-                ),
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black54),
-                  onChanged:(value){
-                    descriptionText = value;
-                  },
+                child: TextFormField(
+                  decoration: InputDecoration(labelText: 'Title'),
+                  onSaved: (value) => _title = value,
                 ),
               ),
-              FlatButton(
-                  onPressed: (){
-                    Provider.of<NotesOperation>(context, listen: false).addNewNote(titleText, descriptionText, context);
-                  },
-                  color: Color(0xFF568889),
-                child: Text('Add Note', style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                )),
-              )
+              SizedBox(width: 10),
+              Expanded(
+                child: TextFormField(
+                  decoration: InputDecoration(labelText: 'Description'),
+                  onSaved: (value) => _description = value,
+                ),
+              ),
             ],
-        ),
+          ),
+          RaisedButton(
+            child: Text('Add Note'),
+            onPressed: () {
+              _formKey.currentState.save();
+              String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
+              final note = Note( _title, _description, now );
+              addNote(note);
+            },
+          ),
+        ],
       ),
     );
   }

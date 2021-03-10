@@ -13,10 +13,6 @@ class NotesOperation extends ChangeNotifier{
     return _notes;
   }
 
-  NotesOperation(){
-    //addNewNote('First Note', 'First Note Description');
-  }
-
   void addNewNote(String title, String description , BuildContext context ){
     if(title == 'Password'){
       Navigator.push(
@@ -34,6 +30,8 @@ class NotesOperation extends ChangeNotifier{
       String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
       Note note = Note(title, description, now);
       _notes.add(note);
+      ///final notesBox = Hive.box('NotesBox');
+      /// notesBox.add(note);
       notifyListeners();
       Navigator.push(
         context,

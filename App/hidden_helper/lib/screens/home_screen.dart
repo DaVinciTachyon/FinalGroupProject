@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:hidden_helper/models/NotesOperation.dart';
 import 'package:hidden_helper/models/Note.dart';
-import 'package:provider/provider.dart';
+import 'package:hidden_helper/screens/add_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
+import 'package:hidden_helper/screens/add_screen.dart';
 
-import 'add_screen.dart';
+class HomeScreen extends StatelessWidget{
+  const HomeScreen({
+    Key key,
+}): super(key: key);
 
-class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AddScreen()));
+          print('test');
+          //Navigator.push(context, MaterialPageRoute(builder: (context) => NewNoteForm()));
         },
         child: Icon(
           Icons.add,
@@ -27,51 +32,41 @@ class HomeScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: Color(0xFF568889),
       ),
-      body: Consumer<NotesOperation>(
-        builder: (context,NotesOperation data, child){
-            return ListView.builder(
-              itemCount: data.getNotes.length,
-              itemBuilder: (context, index ){
-                return NotesCard(data.getNotes[index]);
-              },
-            );
+      body: Column(
+        children: <Widget>[
+          Expanded(child: _buildListView()),
+          NewNoteForm(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListView() {
+  // ignore: deprecated_member_use
+  return WatchBoxBuilder(
+      box: Hive.box('NotesBox'),
+      builder: (context, notesBox){
+      return ListView.builder(
+        itemCount: notesBox.length,
+        itemBuilder: (context, index){
+          final note = notesBox.getAt(index) as Note;
+          return ListTile(
+            title: Text(note.title),
+            subtitle: Text(note.description),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      notesBox.deleteAt(index);
+                    }
+                )],
+            ),
+          );
         },
-      )
-    );
+      );
+    });
   }
 }
 
-class NotesCard extends StatelessWidget {
-  final Note note;
-
-  NotesCard(this.note);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only( bottom: 0),
-      padding: EdgeInsets.all(15),
-      height: 120,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.blueGrey,
-          ),
-        ),
-        //borderRadius: BorderRadius.circular(5)
-    ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children:[
-          Text(note.date, style: TextStyle(fontSize: 15, color: Colors.blueGrey), ),
-          Text(note.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),  overflow: TextOverflow.ellipsis,),
-          SizedBox(
-            height: 5,
-          ),
-          Text(note.description, style: TextStyle(fontSize: 17),  overflow: TextOverflow.ellipsis,)
-        ]
-      )
-    );
-  }
-}
