@@ -59,4 +59,31 @@ router.post('/login/monitor', async (req, res) => {
 	// res.header('auth-token', token).send({ token });
 });
 
+router.post('/update/monitor', async (req, res) => {
+	const user = await Monitor.findOne({ email: req.body.email });
+	if(!user)
+        return res.status(400).send({ error: 'Email does not exist' });
+
+	const { error } = validate.monitor.register(req.body);
+	if (error) return res.status(400).send({ error: error.details[0].message });
+
+	const salt = await bcrypt.genSalt(10);
+	const hashedPassword = await bcrypt.hash(req.body.password, salt);
+        
+    const existingMacAddress = await Monitor.findOne({ macAddress: req.body.macAddress });
+    if(existingMacAddress)
+        return res.status(400).send({ error: 'MAC Address already exists' });
+
+	user.name = req.body.name;
+	user.macAddress = req.body.macAddress;
+	user.password = hashedPassword;
+	
+    try {
+        await user.save();
+        res.sendStatus(200);
+    } catch (err) {
+        res.status(400).send({ error: err });
+	}
+});
+
 module.exports = router;
