@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget{
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           print('test');
-          //Navigator.push(context, MaterialPageRoute(builder: (context) => NewNoteForm()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => NewNoteForm()));
         },
         child: Icon(
           Icons.add,
@@ -35,7 +35,6 @@ class HomeScreen extends StatelessWidget{
       body: Column(
         children: <Widget>[
           Expanded(child: _buildListView()),
-          NewNoteForm(),
         ],
       ),
     );
