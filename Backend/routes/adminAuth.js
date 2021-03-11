@@ -93,4 +93,19 @@ router.post('/update/administrator/password', async (req, res) => {
 	}
 });
 
+router.post('/delete/administrator', async (req, res) => {
+	const user = await Monitor.findOne({ email: req.body.email });
+	if(!user)
+        return res.status(400).send({ error: 'Email does not exist' });
+
+	user.active = false;
+	
+    try {
+        await user.save();
+        res.sendStatus(200);
+    } catch (err) {
+        res.status(400).send({ error: err });
+	}
+});
+
 module.exports = router;
