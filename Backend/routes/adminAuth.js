@@ -54,4 +54,26 @@ router.post('/login/administrator', async (req, res) => {
 	// res.header('auth-token', token).send({ token });
 });
 
+router.post('/update/administrator', async (req, res) => {
+	const user = await Monitor.findOne({ email: req.body.email });
+	if(!user)
+        return res.status(400).send({ error: 'Email does not exist' });
+
+	const { error } = validate.administrator.register(req.body);
+	if (error) return res.status(400).send({ error: error.details[0].message });
+
+	const salt = await bcrypt.genSalt(10);
+	const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+	user.name = req.body.name;
+	user.password = hashedPassword;
+
+    try {
+        await user.save();
+        res.sendStatus(200);
+    } catch (err) {
+        res.status(400).send({ error: err });
+	}
+});
+
 module.exports = router;
