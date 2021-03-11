@@ -45,7 +45,7 @@ class FormScreen extends StatelessWidget {
     return abuse.toSexualAbuseClassificationString();
   }).toList();
 
-  List<String> booleanOptions = ["Yes", "No"];
+  List<String> booleanYesNo = ["Yes", "No"];
 
   List<String> rightsDeniedList = RightsEnum.values.map((right) {
     return right.toRightsString();
@@ -55,13 +55,15 @@ class FormScreen extends StatelessWidget {
     return relationship.toRelationshipString();
   }).toList();
 
-  _showSelectDialog(context, isRadio, theList, headingText) {
+  _showSelectDialog(BuildContext context, bool isRadio, List<String> theList, List<String> selectedList,
+      String headingText, onSelectionChange) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(headingText),
-            content: MultiSelect(theList, isRadio),
+            content: MultiSelect(theList, isRadio, selectedList,
+                onSelectionChange),
             actions: <Widget>[
               FlatButton(
                 child: Text("Okay"),
@@ -74,11 +76,7 @@ class FormScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var incidentDate, attentionDate;
-    GenderEnum victimGender;
-    AgeRangeEnum victimAgeRange;
-    String municipality;
-    String community;
+    var abuseForm = AbuseForm();
 
     String type;
     String location;
@@ -124,28 +122,6 @@ class FormScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     TextField(
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Enter the type of abuse.',
-                          hintStyle:
-                              TextStyle(fontSize: 18, color: Colors.black54)),
-                      style: TextStyle(fontSize: 18, color: Colors.black54),
-                      onChanged: (value) {
-                        type = value;
-                      },
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Enter the location of the abuse.',
-                          hintStyle:
-                              TextStyle(fontSize: 18, color: Colors.black54)),
-                      style: TextStyle(fontSize: 18, color: Colors.black54),
-                      onChanged: (value) {
-                        location = value;
-                      },
-                    ),
-                    TextField(
                       readOnly: true,
                       controller: incidentDateController,
                       decoration: InputDecoration(
@@ -154,13 +130,15 @@ class FormScreen extends StatelessWidget {
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
                       onTap: () async {
-                        incidentDate = await showDatePicker(
+                        abuseForm.incidentDate = await showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
+                            initialDate: abuseForm.incidentDate == null
+                                ? DateTime.now()
+                                : abuseForm.incidentDate,
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100));
                         incidentDateController.text =
-                            incidentDate.toString().substring(0, 10);
+                            abuseForm.incidentDate.toString().split(" ")[0];
                       },
                     ),
                     TextField(
@@ -172,25 +150,41 @@ class FormScreen extends StatelessWidget {
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
                       onTap: () async {
-                        attentionDate = await showDatePicker(
+                        abuseForm.attentionDate = await showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
+                            initialDate: abuseForm.attentionDate == null
+                                ? DateTime.now()
+                                : abuseForm.attentionDate,
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100));
                         attentionDateController.text =
-                            attentionDate.toString().substring(0, 10);
+                            abuseForm.attentionDate.toString().split(" ")[0];
                       },
                     ),
                     RaisedButton(
                       child: Text("Victim Gender"),
                       onPressed: () => _showSelectDialog(
-                          context, true, genderList, "Victim Gender"),
+                          context,
+                          true,
+                          genderList,
+                          nonNullList([abuseForm.gender.toGenderString()]),
+                          "Victim Gender",
+                          (gender) {
+                                abuseForm.gender =
+                                    genderFromString(gender);
+                              }),
                     ),
                     RaisedButton(
-                      child: Text("Victim Age Range"),
-                      onPressed: () => _showSelectDialog(
-                          context, true, ageRangeList, "Victim Age Range"),
-                    ),
+                        child: Text("Victim Age Range"),
+                        onPressed: () => _showSelectDialog(
+                            context,
+                            true,
+                            ageRangeList,
+                            nonNullList([abuseForm.ageRange.toNumberString()]),
+                            "Victim Age Range",
+                            (item) => {
+                                  abuseForm.ageRange = parseAgeFromString(item)
+                                })),
                     TextField(
                       decoration: InputDecoration(
                           border: InputBorder.none,
@@ -199,7 +193,7 @@ class FormScreen extends StatelessWidget {
                               TextStyle(fontSize: 18, color: Colors.black54)),
                       style: TextStyle(fontSize: 18, color: Colors.black54),
                       onChanged: (value) {
-                        municipality = value;
+                        abuseForm.municipality = value;
                       },
                     ),
                     TextField(
@@ -210,70 +204,156 @@ class FormScreen extends StatelessWidget {
                               TextStyle(fontSize: 18, color: Colors.black54)),
                       style: TextStyle(fontSize: 18, color: Colors.black54),
                       onChanged: (value) {
-                        community = value;
+                        abuseForm.community = value;
                       },
                     ),
                     RaisedButton(
                       //TODO add 'other' type bar
                       child: Text("Seeked Attention"),
-                      onPressed: () => _showSelectDialog(context, false,
-                          seekedAttentionList, "Seeked Attention"),
+                      onPressed: () => _showSelectDialog(
+                          context,
+                          false,
+                          seekedAttentionList,
+                          abuseForm.seekedAttention
+                              .map((e) => e.toSeekedAttentionString()).toList(),
+                          "Seeked Attention", (attention) {
+                        abuseForm.seekedAttention.toggleElement(
+                            seekedAttentionFromString(attention));
+                      }),
                     ),
                     RaisedButton(
                       //TODO add 'other' type bar
                       child: Text("Offered Attention"),
-                      onPressed: () => _showSelectDialog(context, false,
-                          offeredAttentionList, "Offered Attention"),
+                      onPressed: () => _showSelectDialog(
+                          context,
+                          false,
+                          offeredAttentionList,
+                          abuseForm.offeredAttention
+                              .map((e) => e.toOfferedAttentionString()).toList(),
+                          "Offered Attention", (attention) {
+                        abuseForm.offeredAttention.toggleElement(
+                            offeredAttentionFromString(attention));
+                      }),
                     ),
                     RaisedButton(
                       //TODO add 'other' type bar
                       child: Text("Referred Attention"),
-                      onPressed: () => _showSelectDialog(context, false,
-                          referredAttentionList, "Referred Attention"),
+                      onPressed: () => _showSelectDialog(
+                          context,
+                          false,
+                          referredAttentionList,
+                          abuseForm.referredAttention
+                              .map((e) => e.toReferredAttentionString()).toList(),
+                          "Referred Attention", (attention) {
+                        abuseForm.referredAttention.toggleElement(
+                            referredAttentionFromString(attention));
+                      }),
                     ),
                     RaisedButton(
                       //TODO add 'other' type bar
                       child: Text("Physical Abuse"),
                       onPressed: () => _showSelectDialog(
-                          context, false, physicalAbuseList, "Physical Abuse"),
+                          context,
+                          false,
+                          physicalAbuseList,
+                          abuseForm.physicalAbuse.map(
+                              (e) => e.toPhysicalAbuseClassificationString()).toList(),
+                          "Physical Abuse", (abuse) {
+                        abuseForm.physicalAbuse.toggleElement(physicalAbuseFromString(
+                            abuse));
+                      }),
                     ),
                     RaisedButton(
                       //TODO add 'other' type bar
                       child: Text("Psychological Abuse"),
-                      onPressed: () => _showSelectDialog(context, false,
-                          psychologicalAbuseList, "Psychological Abuse"),
+                      onPressed: () => _showSelectDialog(
+                          context,
+                          false,
+                          psychologicalAbuseList,
+                          abuseForm.psychologicalAbuse.map((e) =>
+                              e.toPsychologicalAbuseClassificationString()).toList(),
+                          "Psychological Abuse", (abuse) {
+                        abuseForm.psychologicalAbuse.toggleElement(
+                            psychologicalAbuseFromString(
+                                abuse));
+                      }),
                     ),
                     RaisedButton(
                       //TODO add 'other' type bar
                       child: Text("Sexual Abuse"),
                       onPressed: () => _showSelectDialog(
-                          context, false, sexualAbuseList, "Sexual Abuse"),
+                          context,
+                          false,
+                          sexualAbuseList,
+                          abuseForm.sexualAbuse.map(
+                              (e) => e.toSexualAbuseClassificationString()).toList(),
+                          "Sexual Abuse", (abuse) {
+                        abuseForm.sexualAbuse.toggleElement(sexualAbuseFromString(
+                            abuse));
+                      }),
                     ),
                     RaisedButton(
                       child: Text("Forced Marriage"),
                       onPressed: () => _showSelectDialog(
-                          context, true, booleanOptions, "Forced Marriage"),
+                          context,
+                          true,
+                          booleanYesNo,
+                          [parseBooleanToYesNo(abuseForm.forcedMarriage)],
+                          "Forced Marriage", (yesNo) {
+                        abuseForm.forcedMarriage = parseYesNoToBoolean(yesNo);
+                      }),
                     ),
                     RaisedButton(
-                      //TODO add 'other' type bar
-                      child: Text("Rights Denied"),
-                      onPressed: () => _showSelectDialog(
-                          context, false, rightsDeniedList, "Rights Denied"),
-                    ),
+                        //TODO add 'other' type bar
+                        child: Text("Rights Denied"),
+                        onPressed: () => _showSelectDialog(
+                                context,
+                                false,
+                                rightsDeniedList,
+                                abuseForm.rightsDenied
+                                    .map((e) => e.toRightsString()).toList(),
+                                "Rights Denied", (right) {
+                              abuseForm.rightsDenied.toggleElement(
+                                  rightsFromString(right));
+                            })),
                     RaisedButton(
                       child: Text("Perpetrator Gender"),
                       onPressed: () => _showSelectDialog(
-                          context, true, genderList, "Perpetrator Gender"),
+                          context,
+                          true,
+                          genderList,
+                          nonNullList([abuseForm.perpetrator.gender.toGenderString()]),
+                          "Perpetrator Gender", (gender) {
+                        abuseForm.perpetrator.gender =
+                            genderFromString(gender);
+                      }),
                     ),
                     RaisedButton(
                       child: Text("Perpetrator Is Known"),
-                      onPressed: () => _showSelectDialog(context, true,
-                          booleanOptions, "Perpetrator Is Known"),
+                      onPressed: () => _showSelectDialog(
+                          context,
+                          true,
+                          booleanYesNo,
+                          nonNullList([parseBooleanToYesNo(abuseForm.perpetrator.isKnown)]),
+                          "Perpetrator Is Known", (yesNo) {
+                        abuseForm.perpetrator.isKnown =
+                            parseYesNoToBoolean(yesNo);
+                      }),
                     ),
                     RaisedButton(
                       child: Text("Perpetrator Relationship"),
-                      onPressed: () => _showSelectDialog(context, true,
-                          relationshipList, "Perpetrator Relationship"),
+                      onPressed: () => _showSelectDialog(
+                          context,
+                          true,
+                          relationshipList,
+                          [
+                            abuseForm.perpetrator.relationshipToVictim
+                                .toRelationshipString()
+                          ],
+                          "Perpetrator Relationship", (relationship) {
+                        abuseForm.perpetrator.relationshipToVictim =
+                            relationshipFromString(relationship);
+                      }),
                     ),
                     FlatButton(
                       onPressed: () {
@@ -312,32 +392,36 @@ class PastSubmissions extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(15)),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            form.type,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            overflow: TextOverflow.ellipsis,
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(form.location, style: TextStyle(fontSize: 17))
+          // Text(
+          //   form.type,
+          //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          //   overflow: TextOverflow.ellipsis,
+          // ),
+          // SizedBox(
+          //   height: 5,
+          // ),
+          // Text(form.location, style: TextStyle(fontSize: 17))
         ]));
   }
 }
 
 class MultiSelect extends StatefulWidget {
-  List<String> selectList = [];
-  final Function(List<String>) onSelectionChanged;
+  List<String> selectList = List();
+  List<String> selectedChoices = List();
+  final Function(String) onSelectionChanged;
   final bool isRadio;
 
-  MultiSelect(this.selectList, this.isRadio, {this.onSelectionChanged});
+  MultiSelect(this.selectList, this.isRadio, this.selectedChoices,
+      this.onSelectionChanged) {
+    this.selectedChoices =
+        this.selectedChoices == null ? [] : this.selectedChoices;
+  }
 
   @override
   _MultiSelectState createState() => _MultiSelectState();
 }
 
 class _MultiSelectState extends State<MultiSelect> {
-  List<String> selectedChoices = List();
   _buildChoiceList() {
     List<Widget> choices = List();
     widget.selectList.forEach((item) {
@@ -345,20 +429,18 @@ class _MultiSelectState extends State<MultiSelect> {
         padding: const EdgeInsets.all(2.0),
         child: ChoiceChip(
           label: Text(item),
-          selected: selectedChoices.contains(item),
+          selected: widget.selectedChoices.contains(item),
           onSelected: (selected) {
             setState(() {
               if (!widget.isRadio) {
-                selectedChoices.contains(item)
-                    ? selectedChoices.remove(item)
-                    : selectedChoices.add(item);
+                widget.selectedChoices.toggleElement(item);
               } else {
-                selectedChoices = [item];
-              }
-              if (widget.onSelectionChanged != null) {
-                widget.onSelectionChanged(selectedChoices);
+                widget.selectedChoices = [item];
               }
             });
+            if (widget.onSelectionChanged != null) {
+              widget.onSelectionChanged(item);
+            }
           },
         ),
       ));

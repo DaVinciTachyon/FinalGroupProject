@@ -9,9 +9,8 @@ class FormsOperation extends ChangeNotifier{
   }
 
   void addNewForm(String type, String location){
-      AbuseForm form = AbuseForm(type, location);
+      AbuseForm form = AbuseForm();
       _forms.add(form);
       notifyListeners();
     }
   }
-
