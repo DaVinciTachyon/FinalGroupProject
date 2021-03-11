@@ -106,6 +106,20 @@ Status 200
 Status 400
 Body: { error }
 
+
+### POST /api/delete/administrator/
+
+#### Request
+
+{ email }
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
 ### POST /api/register/monitor/
 
 #### Request
@@ -173,6 +187,19 @@ Body: { error }
     email,
     macAddress
 }
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/delete/monitor/
+
+#### Request
+
+{ email }
 
 #### Response
 
