@@ -3,7 +3,7 @@ enum GenderEnum { male, female }
 
 extension ParseToGenderString on GenderEnum {
   String toGenderString() {
-    return this.toString().split('.').last;
+    return this.toString().split('.').last.capitaliseFirst();
   }
 }
 
@@ -52,9 +52,10 @@ enum SeekedAttentionEnum {
   refuge,
   other
 }
+
 extension ParseToSeekedAttentionString on SeekedAttentionEnum {
   String toSeekedAttentionString() {
-    return this.toString().split('.').last;
+    return this.toString().split('.').last.capitaliseFirst();
   }
 }
 
@@ -66,13 +67,87 @@ enum OfferedAttentionEnum {
   refuge,
   other
 }
+
 extension ParseToOfferedAttentionString on OfferedAttentionEnum {
   String toOfferedAttentionString() {
-    return this.toString().split('.').last;
+    return this.toString().split('.').last.capitaliseFirst();
   }
 }
 
+enum ReferredAttentionEnum { legal, psychosocial, medical, other }
 
+extension ParseToReferredAttentionString on ReferredAttentionEnum {
+  String toReferredAttentionString() {
+    return this.toString().split('.').last.capitaliseFirst();
+  }
+}
+
+enum PhysicalAbuseClassificationEnum {
+  hitting,
+  pushing,
+  choking,
+  cutting,
+  burning,
+  weaponUsage,
+  acid,
+  otherPainfulAttack
+}
+
+extension ParseToPhysicalAbuseClassificationString
+    on PhysicalAbuseClassificationEnum {
+  String toPhysicalAbuseClassificationString() {
+    return this.toString().split('.').last.capitaliseFirst();
+  }
+}
+
+enum PsychologicalAbuseClassificationEnum {
+  violenceThreats,
+  murderThreats,
+  intimidation,
+  humiliation,
+  isolation,
+  stalking,
+  verbalHarrassment,
+  unwantedAttention,
+  nonVerbalThreats,
+  propertyDestruction,
+  custody,
+  childThreats
+}
+
+extension ParseToPsychologicalAbuseClassificationString
+    on PsychologicalAbuseClassificationEnum {
+  String toPsychologicalAbuseClassificationString() {
+    return this.toString().split('.').last.capitaliseFirst();
+  }
+}
+
+enum SexualAbuseClassificationEnum {
+  genitalTouching,
+  genitalMutilation,
+  attemptedRape,
+  rape
+}
+extension ParseToSexualAbuseClassificationString
+    on SexualAbuseClassificationEnum {
+  String toSexualAbuseClassificationString() {
+    return this.toString().split('.').last.capitaliseFirst();
+  }
+}
+
+enum RightsEnum {
+  economicResources,
+  opportunities,
+  education,
+  healthcare,
+  resourceConflict,
+  other
+}
+extension ParseToRightsString on RightsEnum {
+  String toRightsString() {
+    return this.toString().split('.').last.capitaliseFirst();
+  }
+}
 
 enum RelationshipEnum {
   currentPartner,
@@ -83,6 +158,12 @@ enum RelationshipEnum {
   association,
   other
 }
+extension ParseToRelationshipString on RelationshipEnum {
+  String toRelationshipString() {
+    return this.toString().split('.').last.capitaliseFirst();
+  }
+}
+
 
 //Dart only supports library-level privacy, don't use this
 // class Attention {
@@ -183,4 +264,10 @@ class AbuseForm {
   //     this.perpetrator);
 
   AbuseForm(this.type, this.location);
+}
+
+extension StringExtension on String {
+  String capitaliseFirst() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
 }
