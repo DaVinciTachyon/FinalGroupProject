@@ -1,6 +1,6 @@
-//This should probably be 'sex'
 import 'package:flutter/foundation.dart';
 
+//This should probably be 'sex'
 enum GenderEnum { male, female }
 
 extension GenderOps on GenderEnum {
@@ -196,6 +196,14 @@ extension ParseToRelationshipString on RelationshipEnum {
   }
 }
 
+class Perpetrator{
+  GenderEnum gender;
+  bool isKnown;
+  RelationshipEnum relationshipToVictim;
+
+  Perpetrator();
+}
+
 class AbuseForm {
   DateTime incidentDate;
   DateTime attentionDate;
@@ -211,6 +219,7 @@ class AbuseForm {
   List<SexualAbuseClassificationEnum> sexualAbuse;
   bool forcedMarriage;
   List<RightsEnum> rightsDenied;
+  Perpetrator perpetrator;
 
   AbuseForm();
 }
@@ -227,12 +236,78 @@ extension ToggleExtension on List {
   }
 }
 
-dynamic enumFromString(String enumStr, enumClass) {
-  String lwrStr = enumStr.toLowerCase();
-  return enumClass.values
-      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
-}
+// dynamic enumFromString(String enumStr, enumClass) {
+//   String lwrStr = enumStr.toLowerCase();
+//   for (var e in enumClass.values) {
+//     if (describeEnum(e) == lwrStr)
+//       return e;
+//   }
+//   return enumClass.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+// }
 
 String toSimpleCapitalEnum(enumVal) {
+  if (enumVal == null)
+    return null;
   return describeEnum(enumVal).split('.').last.capitaliseFirst();
+}
+
+String parseBooleanToYesNo(bool inputBool) {
+  if(inputBool == null)
+    return null;
+  return inputBool ? "Yes" : "No";
+}
+
+bool parseYesNoToBoolean(String yesNo) {
+  return yesNo == "Yes" ? true : false;
+}
+
+List<String> nonNullList(List<String> theList) {
+  return theList.where((e) => e != null).toList();
+}
+
+// The following should be generalised.
+// This was left in anticipation of future updates having separate strings for enums
+GenderEnum genderFromString(String str) {
+  String lwrStr = str.toLowerCase();
+  return GenderEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+}
+
+SeekedAttentionEnum seekedAttentionFromString(String str) {
+  String lwrStr = str.toLowerCase();
+  return SeekedAttentionEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+}
+
+OfferedAttentionEnum offeredAttentionFromString(String str) {
+  String lwrStr = str.toLowerCase();
+  return OfferedAttentionEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+}
+
+ReferredAttentionEnum referredAttentionFromString(String str) {
+  String lwrStr = str.toLowerCase();
+  return ReferredAttentionEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+}
+
+PhysicalAbuseClassificationEnum physicalAbuseFromString(String str) {
+  String lwrStr = str.toLowerCase();
+  return PhysicalAbuseClassificationEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+}
+
+PsychologicalAbuseClassificationEnum psychologicalAbuseFromString(String str) {
+  String lwrStr = str.toLowerCase();
+  return PsychologicalAbuseClassificationEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+}
+
+SexualAbuseClassificationEnum sexualAbuseFromString(String str) {
+  String lwrStr = str.toLowerCase();
+  return SexualAbuseClassificationEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+}
+
+RightsEnum rightsFromString(String str) {
+  String lwrStr = str.toLowerCase();
+  return RightsEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+}
+
+RelationshipEnum relationshipFromString(String str) {
+  String lwrStr = str.toLowerCase();
+  return RelationshipEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
 }
