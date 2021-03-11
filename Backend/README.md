@@ -74,6 +74,38 @@ Body: { token }
 Status 400
 Body: { error }
 
+### POST /api/update/administrator/name/
+
+#### Request
+
+{
+    email,
+    name
+}
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/update/administrator/password/
+
+#### Request
+
+{
+    email,
+    password
+}
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
 ### POST /api/register/monitor/
 
 #### Request
@@ -97,6 +129,54 @@ Body is defined in `./validation.js - monitor.login`
 
 Status 200
 Body: { token }
+
+Status 400
+Body: { error }
+
+### POST /api/update/monitor/name/
+
+#### Request
+
+{
+    email,
+    name
+}
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/update/monitor/password/
+
+#### Request
+
+{
+    email,
+    password
+}
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/update/monitor/macAddress/
+
+#### Request
+
+{
+    email,
+    macAddress
+}
+
+#### Response
+
+Status 200
 
 Status 400
 Body: { error }
