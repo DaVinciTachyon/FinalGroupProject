@@ -69,10 +69,6 @@ router.post('/update/monitor', async (req, res) => {
 
 	const salt = await bcrypt.genSalt(10);
 	const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        
-    const existingMacAddress = await Monitor.findOne({ macAddress: req.body.macAddress });
-    if(existingMacAddress)
-        return res.status(400).send({ error: 'MAC Address already exists' });
 
 	user.name = req.body.name;
 	user.macAddress = req.body.macAddress;
