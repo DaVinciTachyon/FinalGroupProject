@@ -111,9 +111,7 @@ Body: { error }
 
 #### Request
 
-{
-    email
-}
+{ email }
 
 #### Response
 
@@ -201,9 +199,7 @@ Body: { error }
 
 #### Request
 
-{
-    email
-}
+{ email }
 
 #### Response
 
