@@ -3,7 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const randomstring = require('randomstring');
 const validate = require('./validation');
-const Administrator = require('../models/Administrator')
+const Administrator = require('../models/Administrator');
+const isActive = require('./isUserActive');
 
 router.use(function(req, res, next) {
 	next();
@@ -36,7 +37,7 @@ router.post('/register/administrator', async (req, res) => {
 	}
 });
 
-router.post('/login/administrator', async (req, res) => {
+router.post('/login/administrator', isActive.administrator, async (req, res) => {
 	//Temporary only!
 	res.header('auth-token', token).send({ "_id": "insert_admin_uid_here" });
 
@@ -54,7 +55,7 @@ router.post('/login/administrator', async (req, res) => {
 	// res.header('auth-token', token).send({ token });
 });
 
-router.post('/update/administrator/name', async (req, res) => {
+router.post('/update/administrator/name', isActive.administrator, async (req, res) => {
 	const user = await Monitor.findOne({ email: req.body.email });
 	if(!user)
         return res.status(400).send({ error: 'Email does not exist' });
@@ -72,7 +73,7 @@ router.post('/update/administrator/name', async (req, res) => {
 	}
 });
 
-router.post('/update/administrator/password', async (req, res) => {
+router.post('/update/administrator/password', isActive.administrator, async (req, res) => {
 	const user = await Monitor.findOne({ email: req.body.email });
 	if(!user)
         return res.status(400).send({ error: 'Email does not exist' });
@@ -93,7 +94,7 @@ router.post('/update/administrator/password', async (req, res) => {
 	}
 });
 
-router.post('/delete/administrator', async (req, res) => {
+router.post('/delete/administrator', isActive.administrator, async (req, res) => {
 	const user = await Monitor.findOne({ email: req.body.email });
 	if(!user)
         return res.status(400).send({ error: 'Email does not exist' });
