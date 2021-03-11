@@ -23,6 +23,7 @@ enum AgeRangeEnum {
 
 extension ParseToAgeString on AgeRangeEnum {
   String toNumberString() {
+    if (this == null) return null;
     switch (this) {
       case AgeRangeEnum.underTwelve:
         return "<12";
@@ -196,7 +197,7 @@ extension ParseToRelationshipString on RelationshipEnum {
   }
 }
 
-class Perpetrator{
+class Perpetrator {
   GenderEnum gender;
   bool isKnown;
   RelationshipEnum relationshipToVictim;
@@ -211,15 +212,18 @@ class AbuseForm {
   AgeRangeEnum ageRange;
   String municipality;
   String community;
-  List<SeekedAttentionEnum> seekedAttention;
-  List<OfferedAttentionEnum> offeredAttention;
-  List<ReferredAttentionEnum> referredAttention;
-  List<PhysicalAbuseClassificationEnum> physicalAbuse;
-  List<PsychologicalAbuseClassificationEnum> psychologicalAbuse;
-  List<SexualAbuseClassificationEnum> sexualAbuse;
+  List<SeekedAttentionEnum> seekedAttention = List<SeekedAttentionEnum>();
+  List<OfferedAttentionEnum> offeredAttention = List<OfferedAttentionEnum>();
+  List<ReferredAttentionEnum> referredAttention = List<ReferredAttentionEnum>();
+  List<PhysicalAbuseClassificationEnum> physicalAbuse =
+      List<PhysicalAbuseClassificationEnum>();
+  List<PsychologicalAbuseClassificationEnum> psychologicalAbuse =
+      List<PsychologicalAbuseClassificationEnum>();
+  List<SexualAbuseClassificationEnum> sexualAbuse =
+      List<SexualAbuseClassificationEnum>();
   bool forcedMarriage;
-  List<RightsEnum> rightsDenied;
-  Perpetrator perpetrator;
+  List<RightsEnum> rightsDenied = List<RightsEnum>();
+  Perpetrator perpetrator = Perpetrator();
 
   AbuseForm();
 }
@@ -236,24 +240,13 @@ extension ToggleExtension on List {
   }
 }
 
-// dynamic enumFromString(String enumStr, enumClass) {
-//   String lwrStr = enumStr.toLowerCase();
-//   for (var e in enumClass.values) {
-//     if (describeEnum(e) == lwrStr)
-//       return e;
-//   }
-//   return enumClass.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
-// }
-
 String toSimpleCapitalEnum(enumVal) {
-  if (enumVal == null)
-    return null;
+  if (enumVal == null) return null;
   return describeEnum(enumVal).split('.').last.capitaliseFirst();
 }
 
 String parseBooleanToYesNo(bool inputBool) {
-  if(inputBool == null)
-    return null;
+  if (inputBool == null) return null;
   return inputBool ? "Yes" : "No";
 }
 
@@ -269,45 +262,54 @@ List<String> nonNullList(List<String> theList) {
 // This was left in anticipation of future updates having separate strings for enums
 GenderEnum genderFromString(String str) {
   String lwrStr = str.toLowerCase();
-  return GenderEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return GenderEnum.values
+      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
 }
 
 SeekedAttentionEnum seekedAttentionFromString(String str) {
   String lwrStr = str.toLowerCase();
-  return SeekedAttentionEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return SeekedAttentionEnum.values
+      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
 }
 
 OfferedAttentionEnum offeredAttentionFromString(String str) {
   String lwrStr = str.toLowerCase();
-  return OfferedAttentionEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return OfferedAttentionEnum.values
+      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
 }
 
 ReferredAttentionEnum referredAttentionFromString(String str) {
   String lwrStr = str.toLowerCase();
-  return ReferredAttentionEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return ReferredAttentionEnum.values
+      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
 }
 
 PhysicalAbuseClassificationEnum physicalAbuseFromString(String str) {
   String lwrStr = str.toLowerCase();
-  return PhysicalAbuseClassificationEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return PhysicalAbuseClassificationEnum.values
+      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
 }
 
 PsychologicalAbuseClassificationEnum psychologicalAbuseFromString(String str) {
   String lwrStr = str.toLowerCase();
-  return PsychologicalAbuseClassificationEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return PsychologicalAbuseClassificationEnum.values
+      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
 }
 
 SexualAbuseClassificationEnum sexualAbuseFromString(String str) {
   String lwrStr = str.toLowerCase();
-  return SexualAbuseClassificationEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return SexualAbuseClassificationEnum.values
+      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
 }
 
 RightsEnum rightsFromString(String str) {
   String lwrStr = str.toLowerCase();
-  return RightsEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return RightsEnum.values
+      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
 }
 
 RelationshipEnum relationshipFromString(String str) {
   String lwrStr = str.toLowerCase();
-  return RelationshipEnum.values.firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return RelationshipEnum.values
+      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
 }
