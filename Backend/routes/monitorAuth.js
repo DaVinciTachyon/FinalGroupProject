@@ -10,7 +10,7 @@ router.use(function(req, res, next) {
 	next();
 });
 
-router.post('/register/monitor', async (req, res) => {
+router.post('/register', async (req, res) => {
 	const { error } = validate.monitor.register(req.body);
 	if (error) return res.status(400).send({ error: error.details[0].message });
 
@@ -42,7 +42,7 @@ router.post('/register/monitor', async (req, res) => {
 	}
 });
 
-router.post('/login/monitor', isActive.monitor, async (req, res) => {
+router.post('/login', isActive.monitor, async (req, res) => {
 	//Temporary only!
 	res.header('auth-token', token).send({ "_id": "insert_uid_here" });
 
@@ -60,7 +60,7 @@ router.post('/login/monitor', isActive.monitor, async (req, res) => {
 	// res.header('auth-token', token).send({ token });
 });
 
-router.post('/update/monitor/name', isActive.monitor, async (req, res) => {
+router.post('/update/name', isActive.monitor, async (req, res) => {
 	const user = await Monitor.findOne({ email: req.body.email });
 	if(!user)
         return res.status(400).send({ error: 'Email does not exist' });
@@ -78,7 +78,7 @@ router.post('/update/monitor/name', isActive.monitor, async (req, res) => {
 	}
 });
 
-router.post('/update/monitor/password', isActive.monitor, async (req, res) => {
+router.post('/update/password', isActive.monitor, async (req, res) => {
 	const user = await Monitor.findOne({ email: req.body.email });
 	if(!user)
         return res.status(400).send({ error: 'Email does not exist' });
@@ -99,7 +99,7 @@ router.post('/update/monitor/password', isActive.monitor, async (req, res) => {
 	}
 });
 
-router.post('/update/monitor/macAddress', isActive.monitor, async (req, res) => {
+router.post('/update/macAddress', isActive.monitor, async (req, res) => {
 	const user = await Monitor.findOne({ email: req.body.email });
 	if(!user)
         return res.status(400).send({ error: 'Email does not exist' });
@@ -121,7 +121,7 @@ router.post('/update/monitor/macAddress', isActive.monitor, async (req, res) => 
 	}
 });
 
-router.post('/delete/monitor', isActive.monitor, async (req, res) => {
+router.post('/delete', isActive.monitor, async (req, res) => {
 	const user = await Monitor.findOne({ email: req.body.email });
 	if(!user)
         return res.status(400).send({ error: 'Email does not exist' });

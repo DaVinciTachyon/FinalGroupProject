@@ -47,7 +47,7 @@ Body: { forms: [] }
 Status 200
 Body: { monitors: [] }
 
-### POST /api/register/administrator/
+### POST /api/administrator/register/
 
 #### Request
 
@@ -60,7 +60,7 @@ Status 200
 Status 400
 Body: { error }
 
-### POST /api/login/administrator/
+### POST /api/administrator/login/
 
 #### Request
 
@@ -74,7 +74,7 @@ Body: { token }
 Status 400
 Body: { error }
 
-### POST /api/update/administrator/name/
+### POST /api/administrator/update/name/
 
 #### Request
 
@@ -90,7 +90,7 @@ Status 200
 Status 400
 Body: { error }
 
-### POST /api/update/administrator/password/
+### POST /api/administrator/update/password/
 
 #### Request
 
@@ -107,7 +107,7 @@ Status 400
 Body: { error }
 
 
-### POST /api/delete/administrator/
+### POST /api/administrator/delete/
 
 #### Request
 
@@ -120,7 +120,7 @@ Status 200
 Status 400
 Body: { error }
 
-### POST /api/register/monitor/
+### POST /api/monitor/register/
 
 #### Request
 
@@ -133,7 +133,7 @@ Status 200
 Status 400
 Body: { error }
 
-### POST /api/login/monitor/
+### POST /api/monitor/login/
 
 #### Request
 
@@ -147,7 +147,7 @@ Body: { token }
 Status 400
 Body: { error }
 
-### POST /api/update/monitor/name/
+### POST /api/monitor/update/name/
 
 #### Request
 
@@ -163,7 +163,7 @@ Status 200
 Status 400
 Body: { error }
 
-### POST /api/update/monitor/password/
+### POST /api/monitor/update/password/
 
 #### Request
 
@@ -179,7 +179,7 @@ Status 200
 Status 400
 Body: { error }
 
-### POST /api/update/monitor/macAddress/
+### POST /api/monitor/update/macAddress/
 
 #### Request
 
@@ -195,7 +195,7 @@ Status 200
 Status 400
 Body: { error }
 
-### POST /api/delete/monitor/
+### POST /api/monitor/delete/
 
 #### Request
 

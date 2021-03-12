@@ -10,7 +10,7 @@ router.use(function(req, res, next) {
 
 router.use('/forms', formsRoute);
 router.use('/monitors', monitorsRoute);
-router.use('/', adminAuthRoute);
-router.use('/', monitorAuthRoute);
+router.use('/administrator', adminAuthRoute);
+router.use('/monitor', monitorAuthRoute);
 
 module.exports = router;
