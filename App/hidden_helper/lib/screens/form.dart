@@ -6,6 +6,19 @@ import 'package:provider/provider.dart';
 class FormScreen extends StatelessWidget {
   final incidentDateController = TextEditingController();
   final attentionDateController = TextEditingController();
+  final victimGenderTextController = TextEditingController();
+  final victimAgeTextController = TextEditingController();
+  final seekedAttentionController = TextEditingController();
+  final offeredAttentionController = TextEditingController();
+  final referredAttentionController = TextEditingController();
+  final physicalAbuseController = TextEditingController();
+  final psychologicalAbuseController = TextEditingController();
+  final sexualAbuseController = TextEditingController();
+  final forcedMarriageController = TextEditingController();
+  final rightsDeniedController = TextEditingController();
+  final perpGenderController = TextEditingController();
+  final perpKnownController = TextEditingController();
+  final perpRelationshipController = TextEditingController();
 
   List<String> genderList = GenderEnum.values.map((gender) {
     return gender.toGenderString();
@@ -55,15 +68,15 @@ class FormScreen extends StatelessWidget {
     return relationship.toRelationshipString();
   }).toList();
 
-  _showSelectDialog(BuildContext context, bool isRadio, List<String> theList, List<String> selectedList,
-      String headingText, onSelectionChange) {
+  _showSelectDialog(BuildContext context, bool isRadio, List<String> theList,
+      List<String> selectedList, String headingText, onSelectionChange) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(headingText),
-            content: MultiSelect(theList, isRadio, selectedList,
-                onSelectionChange),
+            content:
+                MultiSelect(theList, isRadio, selectedList, onSelectionChange),
             actions: <Widget>[
               FlatButton(
                 child: Text("Okay"),
@@ -161,30 +174,42 @@ class FormScreen extends StatelessWidget {
                             abuseForm.attentionDate.toString().split(" ")[0];
                       },
                     ),
-                    RaisedButton(
-                      child: Text("Victim Gender"),
-                      onPressed: () => _showSelectDialog(
+                    TextField(
+                      readOnly: true,
+                      controller: victimGenderTextController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Victim Gender',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      onTap: () => _showSelectDialog(
                           context,
                           true,
                           genderList,
                           nonNullList([abuseForm.gender.toGenderString()]),
-                          "Victim Gender",
-                          (gender) {
-                                abuseForm.gender =
-                                    genderFromString(gender);
-                              }),
+                          "Victim Gender", (gender) {
+                        abuseForm.gender = genderFromString(gender);
+                        victimGenderTextController.text = gender;
+                      }),
                     ),
-                    RaisedButton(
-                        child: Text("Victim Age Range"),
-                        onPressed: () => _showSelectDialog(
-                            context,
-                            true,
-                            ageRangeList,
-                            nonNullList([abuseForm.ageRange.toNumberString()]),
-                            "Victim Age Range",
-                            (item) => {
-                                  abuseForm.ageRange = parseAgeFromString(item)
-                                })),
+                    TextField(
+                        readOnly: true,
+                        controller: victimAgeTextController,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Victim Age',
+                            hintStyle:
+                                TextStyle(fontSize: 18, color: Colors.black54)),
+                        onTap: () => _showSelectDialog(
+                                context,
+                                true,
+                                ageRangeList,
+                                nonNullList(
+                                    [abuseForm.ageRange.toNumberString()]),
+                                "Victim Age Range", (age) {
+                              abuseForm.ageRange = parseAgeFromString(age);
+                              victimAgeTextController.text = age;
+                            })),
                     TextField(
                       decoration: InputDecoration(
                           border: InputBorder.none,
@@ -207,142 +232,252 @@ class FormScreen extends StatelessWidget {
                         abuseForm.community = value;
                       },
                     ),
-                    RaisedButton(
+                    TextField(
                       //TODO add 'other' type bar
-                      child: Text("Seeked Attention"),
-                      onPressed: () => _showSelectDialog(
+                      readOnly: true,
+                      controller: seekedAttentionController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Seeked Attention',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      onTap: () => _showSelectDialog(
                           context,
                           false,
                           seekedAttentionList,
                           abuseForm.seekedAttention
-                              .map((e) => e.toSeekedAttentionString()).toList(),
+                              .map((e) => e.toSeekedAttentionString())
+                              .toList(),
                           "Seeked Attention", (attention) {
                         abuseForm.seekedAttention.toggleElement(
                             seekedAttentionFromString(attention));
+                        seekedAttentionController.text =
+                            abuseForm.seekedAttention.map((attention) {
+                          return attention.toSeekedAttentionString();
+                        }).toString();
                       }),
                     ),
-                    RaisedButton(
+                    TextField(
                       //TODO add 'other' type bar
-                      child: Text("Offered Attention"),
-                      onPressed: () => _showSelectDialog(
+                      readOnly: true,
+                      controller: offeredAttentionController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Offered Attention',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      onTap: () => _showSelectDialog(
                           context,
                           false,
                           offeredAttentionList,
                           abuseForm.offeredAttention
-                              .map((e) => e.toOfferedAttentionString()).toList(),
+                              .map((e) => e.toOfferedAttentionString())
+                              .toList(),
                           "Offered Attention", (attention) {
                         abuseForm.offeredAttention.toggleElement(
                             offeredAttentionFromString(attention));
+                        offeredAttentionController.text =
+                            abuseForm.offeredAttention.map((attention) {
+                          return attention.toOfferedAttentionString();
+                        }).toString();
                       }),
                     ),
-                    RaisedButton(
+                    TextField(
                       //TODO add 'other' type bar
-                      child: Text("Referred Attention"),
-                      onPressed: () => _showSelectDialog(
+                      readOnly: true,
+                      controller: referredAttentionController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Referred Attention',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      onTap: () => _showSelectDialog(
                           context,
                           false,
                           referredAttentionList,
                           abuseForm.referredAttention
-                              .map((e) => e.toReferredAttentionString()).toList(),
+                              .map((e) => e.toReferredAttentionString())
+                              .toList(),
                           "Referred Attention", (attention) {
                         abuseForm.referredAttention.toggleElement(
                             referredAttentionFromString(attention));
+                        referredAttentionController.text =
+                            abuseForm.referredAttention.map((attention) {
+                          return attention.toReferredAttentionString();
+                        }).toString();
                       }),
                     ),
-                    RaisedButton(
+                    TextField(
                       //TODO add 'other' type bar
-                      child: Text("Physical Abuse"),
-                      onPressed: () => _showSelectDialog(
+                      readOnly: true,
+                      controller: physicalAbuseController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Physical Abuse',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      onTap: () => _showSelectDialog(
                           context,
                           false,
                           physicalAbuseList,
-                          abuseForm.physicalAbuse.map(
-                              (e) => e.toPhysicalAbuseClassificationString()).toList(),
+                          abuseForm.physicalAbuse
+                              .map((e) =>
+                                  e.toPhysicalAbuseClassificationString())
+                              .toList(),
                           "Physical Abuse", (abuse) {
-                        abuseForm.physicalAbuse.toggleElement(physicalAbuseFromString(
-                            abuse));
+                        abuseForm.physicalAbuse
+                            .toggleElement(physicalAbuseFromString(abuse));
+                        physicalAbuseController.text =
+                            abuseForm.physicalAbuse.map((attention) {
+                          return attention
+                              .toPhysicalAbuseClassificationString();
+                        }).toString();
                       }),
                     ),
-                    RaisedButton(
+                    TextField(
                       //TODO add 'other' type bar
-                      child: Text("Psychological Abuse"),
-                      onPressed: () => _showSelectDialog(
+                      readOnly: true,
+                      controller: psychologicalAbuseController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Psychological Abuse',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      onTap: () => _showSelectDialog(
                           context,
                           false,
                           psychologicalAbuseList,
-                          abuseForm.psychologicalAbuse.map((e) =>
-                              e.toPsychologicalAbuseClassificationString()).toList(),
+                          abuseForm.psychologicalAbuse
+                              .map((e) =>
+                                  e.toPsychologicalAbuseClassificationString())
+                              .toList(),
                           "Psychological Abuse", (abuse) {
-                        abuseForm.psychologicalAbuse.toggleElement(
-                            psychologicalAbuseFromString(
-                                abuse));
+                        abuseForm.psychologicalAbuse
+                            .toggleElement(psychologicalAbuseFromString(abuse));
+                        psychologicalAbuseController.text =
+                            abuseForm.psychologicalAbuse.map((attention) {
+                          return attention
+                              .toPsychologicalAbuseClassificationString();
+                        }).toString();
                       }),
                     ),
-                    RaisedButton(
+                    TextField(
                       //TODO add 'other' type bar
-                      child: Text("Sexual Abuse"),
-                      onPressed: () => _showSelectDialog(
+                      readOnly: true,
+                      controller: sexualAbuseController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Sexual Abuse',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      onTap: () => _showSelectDialog(
                           context,
                           false,
                           sexualAbuseList,
-                          abuseForm.sexualAbuse.map(
-                              (e) => e.toSexualAbuseClassificationString()).toList(),
+                          abuseForm.sexualAbuse
+                              .map((e) => e.toSexualAbuseClassificationString())
+                              .toList(),
                           "Sexual Abuse", (abuse) {
-                        abuseForm.sexualAbuse.toggleElement(sexualAbuseFromString(
-                            abuse));
+                        abuseForm.sexualAbuse
+                            .toggleElement(sexualAbuseFromString(abuse));
+                        sexualAbuseController.text =
+                            abuseForm.sexualAbuse.map((attention) {
+                          return attention.toSexualAbuseClassificationString();
+                        }).toString();
                       }),
                     ),
-                    RaisedButton(
-                      child: Text("Forced Marriage"),
-                      onPressed: () => _showSelectDialog(
+                    TextField(
+                      readOnly: true,
+                      controller: forcedMarriageController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Forced Marriage',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      onTap: () => _showSelectDialog(
                           context,
                           true,
                           booleanYesNo,
                           [parseBooleanToYesNo(abuseForm.forcedMarriage)],
                           "Forced Marriage", (yesNo) {
                         abuseForm.forcedMarriage = parseYesNoToBoolean(yesNo);
+                        forcedMarriageController.text = yesNo;
                       }),
                     ),
-                    RaisedButton(
-                        //TODO add 'other' type bar
-                        child: Text("Rights Denied"),
-                        onPressed: () => _showSelectDialog(
-                                context,
-                                false,
-                                rightsDeniedList,
-                                abuseForm.rightsDenied
-                                    .map((e) => e.toRightsString()).toList(),
-                                "Rights Denied", (right) {
-                              abuseForm.rightsDenied.toggleElement(
-                                  rightsFromString(right));
-                            })),
-                    RaisedButton(
-                      child: Text("Perpetrator Gender"),
-                      onPressed: () => _showSelectDialog(
+                    TextField(
+                      //TODO add 'other' type bar
+                      readOnly: true,
+                      controller: rightsDeniedController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Rights Denied',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      onTap: () => _showSelectDialog(
+                          context,
+                          false,
+                          rightsDeniedList,
+                          abuseForm.rightsDenied
+                              .map((e) => e.toRightsString())
+                              .toList(),
+                          "Rights Denied", (right) {
+                        abuseForm.rightsDenied
+                            .toggleElement(rightsFromString(right));
+                        rightsDeniedController.text =
+                            abuseForm.rightsDenied.map((attention) {
+                          return attention.toRightsString();
+                        }).toString();
+                      }),
+                    ),
+                    TextField(
+                      readOnly: true,
+                      controller: perpGenderController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Perpetrator Gender',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      onTap: () => _showSelectDialog(
                           context,
                           true,
                           genderList,
-                          nonNullList([abuseForm.perpetrator.gender.toGenderString()]),
+                          nonNullList(
+                              [abuseForm.perpetrator.gender.toGenderString()]),
                           "Perpetrator Gender", (gender) {
-                        abuseForm.perpetrator.gender =
-                            genderFromString(gender);
+                        abuseForm.perpetrator.gender = genderFromString(gender);
+                        perpGenderController.text = gender;
                       }),
                     ),
-                    RaisedButton(
-                      child: Text("Perpetrator Is Known"),
-                      onPressed: () => _showSelectDialog(
+                    TextField(
+                      readOnly: true,
+                      controller: perpKnownController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Perpetrator is known',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      onTap: () => _showSelectDialog(
                           context,
                           true,
                           booleanYesNo,
-                          nonNullList([parseBooleanToYesNo(abuseForm.perpetrator.isKnown)]),
-                          "Perpetrator Is Known", (yesNo) {
+                          nonNullList([
+                            parseBooleanToYesNo(abuseForm.perpetrator.isKnown)
+                          ]),
+                          "Perpetrator is known", (yesNo) {
                         abuseForm.perpetrator.isKnown =
                             parseYesNoToBoolean(yesNo);
+                        perpKnownController.text = yesNo;
                       }),
                     ),
-                    RaisedButton(
-                      child: Text("Perpetrator Relationship"),
-                      onPressed: () => _showSelectDialog(
+                    TextField(
+                      readOnly: true,
+                      controller: perpRelationshipController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Perpetrator Relationship',
+                          hintStyle:
+                              TextStyle(fontSize: 18, color: Colors.black54)),
+                      onTap: () => _showSelectDialog(
                           context,
                           true,
                           relationshipList,
@@ -353,6 +488,7 @@ class FormScreen extends StatelessWidget {
                           "Perpetrator Relationship", (relationship) {
                         abuseForm.perpetrator.relationshipToVictim =
                             relationshipFromString(relationship);
+                        perpRelationshipController.text = relationship;
                       }),
                     ),
                     FlatButton(
