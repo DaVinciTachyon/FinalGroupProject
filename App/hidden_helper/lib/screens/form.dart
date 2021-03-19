@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_helper/models/AbuseForm.dart';
-import 'package:hidden_helper/models/FormsOperation.dart';
-import 'package:provider/provider.dart';
+// import 'package:hidden_helper/models/FormsOperation.dart';
+// import 'package:provider/provider.dart';
 
-class FormScreen extends StatelessWidget {
+class FormScreen extends StatefulWidget {
   final incidentDateController = TextEditingController();
   final attentionDateController = TextEditingController();
   final victimGenderTextController = TextEditingController();
@@ -20,53 +20,58 @@ class FormScreen extends StatelessWidget {
   final perpKnownController = TextEditingController();
   final perpRelationshipController = TextEditingController();
 
-  List<String> genderList = GenderEnum.values.map((gender) {
+  final List<String> genderList = GenderEnum.values.map((gender) {
     return gender.toGenderString();
   }).toList();
 
-  List<String> ageRangeList = AgeRangeEnum.values.map((age) {
+  final List<String> ageRangeList = AgeRangeEnum.values.map((age) {
     return age.toNumberString();
   }).toList();
 
-  List<String> seekedAttentionList =
+  final List<String> seekedAttentionList =
       SeekedAttentionEnum.values.map((attention) {
     return attention.toSeekedAttentionString();
   }).toList();
 
-  List<String> offeredAttentionList =
+  final List<String> offeredAttentionList =
       OfferedAttentionEnum.values.map((attention) {
     return attention.toOfferedAttentionString();
   }).toList();
 
-  List<String> referredAttentionList =
+  final List<String> referredAttentionList =
       ReferredAttentionEnum.values.map((attention) {
     return attention.toReferredAttentionString();
   }).toList();
 
-  List<String> physicalAbuseList =
+  final List<String> physicalAbuseList =
       PhysicalAbuseClassificationEnum.values.map((abuse) {
     return abuse.toPhysicalAbuseClassificationString();
   }).toList();
 
-  List<String> psychologicalAbuseList =
+  final List<String> psychologicalAbuseList =
       PsychologicalAbuseClassificationEnum.values.map((abuse) {
     return abuse.toPsychologicalAbuseClassificationString();
   }).toList();
 
-  List<String> sexualAbuseList =
+  final List<String> sexualAbuseList =
       SexualAbuseClassificationEnum.values.map((abuse) {
     return abuse.toSexualAbuseClassificationString();
   }).toList();
 
-  List<String> booleanYesNo = ["Yes", "No"];
+  final List<String> booleanYesNo = ["Yes", "No"];
 
-  List<String> rightsDeniedList = RightsEnum.values.map((right) {
+  final List<String> rightsDeniedList = RightsEnum.values.map((right) {
     return right.toRightsString();
   }).toList();
 
-  List<String> relationshipList = RelationshipEnum.values.map((relationship) {
+  final List<String> relationshipList = RelationshipEnum.values.map((relationship) {
     return relationship.toRelationshipString();
   }).toList();
+
+  final abuseForm = AbuseForm();
+
+  @override
+  State<StatefulWidget> createState() => FormContentState();
 
   _showSelectDialog(BuildContext context, bool isRadio, List<String> theList,
       List<String> selectedList, String headingText, onSelectionChange) {
@@ -86,13 +91,11 @@ class FormScreen extends StatelessWidget {
           );
         });
   }
+}
 
+class FormContentState extends State<FormScreen> {
   @override
   Widget build(BuildContext context) {
-    var abuseForm = AbuseForm();
-
-    String type;
-    String location;
     return MaterialApp(
       home: DefaultTabController(
         length: 2,
@@ -136,79 +139,79 @@ class FormScreen extends StatelessWidget {
                   children: [
                     TextField(
                       readOnly: true,
-                      controller: incidentDateController,
+                      controller: widget.incidentDateController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Incident Date',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
                       onTap: () async {
-                        abuseForm.incidentDate = await showDatePicker(
+                        widget.abuseForm.incidentDate = await showDatePicker(
                             context: context,
-                            initialDate: abuseForm.incidentDate == null
+                            initialDate: widget.abuseForm.incidentDate == null
                                 ? DateTime.now()
-                                : abuseForm.incidentDate,
+                                : widget.abuseForm.incidentDate,
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100));
-                        incidentDateController.text =
-                            abuseForm.incidentDate.toString().split(" ")[0];
+                        widget.incidentDateController.text =
+                            widget.abuseForm.incidentDate.toString().split(" ")[0];
                       },
                     ),
                     TextField(
                       readOnly: true,
-                      controller: attentionDateController,
+                      controller: widget.attentionDateController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Attention Date',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
                       onTap: () async {
-                        abuseForm.attentionDate = await showDatePicker(
+                        widget.abuseForm.attentionDate = await showDatePicker(
                             context: context,
-                            initialDate: abuseForm.attentionDate == null
+                            initialDate: widget.abuseForm.attentionDate == null
                                 ? DateTime.now()
-                                : abuseForm.attentionDate,
+                                : widget.abuseForm.attentionDate,
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100));
-                        attentionDateController.text =
-                            abuseForm.attentionDate.toString().split(" ")[0];
+                        widget.attentionDateController.text =
+                            widget.abuseForm.attentionDate.toString().split(" ")[0];
                       },
                     ),
                     TextField(
                       readOnly: true,
-                      controller: victimGenderTextController,
+                      controller: widget.victimGenderTextController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Victim Gender',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      onTap: () => _showSelectDialog(
+                      onTap: () => widget._showSelectDialog(
                           context,
                           true,
-                          genderList,
-                          nonNullList([abuseForm.gender.toGenderString()]),
+                          widget.genderList,
+                          nonNullList([widget.abuseForm.gender.toGenderString()]),
                           "Victim Gender", (gender) {
-                        abuseForm.gender = genderFromString(gender);
-                        victimGenderTextController.text = gender;
+                        widget.abuseForm.gender = genderFromString(gender);
+                        widget.victimGenderTextController.text = gender;
                       }),
                     ),
                     TextField(
                         readOnly: true,
-                        controller: victimAgeTextController,
+                        controller: widget.victimAgeTextController,
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Victim Age',
                             hintStyle:
                                 TextStyle(fontSize: 18, color: Colors.black54)),
-                        onTap: () => _showSelectDialog(
+                        onTap: () => widget._showSelectDialog(
                                 context,
                                 true,
-                                ageRangeList,
+                                widget.ageRangeList,
                                 nonNullList(
-                                    [abuseForm.ageRange.toNumberString()]),
+                                    [widget.abuseForm.ageRange.toNumberString()]),
                                 "Victim Age Range", (age) {
-                              abuseForm.ageRange = parseAgeFromString(age);
-                              victimAgeTextController.text = age;
+                              widget.abuseForm.ageRange = parseAgeFromString(age);
+                              widget.victimAgeTextController.text = age;
                             })),
                     TextField(
                       decoration: InputDecoration(
@@ -216,9 +219,9 @@ class FormScreen extends StatelessWidget {
                           hintText: 'Municipality',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      style: TextStyle(fontSize: 18, color: Colors.black54),
+                      style: TextStyle(fontSize: 18, color: Colors.black87),
                       onChanged: (value) {
-                        abuseForm.municipality = value;
+                        widget.abuseForm.municipality = value;
                       },
                     ),
                     TextField(
@@ -227,108 +230,153 @@ class FormScreen extends StatelessWidget {
                           hintText: 'Community',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      style: TextStyle(fontSize: 18, color: Colors.black54),
+                      style: TextStyle(fontSize: 18, color: Colors.black87),
                       onChanged: (value) {
-                        abuseForm.community = value;
+                        widget.abuseForm.community = value;
                       },
                     ),
                     TextField(
-                      //TODO add 'other' type bar
                       readOnly: true,
-                      controller: seekedAttentionController,
+                      controller: widget.seekedAttentionController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Seeked Attention',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      onTap: () => _showSelectDialog(
+                      onTap: () => widget._showSelectDialog(
                           context,
                           false,
-                          seekedAttentionList,
-                          abuseForm.seekedAttention
+                          widget.seekedAttentionList,
+                          widget.abuseForm.seekedAttention
                               .map((e) => e.toSeekedAttentionString())
                               .toList(),
                           "Seeked Attention", (attention) {
-                        abuseForm.seekedAttention.toggleElement(
+                        widget.abuseForm.seekedAttention.toggleElement(
                             seekedAttentionFromString(attention));
-                        seekedAttentionController.text =
-                            abuseForm.seekedAttention.map((attention) {
+                        widget.seekedAttentionController.text =
+                            widget.abuseForm.seekedAttention.map((attention) {
                           return attention.toSeekedAttentionString();
                         }).toString();
+                        setState(() {});
                       }),
                     ),
+                    Visibility(
+                      visible: widget.abuseForm.seekedAttention
+                          .contains(SeekedAttentionEnum.other),
+                      child: TextField(
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Other Attention Seeked',
+                            hintStyle:
+                                TextStyle(fontSize: 18, color: Colors.black54)),
+                        style: TextStyle(fontSize: 18, color: Colors.black87),
+                        onChanged: (value) {
+                          widget.abuseForm.seekedAttentionOther = value;
+                        },
+                      ),
+                    ),
                     TextField(
-                      //TODO add 'other' type bar
                       readOnly: true,
-                      controller: offeredAttentionController,
+                      controller: widget.offeredAttentionController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Offered Attention',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      onTap: () => _showSelectDialog(
+                      onTap: () => widget._showSelectDialog(
                           context,
                           false,
-                          offeredAttentionList,
-                          abuseForm.offeredAttention
+                          widget.offeredAttentionList,
+                          widget.abuseForm.offeredAttention
                               .map((e) => e.toOfferedAttentionString())
                               .toList(),
                           "Offered Attention", (attention) {
-                        abuseForm.offeredAttention.toggleElement(
+                        widget.abuseForm.offeredAttention.toggleElement(
                             offeredAttentionFromString(attention));
-                        offeredAttentionController.text =
-                            abuseForm.offeredAttention.map((attention) {
+                        widget.offeredAttentionController.text =
+                            widget.abuseForm.offeredAttention.map((attention) {
                           return attention.toOfferedAttentionString();
                         }).toString();
+                        setState(() {});
                       }),
+                    ),
+                    Visibility(
+                      visible: widget.abuseForm.offeredAttention
+                          .contains(OfferedAttentionEnum.other),
+                      child: TextField(
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Other Attention Offered',
+                            hintStyle:
+                                TextStyle(fontSize: 18, color: Colors.black54)),
+                        style: TextStyle(fontSize: 18, color: Colors.black87),
+                        onChanged: (value) {
+                          widget.abuseForm.offeredAttentionOther = value;
+                        },
+                      ),
                     ),
                     TextField(
                       //TODO add 'other' type bar
                       readOnly: true,
-                      controller: referredAttentionController,
+                      controller: widget.referredAttentionController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Referred Attention',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      onTap: () => _showSelectDialog(
+                      onTap: () => widget._showSelectDialog(
                           context,
                           false,
-                          referredAttentionList,
-                          abuseForm.referredAttention
+                          widget.referredAttentionList,
+                          widget.abuseForm.referredAttention
                               .map((e) => e.toReferredAttentionString())
                               .toList(),
                           "Referred Attention", (attention) {
-                        abuseForm.referredAttention.toggleElement(
+                        widget.abuseForm.referredAttention.toggleElement(
                             referredAttentionFromString(attention));
-                        referredAttentionController.text =
-                            abuseForm.referredAttention.map((attention) {
+                        widget.referredAttentionController.text =
+                            widget.abuseForm.referredAttention.map((attention) {
                           return attention.toReferredAttentionString();
                         }).toString();
+                          setState(() {});
                       }),
                     ),
+                    Visibility(
+                      visible: widget.abuseForm.referredAttention
+                          .contains(ReferredAttentionEnum.other),
+                      child: TextField(
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Other Attention Referred',
+                            hintStyle:
+                                TextStyle(fontSize: 18, color: Colors.black54)),
+                        style: TextStyle(fontSize: 18, color: Colors.black87),
+                        onChanged: (value) {
+                          widget.abuseForm.referredAttentionOther = value;
+                        },
+                      ),
+                    ),
                     TextField(
-                      //TODO add 'other' type bar
                       readOnly: true,
-                      controller: physicalAbuseController,
+                      controller: widget.physicalAbuseController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Physical Abuse',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      onTap: () => _showSelectDialog(
+                      onTap: () => widget._showSelectDialog(
                           context,
                           false,
-                          physicalAbuseList,
-                          abuseForm.physicalAbuse
+                          widget.physicalAbuseList,
+                          widget.abuseForm.physicalAbuse
                               .map((e) =>
                                   e.toPhysicalAbuseClassificationString())
                               .toList(),
                           "Physical Abuse", (abuse) {
-                        abuseForm.physicalAbuse
+                        widget.abuseForm.physicalAbuse
                             .toggleElement(physicalAbuseFromString(abuse));
-                        physicalAbuseController.text =
-                            abuseForm.physicalAbuse.map((attention) {
+                        widget.physicalAbuseController.text =
+                            widget.abuseForm.physicalAbuse.map((attention) {
                           return attention
                               .toPhysicalAbuseClassificationString();
                         }).toString();
@@ -337,164 +385,178 @@ class FormScreen extends StatelessWidget {
                     TextField(
                       //TODO add 'other' type bar
                       readOnly: true,
-                      controller: psychologicalAbuseController,
+                      controller: widget.psychologicalAbuseController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Psychological Abuse',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      onTap: () => _showSelectDialog(
+                      onTap: () => widget._showSelectDialog(
                           context,
                           false,
-                          psychologicalAbuseList,
-                          abuseForm.psychologicalAbuse
+                          widget.psychologicalAbuseList,
+                          widget.abuseForm.psychologicalAbuse
                               .map((e) =>
                                   e.toPsychologicalAbuseClassificationString())
                               .toList(),
                           "Psychological Abuse", (abuse) {
-                        abuseForm.psychologicalAbuse
+                        widget.abuseForm.psychologicalAbuse
                             .toggleElement(psychologicalAbuseFromString(abuse));
-                        psychologicalAbuseController.text =
-                            abuseForm.psychologicalAbuse.map((attention) {
+                        widget.psychologicalAbuseController.text =
+                            widget.abuseForm.psychologicalAbuse.map((attention) {
                           return attention
                               .toPsychologicalAbuseClassificationString();
                         }).toString();
                       }),
                     ),
                     TextField(
-                      //TODO add 'other' type bar
                       readOnly: true,
-                      controller: sexualAbuseController,
+                      controller: widget.sexualAbuseController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Sexual Abuse',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      onTap: () => _showSelectDialog(
+                      onTap: () => widget._showSelectDialog(
                           context,
                           false,
-                          sexualAbuseList,
-                          abuseForm.sexualAbuse
+                          widget.sexualAbuseList,
+                          widget.abuseForm.sexualAbuse
                               .map((e) => e.toSexualAbuseClassificationString())
                               .toList(),
                           "Sexual Abuse", (abuse) {
-                        abuseForm.sexualAbuse
+                        widget.abuseForm.sexualAbuse
                             .toggleElement(sexualAbuseFromString(abuse));
-                        sexualAbuseController.text =
-                            abuseForm.sexualAbuse.map((attention) {
+                        widget.sexualAbuseController.text =
+                            widget.abuseForm.sexualAbuse.map((attention) {
                           return attention.toSexualAbuseClassificationString();
                         }).toString();
                       }),
                     ),
                     TextField(
                       readOnly: true,
-                      controller: forcedMarriageController,
+                      controller: widget.forcedMarriageController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Forced Marriage',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      onTap: () => _showSelectDialog(
+                      onTap: () => widget._showSelectDialog(
                           context,
                           true,
-                          booleanYesNo,
-                          [parseBooleanToYesNo(abuseForm.forcedMarriage)],
+                          widget.booleanYesNo,
+                          [parseBooleanToYesNo(widget.abuseForm.forcedMarriage)],
                           "Forced Marriage", (yesNo) {
-                        abuseForm.forcedMarriage = parseYesNoToBoolean(yesNo);
-                        forcedMarriageController.text = yesNo;
+                        widget.abuseForm.forcedMarriage = parseYesNoToBoolean(yesNo);
+                        widget.forcedMarriageController.text = yesNo;
                       }),
                     ),
                     TextField(
                       //TODO add 'other' type bar
                       readOnly: true,
-                      controller: rightsDeniedController,
+                      controller: widget.rightsDeniedController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Rights Denied',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      onTap: () => _showSelectDialog(
+                      onTap: () => widget._showSelectDialog(
                           context,
                           false,
-                          rightsDeniedList,
-                          abuseForm.rightsDenied
+                          widget.rightsDeniedList,
+                          widget.abuseForm.rightsDenied
                               .map((e) => e.toRightsString())
                               .toList(),
                           "Rights Denied", (right) {
-                        abuseForm.rightsDenied
+                        widget.abuseForm.rightsDenied
                             .toggleElement(rightsFromString(right));
-                        rightsDeniedController.text =
-                            abuseForm.rightsDenied.map((attention) {
+                        widget.rightsDeniedController.text =
+                            widget.abuseForm.rightsDenied.map((attention) {
                           return attention.toRightsString();
                         }).toString();
                       }),
                     ),
+                    Visibility(
+                      visible: widget.abuseForm.rightsDenied
+                          .contains(RightsEnum.other),
+                      child: TextField(
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Other Rights Denied',
+                            hintStyle:
+                                TextStyle(fontSize: 18, color: Colors.black54)),
+                        style: TextStyle(fontSize: 18, color: Colors.black87),
+                        onChanged: (value) {
+                          widget.abuseForm.rightsDeniedOther = value;
+                        },
+                      ),
+                    ),
                     TextField(
                       readOnly: true,
-                      controller: perpGenderController,
+                      controller: widget.perpGenderController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Perpetrator Gender',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      onTap: () => _showSelectDialog(
+                      onTap: () => widget._showSelectDialog(
                           context,
                           true,
-                          genderList,
+                          widget.genderList,
                           nonNullList(
-                              [abuseForm.perpetrator.gender.toGenderString()]),
+                              [widget.abuseForm.perpetrator.gender.toGenderString()]),
                           "Perpetrator Gender", (gender) {
-                        abuseForm.perpetrator.gender = genderFromString(gender);
-                        perpGenderController.text = gender;
+                        widget.abuseForm.perpetrator.gender = genderFromString(gender);
+                        widget.perpGenderController.text = gender;
                       }),
                     ),
                     TextField(
                       readOnly: true,
-                      controller: perpKnownController,
+                      controller: widget.perpKnownController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Perpetrator is known',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      onTap: () => _showSelectDialog(
+                      onTap: () => widget._showSelectDialog(
                           context,
                           true,
-                          booleanYesNo,
+                          widget.booleanYesNo,
                           nonNullList([
-                            parseBooleanToYesNo(abuseForm.perpetrator.isKnown)
+                            parseBooleanToYesNo(widget.abuseForm.perpetrator.isKnown)
                           ]),
                           "Perpetrator is known", (yesNo) {
-                        abuseForm.perpetrator.isKnown =
+                        widget.abuseForm.perpetrator.isKnown =
                             parseYesNoToBoolean(yesNo);
-                        perpKnownController.text = yesNo;
+                        widget.perpKnownController.text = yesNo;
                       }),
                     ),
                     TextField(
                       readOnly: true,
-                      controller: perpRelationshipController,
+                      controller: widget.perpRelationshipController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Perpetrator Relationship',
                           hintStyle:
                               TextStyle(fontSize: 18, color: Colors.black54)),
-                      onTap: () => _showSelectDialog(
+                      onTap: () => widget._showSelectDialog(
                           context,
                           true,
-                          relationshipList,
+                          widget.relationshipList,
                           [
-                            abuseForm.perpetrator.relationshipToVictim
+                            widget.abuseForm.perpetrator.relationshipToVictim
                                 .toRelationshipString()
                           ],
                           "Perpetrator Relationship", (relationship) {
-                        abuseForm.perpetrator.relationshipToVictim =
+                        widget.abuseForm.perpetrator.relationshipToVictim =
                             relationshipFromString(relationship);
-                        perpRelationshipController.text = relationship;
+                        widget.perpRelationshipController.text = relationship;
                       }),
                     ),
                     FlatButton(
                       onPressed: () {
-                        Provider.of<FormsOperation>(context, listen: false)
-                            .addNewForm(type, location);
+                        // Provider.of<FormsOperation>(context, listen: false)
+                        //     .addNewForm(type, location);
                       },
                       color: Color(0xFF568889),
                       child: Text('Submit Form',

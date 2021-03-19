@@ -213,8 +213,11 @@ class AbuseForm {
   String municipality;
   String community;
   List<SeekedAttentionEnum> seekedAttention = List<SeekedAttentionEnum>();
+  String seekedAttentionOther = "";
   List<OfferedAttentionEnum> offeredAttention = List<OfferedAttentionEnum>();
+  String offeredAttentionOther = "";
   List<ReferredAttentionEnum> referredAttention = List<ReferredAttentionEnum>();
+  String referredAttentionOther = "";
   List<PhysicalAbuseClassificationEnum> physicalAbuse =
       List<PhysicalAbuseClassificationEnum>();
   List<PsychologicalAbuseClassificationEnum> psychologicalAbuse =
@@ -223,6 +226,7 @@ class AbuseForm {
       List<SexualAbuseClassificationEnum>();
   bool forcedMarriage;
   List<RightsEnum> rightsDenied = List<RightsEnum>();
+  String rightsDeniedOther = "";
   Perpetrator perpetrator = Perpetrator();
 
   AbuseForm();
