@@ -31,7 +31,7 @@ dependencies:
   hive_flutter: ^0.3.0+1
   # in order to access a device's mac address
   get_mac: ^0.0.1
-  http: ^0.13.0
+  http: 0.12.2
 
 
 
