@@ -232,9 +232,9 @@ class Perpetrator {
   Perpetrator();
 
   Map toJson() => {
-        'gender': gender.toJSONString(),
+        'gender': gender?.toJSONString() ?? "",
         'isKnown': isKnown,
-        'relationship': relationshipToVictim.toJSONString()
+        'relationship': relationshipToVictim?.toJSONString() ?? ""
       };
 }
 
@@ -265,23 +265,23 @@ class AbuseForm {
   AbuseForm();
 
   Map toJson() => {
-        'incidentDate': incidentDate.toIso8601String(),
-        'attentionDate': attentionDate.toIso8601String(),
-        'gender': gender.toJSONString(),
-        'ageRange': ageRange.toNumberString(),
-        'municipality': municipality,
-        'community': community,
-        'seekedAttention': addOtherIfAvailable(seekedAttention.toJSONPairString(), seekedAttentionOther),
-        'offeredAttention': addOtherIfAvailable(offeredAttention.toJSONPairString(), offeredAttentionOther),
-        'referredAttention': addOtherIfAvailable(referredAttention.toJSONPairString(), referredAttentionOther),
+        'incidentDate': incidentDate?.toIso8601String() ?? "",
+        'attentionDate': attentionDate?.toIso8601String() ?? "",
+        'gender': gender?.toJSONString() ?? "",
+        'ageRange': ageRange?.toNumberString() ?? "",
+        'municipality': municipality ?? "",
+        'community': community ?? "",
+        'seekedAttention': addOtherIfAvailable(seekedAttention?.toJSONPairString(), seekedAttentionOther) ?? "",
+        'offeredAttention': addOtherIfAvailable(offeredAttention?.toJSONPairString(), offeredAttentionOther) ?? "",
+        'referredAttention': addOtherIfAvailable(referredAttention?.toJSONPairString(), referredAttentionOther) ?? "",
         'classification': {
-          'physical': physicalAbuse.toJSONPairString(),
-          'psychological': psychologicalAbuse.toJSONPairString(),
-          'sexual': sexualAbuse.toJSONPairString(),
-          'forcedMarriage': forcedMarriage
+          'physical': physicalAbuse?.toJSONPairString() ?? "",
+          'psychological': psychologicalAbuse?.toJSONPairString() ?? "",
+          'sexual': sexualAbuse?.toJSONPairString() ?? "",
+          'forcedMarriage': forcedMarriage ?? ""
         },
-        'rightDenied': addOtherIfAvailable(rightsDenied.toJSONPairString(), rightsDeniedOther),
-        'perpetrator': perpetrator.toJson()
+        'rightDenied': addOtherIfAvailable(rightsDenied?.toJSONPairString(), rightsDeniedOther) ?? "",
+        'perpetrator': perpetrator?.toJson() ?? ""
       };
 }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_helper/models/AbuseForm.dart';
-// import 'package:hidden_helper/models/FormsOperation.dart';
-// import 'package:provider/provider.dart';
+import 'package:hidden_helper/models/FormsOperation.dart';
+import 'package:provider/provider.dart';
 
 class FormScreen extends StatefulWidget {
   final incidentDateController = TextEditingController();
@@ -93,6 +93,7 @@ class FormScreen extends StatefulWidget {
   }
 }
 
+//TODO should probably convert this to a generated list
 class FormContentState extends State<FormScreen> {
   @override
   Widget build(BuildContext context) {
@@ -316,7 +317,6 @@ class FormContentState extends State<FormScreen> {
                       ),
                     ),
                     TextField(
-                      //TODO add 'other' type bar
                       readOnly: true,
                       controller: widget.referredAttentionController,
                       decoration: InputDecoration(
@@ -383,7 +383,6 @@ class FormContentState extends State<FormScreen> {
                       }),
                     ),
                     TextField(
-                      //TODO add 'other' type bar
                       readOnly: true,
                       controller: widget.psychologicalAbuseController,
                       decoration: InputDecoration(
@@ -452,7 +451,6 @@ class FormContentState extends State<FormScreen> {
                       }),
                     ),
                     TextField(
-                      //TODO add 'other' type bar
                       readOnly: true,
                       controller: widget.rightsDeniedController,
                       decoration: InputDecoration(
@@ -556,7 +554,8 @@ class FormContentState extends State<FormScreen> {
                     FlatButton(
                       onPressed: () {
                         // Provider.of<FormsOperation>(context, listen: false)
-                        //     .addNewForm(type, location);
+                        //     .addNewForm(widget.abuseForm);
+                        FormHttpOperations.sendToBackend(widget.abuseForm);
                       },
                       color: Color(0xFF568889),
                       child: Text('Submit Form',
