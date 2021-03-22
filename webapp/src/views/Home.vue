@@ -1,6 +1,8 @@
 <template>
   <div class="home">
-    HOME
+    <br>
+    <h2>Home Page</h2>
+    <br>
     <FormTable></FormTable>
   </div>
 
@@ -17,3 +19,8 @@ export default {
 
 }
 </script>
+<style>
+.home{
+  padding: 15px;
+}
+</style>
