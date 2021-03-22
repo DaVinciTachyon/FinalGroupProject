@@ -1,147 +1,164 @@
 <template>
-
-  <v-data-table
-    :headers="headers"
-    :items="victims"
-    :items-per-page="5"
+  <v-card class="card">
+    <v-card-title>
+      Form Table
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table 
+    :items="forms.forms" 
+    :headers="headers" 
     class="elevation-1"
-    :search="search"
-  ></v-data-table>
-   
+    :search="search">
+      <template v-slot:item.incidentDate="{ item }">
+        {{ timeConverter(item.incidentDate) }}
+      </template>
+      <template v-slot:item.classification="{ item }">
+        <FormClassification v-bind:currentForm="item"></FormClassification>
+      </template>
+      <template v-slot:item.viewMore="{ item }">
+        <ViewMoreBtn v-bind:currentForm="item"></ViewMoreBtn>
+      </template>
+    </v-data-table>
+  </v-card>
+
+  <!--
+  <div>
+    <v-simple-table>
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left">
+              Incident Date
+            </th>
+            <th class="text-left">
+              Gender
+            </th>
+            <th class="text-left">
+              Age Range
+            </th>
+            <th class="text-left">
+              Community
+            </th>
+            <th class="text-left">
+              Classification
+            </th>
+            <th class="text-left"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="form in forms.forms" :key="form._id">
+            <td>{{ timeConverter(form.incidentDate) }}</td>
+            <td>{{ form.gender }}</td>
+            <td>{{ form.ageRange }}</td>
+            <td>{{ form.community }}</td>
+            <td>
+              <FormClassification
+                v-bind:currentForm="form"
+              ></FormClassification>
+            </td>
+            <td><ViewMoreBtn v-bind:currentForm="form"></ViewMoreBtn></td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
+    {{ forms.forms }}
+  </div>
+  -->
 </template>
 
 <script>
+import axios from "axios";
+import ViewMoreBtn from "./ViewMoreBtn";
+import FormClassification from "./FormClassification";
+
 export default {
-  data () {
+  components: {
+    ViewMoreBtn,
+    FormClassification,
+  },
+  data() {
     return {
+      forms: {},
+      errors: [],
+      hello: "hello",
+      search: '',
       headers: [
         {
-          text: 'Date of Incident',
-          align: 'start',
+          text: "Incident Date",
+          align: "start",
           sortable: false,
-          value: 'date',
-        },
-        { text: 'Gender', value: 'gender' },
-        { text: 'Age Range', value: 'ageRange' },
-        { text: 'Community', value: 'community' },
-        { text: 'Classification', value: 'classification' },
-        { text: '', value: 'viewMore' },
-      ],
-
-      victims: [
-        {
-            date: '18/02/2021',
-            gender: 'Male',
-            ageRange: '18-24',
-            community: 'Dublin',
-            classification: ['Physical', 'Emotional', 'Sexual', 'Forced Marriage']
+          value: "incidentDate",
         },
         {
-            date: '18/02/2021',
-            gender: 'Male',
-            ageRange: '18-24',
-            community: 'Dublin',
-            classification: ['Physical', 'Emotional', 'Sexual', 'Forced Marriage']
+          text: "Gender",
+          value: "gender",
         },
         {
-            date: '18/02/2021',
-            gender: 'Male',
-            ageRange: '18-24',
-            community: 'Dublin',
-            classification: ['Physical', 'Emotional', 'Sexual', 'Forced Marriage']
+          text: "Age Range",
+          value: "ageRange",
         },
         {
-            date: '18/02/2021',
-            gender: 'Male',
-            ageRange: '18-24',
-            community: 'Dublin',
-            classification: ['Physical', 'Emotional', 'Sexual', 'Forced Marriage']
-        }
-      ],
-
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: '1%',
+          text: "Community",
+          value: "community",
         },
         {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: '1%',
+          text: "Classification",
+          value: "classification",
         },
         {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: '7%',
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: '8%',
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: '16%',
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: '0%',
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: '2%',
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: '45%',
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: '22%',
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: '6%',
+          text: "",
+          value: "viewMore",
         },
       ],
-    }
+    };
   },
-}
+
+  methods: {
+    timeConverter: function(UNIX_timestamp) {
+      var a = new Date(UNIX_timestamp);
+      var months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      var year = a.getFullYear();
+      var month = months[a.getMonth()];
+      var date = a.getDate();
+      var time = date + " " + month + " " + year + " ";
+      return time;
+    },
+  },
+
+  created() {
+    axios
+      .get("http://localhost:8080/api/forms/")
+      .then((response) => {
+        this.forms = response.data;
+      })
+      .catch((e) => {
+        this.errors.push(e);
+      });
+  },
+};
 </script>
+<style>
+  .card{
+    padding:5px;
+  }
+</style>

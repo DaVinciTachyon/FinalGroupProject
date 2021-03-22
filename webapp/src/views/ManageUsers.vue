@@ -17,3 +17,8 @@ export default {
   }
 }
 </script>
+<style>
+  .home{
+    padding: 15px;
+  }
+</style>
