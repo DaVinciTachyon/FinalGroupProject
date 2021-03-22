@@ -10,7 +10,7 @@ PORT=8080
 ADMIN_TOKEN_SECRET=<Random String>
 MONITOR_TOKEN_SECRET=<Random String>
 ```
-3. Run the command `docker-compose up --build` (if this fails run `docker-compose up --build`).
+3. Run the command `docker-compose up --build` (if this fails run `sudo docker-compose up --build`).
     The server will be running on `localhost:8080/`.
 4. To stop the server, press `ctrl + C`.
 
