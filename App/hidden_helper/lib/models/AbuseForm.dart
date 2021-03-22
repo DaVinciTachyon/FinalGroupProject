@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 //This should probably be 'sex'
@@ -6,6 +8,10 @@ enum GenderEnum { male, female }
 extension GenderOps on GenderEnum {
   String toGenderString() {
     return toSimpleCapitalEnum(this);
+  }
+
+  String toJSONString() {
+    return describeEnum(this);
   }
 }
 
@@ -195,6 +201,27 @@ extension ParseToRelationshipString on RelationshipEnum {
   String toRelationshipString() {
     return toSimpleCapitalEnum(this);
   }
+
+  String toJSONString() {
+    switch (this) {
+      case RelationshipEnum.currentPartner:
+        return 'current partner';
+      case RelationshipEnum.formerPartner:
+        return 'former partner';
+      case RelationshipEnum.relative:
+        return 'relative';
+      case RelationshipEnum.neighbour:
+        return 'neighbour';
+      case RelationshipEnum.friend:
+        return 'friend';
+      case RelationshipEnum.association:
+        return 'association';
+      case RelationshipEnum.other:
+        return 'other';
+      default:
+        return 'Error converting relationship to json string';
+    }
+  }
 }
 
 class Perpetrator {
@@ -203,6 +230,12 @@ class Perpetrator {
   RelationshipEnum relationshipToVictim;
 
   Perpetrator();
+
+  Map toJson() => {
+        'gender': gender.toJSONString(),
+        'isKnown': isKnown,
+        'relationship': relationshipToVictim.toJSONString()
+      };
 }
 
 class AbuseForm {
@@ -230,6 +263,32 @@ class AbuseForm {
   Perpetrator perpetrator = Perpetrator();
 
   AbuseForm();
+
+  Map toJson() => {
+        'incidentDate': incidentDate.toIso8601String(),
+        'attentionDate': attentionDate.toIso8601String(),
+        'gender': gender.toJSONString(),
+        'ageRange': ageRange.toNumberString(),
+        'municipality': municipality,
+        'community': community,
+        'seekedAttention': addOtherIfAvailable(seekedAttention.toJSONPairString(), seekedAttentionOther),
+        'offeredAttention': addOtherIfAvailable(offeredAttention.toJSONPairString(), offeredAttentionOther),
+        'referredAttention': addOtherIfAvailable(referredAttention.toJSONPairString(), referredAttentionOther),
+        'classification': {
+          'physical': physicalAbuse.toJSONPairString(),
+          'psychological': psychologicalAbuse.toJSONPairString(),
+          'sexual': sexualAbuse.toJSONPairString(),
+          'forcedMarriage': forcedMarriage
+        },
+        'rightDenied': addOtherIfAvailable(rightsDenied.toJSONPairString(), rightsDeniedOther),
+        'perpetrator': perpetrator.toJson()
+      };
+}
+
+Map addOtherIfAvailable(Map theMap, String otherStr){
+  if(otherStr != "")
+    theMap['otherDetails'] = otherStr;
+  return theMap;
 }
 
 extension StringExtension on String {
@@ -241,6 +300,11 @@ extension StringExtension on String {
 extension ToggleExtension on List {
   void toggleElement(elem) {
     this.contains(elem) ? this.remove(elem) : this.add(elem);
+  }
+}
+extension JSONPairObjectString on List{
+  Map toJSONPairString() {
+    return { for (var v in this) v: true };
   }
 }
 
