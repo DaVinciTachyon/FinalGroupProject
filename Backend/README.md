@@ -10,7 +10,7 @@ PORT=8080
 ADMIN_TOKEN_SECRET=<Random String>
 MONITOR_TOKEN_SECRET=<Random String>
 ```
-3. Run the command `docker-compose up --build` (if this fails run `docker-compose up --build`).
+3. Run the command `docker-compose up --build` (if this fails run `sudo docker-compose up --build`).
     The server will be running on `localhost:8080/`.
 4. To stop the server, press `ctrl + C`.
 
@@ -47,7 +47,7 @@ Body: { forms: [] }
 Status 200
 Body: { monitors: [] }
 
-### POST /api/register/administrator/
+### POST /api/administrator/register/
 
 #### Request
 
@@ -60,7 +60,7 @@ Status 200
 Status 400
 Body: { error }
 
-### POST /api/login/administrator/
+### POST /api/administrator/login/
 
 #### Request
 
@@ -74,7 +74,53 @@ Body: { token }
 Status 400
 Body: { error }
 
-### POST /api/register/monitor/
+### POST /api/administrator/update/name/
+
+#### Request
+
+{
+    email,
+    name
+}
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/administrator/update/password/
+
+#### Request
+
+{
+    email,
+    password
+}
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+
+### POST /api/administrator/delete/
+
+#### Request
+
+{ email }
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/monitor/register/
 
 #### Request
 
@@ -87,7 +133,7 @@ Status 200
 Status 400
 Body: { error }
 
-### POST /api/login/monitor/
+### POST /api/monitor/login/
 
 #### Request
 
@@ -97,6 +143,67 @@ Body is defined in `./validation.js - monitor.login`
 
 Status 200
 Body: { token }
+
+Status 400
+Body: { error }
+
+### POST /api/monitor/update/name/
+
+#### Request
+
+{
+    email,
+    name
+}
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/monitor/update/password/
+
+#### Request
+
+{
+    email,
+    password
+}
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/monitor/update/macAddress/
+
+#### Request
+
+{
+    email,
+    macAddress
+}
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/monitor/delete/
+
+#### Request
+
+{ email }
+
+#### Response
+
+Status 200
 
 Status 400
 Body: { error }

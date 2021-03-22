@@ -28,5 +28,9 @@ module.exports = mongoose.model('Monitor', new mongoose.Schema({
     dateJoined: {
         type: Date,
         default: Date.now()
+    },
+    active: {
+        type: Boolean,
+        default: true
     }
 }));
