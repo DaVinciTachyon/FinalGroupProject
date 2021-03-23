@@ -23,7 +23,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Hive Tutorial',
+      title: 'Notes',
       home: FutureBuilder(
         future: Hive.openBox('NotesBox'),
         builder: (context, snapshot) {

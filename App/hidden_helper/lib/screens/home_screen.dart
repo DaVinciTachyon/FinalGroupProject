@@ -3,7 +3,7 @@ import 'package:hidden_helper/models/Note.dart';
 import 'package:hidden_helper/screens/add_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
-import 'package:hidden_helper/screens/add_screen.dart';
+import 'package:hidden_helper/screens/individualNote.dart';
 
 class HomeScreen extends StatelessWidget{
   const HomeScreen({
@@ -50,8 +50,19 @@ class HomeScreen extends StatelessWidget{
         itemBuilder: (context, index){
           final note = notesBox.getAt(index) as Note;
           return ListTile(
-            title: Text(note.title),
-            subtitle: Text(note.description),
+            title: Text(note.title,  overflow: TextOverflow.ellipsis),
+            subtitle: Text(note.description, overflow: TextOverflow.ellipsis),
+            onTap: () {
+              print(index);
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (BuildContext context, _, __) => IndividualNote(
+                    noteInfo: note,
+                  ),
+                ),
+              );
+              },
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
