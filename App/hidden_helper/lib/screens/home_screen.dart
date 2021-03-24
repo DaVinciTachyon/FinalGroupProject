@@ -50,8 +50,28 @@ class HomeScreen extends StatelessWidget{
         itemBuilder: (context, index){
           final note = notesBox.getAt(index) as Note;
           return Dismissible(
-
             key: Key(index.toString()),
+              confirmDismiss: (DismissDirection direction) async {
+                return await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("Delete Confirmation"),
+                      content: const Text('Are you sure you want to delete this note ?' ),
+                      actions: <Widget>[
+                        FlatButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: const Text("Delete")
+                        ),
+                        FlatButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: const Text("Cancel"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             onDismissed: (direction){
               notesBox.deleteAt(index);
               // Then show a snackbar.
