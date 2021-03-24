@@ -49,7 +49,29 @@ class HomeScreen extends StatelessWidget{
         itemCount: notesBox.length,
         itemBuilder: (context, index){
           final note = notesBox.getAt(index) as Note;
-          return ListTile(
+          return Dismissible(
+
+            key: Key(index.toString()),
+            onDismissed: (direction){
+              notesBox.deleteAt(index);
+              // Then show a snackbar.
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text("Note Deleted")));
+            },
+            background: Container(
+                color: Colors.red,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete, color: Colors.white),
+                      Text('Delete Note', style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
+                ),
+            ),
+
+            child: ListTile(
             title: Text(note.title,  overflow: TextOverflow.ellipsis),
             subtitle: Text(note.description, overflow: TextOverflow.ellipsis),
             onTap: () {
@@ -63,16 +85,7 @@ class HomeScreen extends StatelessWidget{
                 ),
               );
               },
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      notesBox.deleteAt(index);
-                    }
-                )],
-            ),
+            )
           );
         },
       );

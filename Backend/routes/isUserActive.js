@@ -1,7 +1,7 @@
 const Administrator = require("../models/Administrator");
 const Monitor = require('../models/Monitor');
 
-module.exports.monitor = (req, res, next) => {
+module.exports.monitor = async (req, res, next) => {
 	const user = await Monitor.findOne({ email: req.body.email });
 	if(!user)
         return res.status(400).send({ error: 'Email does not exist' });
@@ -12,7 +12,7 @@ module.exports.monitor = (req, res, next) => {
     next();
 };
 
-module.exports.administrator = (req, res, next) => {
+module.exports.administrator = async (req, res, next) => {
 	const user = await Administrator.findOne({ email: req.body.email });
 	if(!user)
         return res.status(400).send({ error: 'Email does not exist' });

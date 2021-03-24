@@ -21,8 +21,11 @@
   <component name="ChangeListManager">
     <list default="true" id="95edbbcf-1aec-4dcc-9629-eb576fe259b4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hidden_helper/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/hidden_helper/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hidden_helper/lib/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/hidden_helper/lib/screens/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/routes/isUserActive.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/routes/isUserActive.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
