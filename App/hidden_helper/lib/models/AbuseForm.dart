@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 
 //This should probably be 'sex'
@@ -245,20 +243,17 @@ class AbuseForm {
   AgeRangeEnum ageRange;
   String municipality;
   String community;
-  List<SeekedAttentionEnum> seekedAttention = List<SeekedAttentionEnum>();
+  List<SeekedAttentionEnum> seekedAttention = [];
   String seekedAttentionOther = "";
-  List<OfferedAttentionEnum> offeredAttention = List<OfferedAttentionEnum>();
+  List<OfferedAttentionEnum> offeredAttention = [];
   String offeredAttentionOther = "";
-  List<ReferredAttentionEnum> referredAttention = List<ReferredAttentionEnum>();
+  List<ReferredAttentionEnum> referredAttention = [];
   String referredAttentionOther = "";
-  List<PhysicalAbuseClassificationEnum> physicalAbuse =
-      List<PhysicalAbuseClassificationEnum>();
-  List<PsychologicalAbuseClassificationEnum> psychologicalAbuse =
-      List<PsychologicalAbuseClassificationEnum>();
-  List<SexualAbuseClassificationEnum> sexualAbuse =
-      List<SexualAbuseClassificationEnum>();
+  List<PhysicalAbuseClassificationEnum> physicalAbuse = [];
+  List<PsychologicalAbuseClassificationEnum> psychologicalAbuse = [];
+  List<SexualAbuseClassificationEnum> sexualAbuse = [];
   bool forcedMarriage;
-  List<RightsEnum> rightsDenied = List<RightsEnum>();
+  List<RightsEnum> rightsDenied = [];
   String rightsDeniedOther = "";
   Perpetrator perpetrator = Perpetrator();
 
@@ -271,23 +266,31 @@ class AbuseForm {
         'ageRange': ageRange?.toNumberString() ?? "",
         'municipality': municipality ?? "",
         'community': community ?? "",
-        'seekedAttention': addOtherIfAvailable(seekedAttention?.toJSONPairString(), seekedAttentionOther) ?? "",
-        'offeredAttention': addOtherIfAvailable(offeredAttention?.toJSONPairString(), offeredAttentionOther) ?? "",
-        'referredAttention': addOtherIfAvailable(referredAttention?.toJSONPairString(), referredAttentionOther) ?? "",
+        'seekedAttention': addOtherIfAvailable(
+                seekedAttention?.toJSONPairString(), seekedAttentionOther) ??
+            "",
+        'offeredAttention': addOtherIfAvailable(
+                offeredAttention?.toJSONPairString(), offeredAttentionOther) ??
+            "",
+        'referredAttention': addOtherIfAvailable(
+                referredAttention?.toJSONPairString(),
+                referredAttentionOther) ??
+            "",
         'classification': {
           'physical': physicalAbuse?.toJSONPairString() ?? "",
           'psychological': psychologicalAbuse?.toJSONPairString() ?? "",
           'sexual': sexualAbuse?.toJSONPairString() ?? "",
           'forcedMarriage': forcedMarriage ?? ""
         },
-        'rightDenied': addOtherIfAvailable(rightsDenied?.toJSONPairString(), rightsDeniedOther) ?? "",
+        'rightDenied': addOtherIfAvailable(
+                rightsDenied?.toJSONPairString(), rightsDeniedOther) ??
+            "",
         'perpetrator': perpetrator?.toJson() ?? ""
       };
 }
 
-Map addOtherIfAvailable(Map theMap, String otherStr){
-  if(otherStr != "")
-    theMap['otherDetails'] = otherStr;
+Map addOtherIfAvailable(Map theMap, String otherStr) {
+  if (otherStr != "") theMap['otherDetails'] = otherStr;
   return theMap;
 }
 
@@ -302,9 +305,10 @@ extension ToggleExtension on List {
     this.contains(elem) ? this.remove(elem) : this.add(elem);
   }
 }
-extension JSONPairObjectString on List{
+
+extension JSONPairObjectString on List {
   Map toJSONPairString() {
-    return { for (var v in this) v: true };
+    return {for (var v in this) v: true};
   }
 }
 

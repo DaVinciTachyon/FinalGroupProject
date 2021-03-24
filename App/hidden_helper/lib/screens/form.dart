@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_helper/models/AbuseForm.dart';
 import 'package:hidden_helper/models/FormsOperation.dart';
-import 'package:provider/provider.dart';
 
 class FormScreen extends StatefulWidget {
   final incidentDateController = TextEditingController();
@@ -64,7 +63,8 @@ class FormScreen extends StatefulWidget {
     return right.toRightsString();
   }).toList();
 
-  final List<String> relationshipList = RelationshipEnum.values.map((relationship) {
+  final List<String> relationshipList =
+      RelationshipEnum.values.map((relationship) {
     return relationship.toRelationshipString();
   }).toList();
 
@@ -83,7 +83,7 @@ class FormScreen extends StatefulWidget {
             content:
                 MultiSelect(theList, isRadio, selectedList, onSelectionChange),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text("Okay"),
                 onPressed: () => Navigator.of(context).pop(),
               )
@@ -154,8 +154,10 @@ class FormContentState extends State<FormScreen> {
                                 : widget.abuseForm.incidentDate,
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100));
-                        widget.incidentDateController.text =
-                            widget.abuseForm.incidentDate.toString().split(" ")[0];
+                        widget.incidentDateController.text = widget
+                            .abuseForm.incidentDate
+                            .toString()
+                            .split(" ")[0];
                       },
                     ),
                     TextField(
@@ -174,8 +176,10 @@ class FormContentState extends State<FormScreen> {
                                 : widget.abuseForm.attentionDate,
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100));
-                        widget.attentionDateController.text =
-                            widget.abuseForm.attentionDate.toString().split(" ")[0];
+                        widget.attentionDateController.text = widget
+                            .abuseForm.attentionDate
+                            .toString()
+                            .split(" ")[0];
                       },
                     ),
                     TextField(
@@ -190,7 +194,8 @@ class FormContentState extends State<FormScreen> {
                           context,
                           true,
                           widget.genderList,
-                          nonNullList([widget.abuseForm.gender.toGenderString()]),
+                          nonNullList(
+                              [widget.abuseForm.gender.toGenderString()]),
                           "Victim Gender", (gender) {
                         widget.abuseForm.gender = genderFromString(gender);
                         widget.victimGenderTextController.text = gender;
@@ -208,10 +213,12 @@ class FormContentState extends State<FormScreen> {
                                 context,
                                 true,
                                 widget.ageRangeList,
-                                nonNullList(
-                                    [widget.abuseForm.ageRange.toNumberString()]),
+                                nonNullList([
+                                  widget.abuseForm.ageRange.toNumberString()
+                                ]),
                                 "Victim Age Range", (age) {
-                              widget.abuseForm.ageRange = parseAgeFromString(age);
+                              widget.abuseForm.ageRange =
+                                  parseAgeFromString(age);
                               widget.victimAgeTextController.text = age;
                             })),
                     TextField(
@@ -338,7 +345,7 @@ class FormContentState extends State<FormScreen> {
                             widget.abuseForm.referredAttention.map((attention) {
                           return attention.toReferredAttentionString();
                         }).toString();
-                          setState(() {});
+                        setState(() {});
                       }),
                     ),
                     Visibility(
@@ -401,8 +408,9 @@ class FormContentState extends State<FormScreen> {
                           "Psychological Abuse", (abuse) {
                         widget.abuseForm.psychologicalAbuse
                             .toggleElement(psychologicalAbuseFromString(abuse));
-                        widget.psychologicalAbuseController.text =
-                            widget.abuseForm.psychologicalAbuse.map((attention) {
+                        widget.psychologicalAbuseController.text = widget
+                            .abuseForm.psychologicalAbuse
+                            .map((attention) {
                           return attention
                               .toPsychologicalAbuseClassificationString();
                         }).toString();
@@ -444,9 +452,12 @@ class FormContentState extends State<FormScreen> {
                           context,
                           true,
                           widget.booleanYesNo,
-                          [parseBooleanToYesNo(widget.abuseForm.forcedMarriage)],
+                          [
+                            parseBooleanToYesNo(widget.abuseForm.forcedMarriage)
+                          ],
                           "Forced Marriage", (yesNo) {
-                        widget.abuseForm.forcedMarriage = parseYesNoToBoolean(yesNo);
+                        widget.abuseForm.forcedMarriage =
+                            parseYesNoToBoolean(yesNo);
                         widget.forcedMarriageController.text = yesNo;
                       }),
                     ),
@@ -501,10 +512,12 @@ class FormContentState extends State<FormScreen> {
                           context,
                           true,
                           widget.genderList,
-                          nonNullList(
-                              [widget.abuseForm.perpetrator.gender.toGenderString()]),
+                          nonNullList([
+                            widget.abuseForm.perpetrator.gender.toGenderString()
+                          ]),
                           "Perpetrator Gender", (gender) {
-                        widget.abuseForm.perpetrator.gender = genderFromString(gender);
+                        widget.abuseForm.perpetrator.gender =
+                            genderFromString(gender);
                         widget.perpGenderController.text = gender;
                       }),
                     ),
@@ -521,7 +534,8 @@ class FormContentState extends State<FormScreen> {
                           true,
                           widget.booleanYesNo,
                           nonNullList([
-                            parseBooleanToYesNo(widget.abuseForm.perpetrator.isKnown)
+                            parseBooleanToYesNo(
+                                widget.abuseForm.perpetrator.isKnown)
                           ]),
                           "Perpetrator is known", (yesNo) {
                         widget.abuseForm.perpetrator.isKnown =
@@ -551,19 +565,28 @@ class FormContentState extends State<FormScreen> {
                         widget.perpRelationshipController.text = relationship;
                       }),
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         // Provider.of<FormsOperation>(context, listen: false)
                         //     .addNewForm(widget.abuseForm);
                         FormHttpOperations.sendToBackend(widget.abuseForm);
                       },
-                      color: Color(0xFF568889),
                       child: Text('Submit Form',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           )),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.pressed))
+                              return Color(0xFF568889).withOpacity(0.5);
+                            return Color(0xFF568889);
+                          },
+                        ),
+                      ),
                     )
                   ],
                 ),
@@ -603,8 +626,8 @@ class PastSubmissions extends StatelessWidget {
 }
 
 class MultiSelect extends StatefulWidget {
-  List<String> selectList = List();
-  List<String> selectedChoices = List();
+  List<String> selectList = [];
+  List<String> selectedChoices = [];
   final Function(String) onSelectionChanged;
   final bool isRadio;
 
@@ -620,7 +643,7 @@ class MultiSelect extends StatefulWidget {
 
 class _MultiSelectState extends State<MultiSelect> {
   _buildChoiceList() {
-    List<Widget> choices = List();
+    List<Widget> choices = [];
     widget.selectList.forEach((item) {
       choices.add(Container(
         padding: const EdgeInsets.all(2.0),
