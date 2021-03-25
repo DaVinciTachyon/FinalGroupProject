@@ -5,9 +5,9 @@ monitor = {}
 administrator = {}
 
 monitor.isActive = async (req, res, next) => {
-	const user = await Monitor.findOne({ email: req.body.email });
+	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
 	if(!user)
-        return res.status(400).send({ error: 'Email does not exist' });
+        return res.status(400).send({ error: 'macAddress does not exist' });
 
 	if(!user.active)
 		return res.status(400).send({ error: 'User inactive' });
@@ -16,9 +16,9 @@ monitor.isActive = async (req, res, next) => {
 };
 
 monitor.isInactive = async (req, res, next) => {
-	const user = await Monitor.findOne({ email: req.body.email });
+	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
 	if(!user)
-        return res.status(400).send({ error: 'Email does not exist' });
+        return res.status(400).send({ error: 'macAddress does not exist' });
 
 	if(user.active)
 		return res.status(400).send({ error: 'User active' });

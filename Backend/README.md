@@ -165,8 +165,8 @@ Body: { error }
 #### Request
 
 {
-    email,
-    name
+    name,
+    macAddress
 }
 
 #### Response
@@ -181,8 +181,8 @@ Body: { error }
 #### Request
 
 {
-    email,
-    password
+    password,
+    macAddress
 }
 
 #### Response
@@ -197,8 +197,8 @@ Body: { error }
 #### Request
 
 {
-    email,
-    macAddress
+    macAddress,
+    newMacAddress
 }
 
 #### Response
@@ -212,7 +212,7 @@ Body: { error }
 
 #### Request
 
-{ email }
+{ macAddress }
 
 #### Response
 
@@ -221,11 +221,11 @@ Status 200
 Status 400
 Body: { error }
 
-### POST /api/monitor/deactivate/
+### POST /api/monitor/activate/
 
 #### Request
 
-{ email }
+{ macAddress }
 
 #### Response
 
