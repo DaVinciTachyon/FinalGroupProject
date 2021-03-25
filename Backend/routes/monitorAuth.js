@@ -37,10 +37,7 @@ router.post('/register', async (req, res) => {
 	}
 });
 
-router.post('/login', isActive.monitor.isActive, async (req, res) => {    
-    //Temporary only!
-	// res.header('auth-token', token).send({ "_id": "insert_uid_here" });
-
+router.post('/login', isActive.monitor.isActive, async (req, res) => {
 	const { error } = validate.monitor.login(req.body);
 	if (error) return res.status(400).send({ error: error.details[0].message });
 
