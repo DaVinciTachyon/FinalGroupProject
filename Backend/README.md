@@ -107,7 +107,20 @@ Status 400
 Body: { error }
 
 
-### POST /api/administrator/delete/
+### POST /api/administrator/deactivate/
+
+#### Request
+
+{ email }
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/administrator/activate/
 
 #### Request
 
@@ -195,7 +208,20 @@ Status 200
 Status 400
 Body: { error }
 
-### POST /api/monitor/delete/
+### POST /api/monitor/deactivate/
+
+#### Request
+
+{ email }
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/monitor/deactivate/
 
 #### Request
 
