@@ -21,17 +21,12 @@ router.post('/register', async (req, res) => {
 	if(existingEmail)
         return res.status(400).send({ error: 'Email already exists' });
 
-    const existingMacAddress = await Monitor.findOne({ macAddress: req.body.macAddress });
-    if(existingMacAddress)
-        return res.status(400).send({ error: 'MAC Address already exists' });
-
 	let id = randomstring.generate(30);
 
 	const user = new Monitor({
 		id: id,
 		name: req.body.name,
         email: req.body.email,
-        macAddress: req.body.macAddress,
 		password: hashedPassword
 	});
     try {
@@ -42,22 +37,36 @@ router.post('/register', async (req, res) => {
 	}
 });
 
-router.post('/login', isActive.monitor.isActive, async (req, res) => {
-	//Temporary only!
-	res.header('auth-token', token).send({ "_id": "insert_uid_here" });
+router.post('/login', isActive.monitor.isActive, async (req, res) => {    
+    //Temporary only!
+	// res.header('auth-token', token).send({ "_id": "insert_uid_here" });
 
-	// const { error } = validate.monitor.login(req.body);
-	// if (error) return res.status(400).send({ error: error.details[0].message });
+	const { error } = validate.monitor.login(req.body);
+	if (error) return res.status(400).send({ error: error.details[0].message });
 
-	// const user = await Monitor.findOne({ macAddress: req.body.macAddress });
-	// if(!user)
-	// 	return res.status(400).send({ error: 'User does not exist' });
+	if(req.body.email) {
+		const user = await Monitor.findOne({ email: req.body.email });
+		if(user && user.firstLogin) {
+			user.firstLogin = false;
+			user.macAddress = req.body.macAddress;
 
-	// const validPass = await bcrypt.compare(req.body.password, user.password);
-	// if (!validPass) return res.status(400).send({ error: 'Invalid Password' });
+			try {
+				await user.save();
+				res.sendStatus(200);
+			} catch (err) {
+				res.status(400).send({ error: err });
+			}
+		}
+	}
+	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
+	if(!user)
+		return res.status(400).send({ error: 'User does not exist' });
 
-	// const token = jwt.sign({ _id: user.id }, process.env.MONITOR_TOKEN_SECRET);
-	// res.header('auth-token', token).send({ token });
+	const validPass = await bcrypt.compare(req.body.password, user.password);
+	if (!validPass) return res.status(400).send({ error: 'Invalid Password' });
+
+	const token = jwt.sign({ _id: user.id }, process.env.MONITOR_TOKEN_SECRET);
+	res.header('auth-token', token).send({ token });
 });
 
 router.post('/update/name', isActive.monitor.isActive, async (req, res) => {
