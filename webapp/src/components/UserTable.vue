@@ -11,16 +11,38 @@
         hide-details
       ></v-text-field>
     </v-card-title>
-    <v-data-table 
-    :items="users.monitors" 
-    :headers="headers" 
-    class="elevation-1"
-    :search="search">
+    <v-data-table
+      :items="users.monitors"
+      :headers="headers"
+      class="elevation-1"
+      :search="search"
+    >
       <template v-slot:item.dateJoined="{ item }">
         {{ timeConverter(item.dateJoined) }}
       </template>
-      <template v-slot:item.viewMore="{ item }">
-        <DeleteUserBtn v-bind:currentUser="item"></DeleteUserBtn>
+    
+      <template v-slot:item.action="{ item }">
+        <DeleteUserBtn v-bind:currentUser="item" v-if="item.active"></DeleteUserBtn>
+        <ActivateUserBtn v-bind:currentUser="item" v-else></ActivateUserBtn>
+      </template>
+    
+      <template v-slot:item.active="{ item }">
+        <v-chip
+          v-if="item.active == false"
+          color="grey"
+          small
+          text-color="white"
+        >
+          Inactive
+        </v-chip>
+        <v-chip
+          v-if="item.active == true"
+          color="green"
+          small
+          text-color="white"
+        >
+          Active
+        </v-chip>
       </template>
     </v-data-table>
   </v-card>
@@ -29,17 +51,18 @@
 <script>
 import axios from "axios";
 import DeleteUserBtn from "./DeleteUserBtn";
-
+import ActivateUserBtn from "./ActivateUserBtn"
 export default {
   components: {
     DeleteUserBtn,
+    ActivateUserBtn
   },
   data() {
     return {
       users: {},
       errors: [],
       hello: "hello",
-      search: '',
+      search: "",
       headers: [
         {
           text: "Name",
@@ -56,12 +79,20 @@ export default {
           value: "macAddress",
         },
         {
+          text: "ID",
+          value: "id",
+        },
+        {
           text: "Date Joined",
           value: "dateJoined",
         },
         {
+          text: "Status",
+          value: "active",
+        },
+        {
           text: "",
-          value: "viewMore",
+          value: "action",
         },
       ],
     };
@@ -105,7 +136,7 @@ export default {
 };
 </script>
 <style>
-  .card{
-    padding:5px;
-  }
+.card {
+  padding: 5px;
+}
 </style>

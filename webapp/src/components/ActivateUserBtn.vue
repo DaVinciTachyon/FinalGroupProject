@@ -2,13 +2,13 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="red" dark v-bind="attrs" v-on="on">
-          Delete
+        <v-btn color="primary" dark v-bind="attrs" v-on="on">
+          Activate
         </v-btn>
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">Delete {{currentUser.email}}?</span>
+          <span class="headline">Activate {{currentUser.email}}?</span>
         </v-card-title>
     
         <v-card-actions>
@@ -16,7 +16,7 @@
           <v-btn color="red" text @click="dialog = false">
             No
           </v-btn>
-          <v-btn color="green darken-1" text @click="dialog = false; deleteUser(currentUser.email);">
+          <v-btn color="green darken-1" text @click="dialog = false; activateUser(currentUser.email);">
             Yes
           </v-btn>
         </v-card-actions>
@@ -26,8 +26,7 @@
 </template>
 
 <script>
-//import ViewMorePage from './ViewMorePage'
-import axios from "axios";
+//import axios from "axios";
 export default {
   data() {
     return {
@@ -36,10 +35,10 @@ export default {
   },
   props: ["currentUser"],
   components: {
-    //ViewMorePage
   },
   methods: {
-    deleteUser: function(email) {
+    activateUser: function() {
+        /*
       axios
         .post("http://localhost:8080/api/monitor/delete/", {
           email: email
@@ -50,6 +49,7 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+        */
     },
   },
 };
