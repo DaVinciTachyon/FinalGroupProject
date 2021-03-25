@@ -42,7 +42,7 @@ router.post('/register', async (req, res) => {
 	}
 });
 
-router.post('/login', isActive.monitor, async (req, res) => {
+router.post('/login', isActive.monitor.isActive, async (req, res) => {
 	//Temporary only!
 	res.header('auth-token', token).send({ "_id": "insert_uid_here" });
 
@@ -60,10 +60,10 @@ router.post('/login', isActive.monitor, async (req, res) => {
 	// res.header('auth-token', token).send({ token });
 });
 
-router.post('/update/name', isActive.monitor, async (req, res) => {
-	const user = await Monitor.findOne({ email: req.body.email });
+router.post('/update/name', isActive.monitor.isActive, async (req, res) => {
+	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
 	if(!user)
-        return res.status(400).send({ error: 'Email does not exist' });
+        return res.status(400).send({ error: 'MAC Address does not exist' });
 
 	if(!req.body.name)
 		return res.status(400).send({ error: 'Name required' });
@@ -78,10 +78,10 @@ router.post('/update/name', isActive.monitor, async (req, res) => {
 	}
 });
 
-router.post('/update/password', isActive.monitor, async (req, res) => {
-	const user = await Monitor.findOne({ email: req.body.email });
+router.post('/update/password', isActive.monitor.isActive, async (req, res) => {
+	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
 	if(!user)
-        return res.status(400).send({ error: 'Email does not exist' });
+        return res.status(400).send({ error: 'MAC Address does not exist' });
 
 	if(!req.body.password)
 		return res.status(400).send({ error: 'Password required' });
@@ -99,19 +99,15 @@ router.post('/update/password', isActive.monitor, async (req, res) => {
 	}
 });
 
-router.post('/update/macAddress', isActive.monitor, async (req, res) => {
-	const user = await Monitor.findOne({ email: req.body.email });
+router.post('/update/macAddress', isActive.monitor.isActive, async (req, res) => {
+	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
 	if(!user)
-        return res.status(400).send({ error: 'Email does not exist' });
+        return res.status(400).send({ error: 'MAC Address does not exist' });
 
-	if(!req.body.macAddress)
-		return res.status(400).send({ error: 'MAC Address required' });
+	if(!req.body.newMacAddress)
+		return res.status(400).send({ error: 'New MAC Address required' });
 
-	const existingMacAddress = await Monitor.findOne({ macAddress: req.body.macAddress });
-	if(existingMacAddress)
-		return res.status(400).send({ error: 'MAC Address already exists' });
-
-	user.macAddress = req.body.macAddress;
+	user.macAddress = req.body.newMacAddress;
 	
     try {
         await user.save();
@@ -121,12 +117,27 @@ router.post('/update/macAddress', isActive.monitor, async (req, res) => {
 	}
 });
 
-router.post('/delete', isActive.monitor, async (req, res) => {
-	const user = await Monitor.findOne({ email: req.body.email });
+router.post('/deactivate', isActive.monitor.isActive, async (req, res) => {
+	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
 	if(!user)
-        return res.status(400).send({ error: 'Email does not exist' });
+        return res.status(400).send({ error: 'MAC Address does not exist' });
 
 	user.active = false;
+	
+    try {
+        await user.save();
+        res.sendStatus(200);
+    } catch (err) {
+        res.status(400).send({ error: err });
+	}
+});
+
+router.post('/activate', isActive.monitor.isInactive, async (req, res) => {
+	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
+	if(!user)
+        return res.status(400).send({ error: 'MAC Address does not exist' });
+
+	user.active = true;
 	
     try {
         await user.save();

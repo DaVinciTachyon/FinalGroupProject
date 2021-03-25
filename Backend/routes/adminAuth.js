@@ -37,7 +37,7 @@ router.post('/register', async (req, res) => {
 	}
 });
 
-router.post('/login', isActive.administrator, async (req, res) => {
+router.post('/login', isActive.administrator.isActive, async (req, res) => {
 	//Temporary only!
 	res.header('auth-token', token).send({ "_id": "insert_admin_uid_here" });
 
@@ -55,7 +55,7 @@ router.post('/login', isActive.administrator, async (req, res) => {
 	// res.header('auth-token', token).send({ token });
 });
 
-router.post('/update/name', isActive.administrator, async (req, res) => {
+router.post('/update/name', isActive.administrator.isActive, async (req, res) => {
 	const user = await Monitor.findOne({ email: req.body.email });
 	if(!user)
         return res.status(400).send({ error: 'Email does not exist' });
@@ -73,7 +73,7 @@ router.post('/update/name', isActive.administrator, async (req, res) => {
 	}
 });
 
-router.post('/update/password', isActive.administrator, async (req, res) => {
+router.post('/update/password', isActive.administrator.isActive, async (req, res) => {
 	const user = await Monitor.findOne({ email: req.body.email });
 	if(!user)
         return res.status(400).send({ error: 'Email does not exist' });
@@ -94,12 +94,27 @@ router.post('/update/password', isActive.administrator, async (req, res) => {
 	}
 });
 
-router.post('/delete', isActive.administrator, async (req, res) => {
+router.post('/deactivate', isActive.administrator.isActive, async (req, res) => {
 	const user = await Monitor.findOne({ email: req.body.email });
 	if(!user)
         return res.status(400).send({ error: 'Email does not exist' });
 
 	user.active = false;
+	
+    try {
+        await user.save();
+        res.sendStatus(200);
+    } catch (err) {
+        res.status(400).send({ error: err });
+	}
+});
+
+router.post('/activate', isActive.administrator.isInactive, async (req, res) => {
+	const user = await Monitor.findOne({ email: req.body.email });
+	if(!user)
+        return res.status(400).send({ error: 'Email does not exist' });
+
+	user.active = true;
 	
     try {
         await user.save();

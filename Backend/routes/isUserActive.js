@@ -1,10 +1,13 @@
 const Administrator = require("../models/Administrator");
 const Monitor = require('../models/Monitor');
 
-module.exports.monitor = async (req, res, next) => {
-	const user = await Monitor.findOne({ email: req.body.email });
+monitor = {}
+administrator = {}
+
+monitor.isActive = async (req, res, next) => {
+	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
 	if(!user)
-        return res.status(400).send({ error: 'Email does not exist' });
+        return res.status(400).send({ error: 'macAddress does not exist' });
 
 	if(!user.active)
 		return res.status(400).send({ error: 'User inactive' });
@@ -12,7 +15,18 @@ module.exports.monitor = async (req, res, next) => {
     next();
 };
 
-module.exports.administrator = async (req, res, next) => {
+monitor.isInactive = async (req, res, next) => {
+	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
+	if(!user)
+        return res.status(400).send({ error: 'macAddress does not exist' });
+
+	if(user.active)
+		return res.status(400).send({ error: 'User active' });
+    
+    next();
+};
+
+administrator.isActive = async (req, res, next) => {
 	const user = await Administrator.findOne({ email: req.body.email });
 	if(!user)
         return res.status(400).send({ error: 'Email does not exist' });
@@ -22,3 +36,19 @@ module.exports.administrator = async (req, res, next) => {
     
     next();
 };
+
+administrator.isInactive = async (req, res, next) => {
+	const user = await Administrator.findOne({ email: req.body.email });
+	if(!user)
+        return res.status(400).send({ error: 'Email does not exist' });
+
+	if(user.active)
+		return res.status(400).send({ error: 'User active' });
+    
+    next();
+};
+
+module.exports = {
+	monitor,
+	administrator
+}

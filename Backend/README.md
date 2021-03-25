@@ -107,7 +107,20 @@ Status 400
 Body: { error }
 
 
-### POST /api/administrator/delete/
+### POST /api/administrator/deactivate/
+
+#### Request
+
+{ email }
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/administrator/activate/
 
 #### Request
 
@@ -152,8 +165,8 @@ Body: { error }
 #### Request
 
 {
-    email,
-    name
+    name,
+    macAddress
 }
 
 #### Response
@@ -168,8 +181,8 @@ Body: { error }
 #### Request
 
 {
-    email,
-    password
+    password,
+    macAddress
 }
 
 #### Response
@@ -184,8 +197,8 @@ Body: { error }
 #### Request
 
 {
-    email,
-    macAddress
+    macAddress,
+    newMacAddress
 }
 
 #### Response
@@ -195,11 +208,24 @@ Status 200
 Status 400
 Body: { error }
 
-### POST /api/monitor/delete/
+### POST /api/monitor/deactivate/
 
 #### Request
 
-{ email }
+{ macAddress }
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/monitor/activate/
+
+#### Request
+
+{ macAddress }
 
 #### Response
 

@@ -18,7 +18,8 @@ module.exports = mongoose.model('Monitor', new mongoose.Schema({
     },
     macAddress: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
