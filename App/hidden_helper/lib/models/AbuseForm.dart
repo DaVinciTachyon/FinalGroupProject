@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 //This should probably be 'sex'
@@ -231,7 +233,7 @@ class Perpetrator {
 
   Map toJson() => {
         'gender': gender?.toJSONString() ?? "",
-        'isKnown': isKnown,
+        'isKnown': isKnown ?? "",
         'relationship': relationshipToVictim?.toJSONString() ?? ""
       };
 }
@@ -280,12 +282,13 @@ class AbuseForm {
           'physical': physicalAbuse?.toJSONPairString() ?? "",
           'psychological': psychologicalAbuse?.toJSONPairString() ?? "",
           'sexual': sexualAbuse?.toJSONPairString() ?? "",
-          'forcedMarriage': forcedMarriage ?? ""
+          if(forcedMarriage != null)
+            'forcedMarriage': forcedMarriage ?? ""
         },
         'rightDenied': addOtherIfAvailable(
                 rightsDenied?.toJSONPairString(), rightsDeniedOther) ??
             "",
-        'perpetrator': perpetrator?.toJson() ?? ""
+        'perpetrator': perpetrator.toJson()
       };
 }
 

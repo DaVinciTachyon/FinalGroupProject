@@ -19,9 +19,9 @@ class FormsOperation extends ChangeNotifier {
 
 class FormHttpOperations {
   static Future<void> sendToBackend(AbuseForm submittedForm) async {
-    var url = Uri.parse('http://localhost:8082/api/forms/');
-    var response = await http.post(url, body: jsonEncode(submittedForm));
-    print(jsonEncode(submittedForm));
-    print(response);
+    var url = Uri.parse('http://192.168.0.59:8082/api/forms/');
+    var response = await http.post(url, body: jsonEncode(submittedForm), headers: {'Content-Type': 'application/json'});
+    // print(jsonEncode(submittedForm));
+    // print(response);
   }
 }
