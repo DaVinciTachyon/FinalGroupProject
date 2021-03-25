@@ -1,0 +1,8 @@
+
+App/hidden_helper/ios/Podfile
+App/hidden_helper/ios/Flutter/Debug.xcconfig
+App/hidden_helper/ios/Flutter/Release.xcconfig
+App/hidden_helper/pubspec.lock
+App/hidden_helper/ios/Podfile.lock
+App/hidden_helper/ios/Runner.xcodeproj/project.pbxproj
+App/hidden_helper/ios/Runner.xcworkspace/contents.xcworkspacedata

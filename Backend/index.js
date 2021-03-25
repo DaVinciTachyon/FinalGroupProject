@@ -25,5 +25,5 @@ app.use(express.json());
 // app.use(express.static('public'));
 app.use('/api', apiRoute);
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3030;
 app.listen(port, () => console.log('Server up and running'));
