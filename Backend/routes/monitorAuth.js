@@ -147,4 +147,34 @@ router.post('/activate', isActive.monitor.isInactive, async (req, res) => {
 	}
 });
 
+router.post('/sos', isActive.monitor.isActive, async (req, res) => {
+	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
+	if(!user)
+        return res.status(400).send({ error: 'MAC Address does not exist' });
+
+	user.assistanceRequired = true;
+	
+    try {
+        await user.save();
+        res.sendStatus(200);
+    } catch (err) {
+        res.status(400).send({ error: err });
+	}
+});
+
+router.post('/sos/stop', isActive.monitor.isActive, async (req, res) => {
+	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
+	if(!user)
+        return res.status(400).send({ error: 'MAC Address does not exist' });
+
+	user.assistanceRequired = false;
+	
+    try {
+        await user.save();
+        res.sendStatus(200);
+    } catch (err) {
+        res.status(400).send({ error: err });
+	}
+});
+
 module.exports = router;

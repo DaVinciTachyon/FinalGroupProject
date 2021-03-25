@@ -21,6 +21,10 @@ module.exports = mongoose.model('Monitor', new mongoose.Schema({
         required: true,
         unique: true
     },
+    assistanceRequired: {
+        type: Boolean,
+        default: false
+    },
     password: {
         type: String,
         min: 6,
