@@ -135,508 +135,521 @@ class FormContentState extends State<FormScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.incidentDateController,
-                      decoration: InputDecoration(
-                          labelText: 'Incident Date',
-                          hintText: 'Incident Date',
-                          border: OutlineInputBorder()),
-                      onTap: () async {
-                        widget.abuseForm.incidentDate = await showDatePicker(
-                            context: context,
-                            initialDate: widget.abuseForm.incidentDate == null
-                                ? DateTime.now()
-                                : widget.abuseForm.incidentDate,
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime(2100));
-                        widget.incidentDateController.text = widget
-                            .abuseForm.incidentDate
-                            .toString()
-                            .split(" ")[0];
-                      },
-                    )),
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.incidentDateController,
+                          decoration: InputDecoration(
+                              labelText: 'Incident Date',
+                              hintText: 'Incident Date',
+                              border: OutlineInputBorder()),
+                          onTap: () async {
+                            widget.abuseForm.incidentDate =
+                                await showDatePicker(
+                                    context: context,
+                                    initialDate:
+                                        widget.abuseForm.incidentDate == null
+                                            ? DateTime.now()
+                                            : widget.abuseForm.incidentDate,
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime(2100));
+                            widget.incidentDateController.text = widget
+                                .abuseForm.incidentDate
+                                .toString()
+                                .split(" ")[0];
+                          },
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.attentionDateController,
-                      decoration: InputDecoration(
-                          labelText: 'Attention Date',
-                          hintText: 'Attention Date',
-                          border: OutlineInputBorder()),
-                      onTap: () async {
-                        widget.abuseForm.attentionDate = await showDatePicker(
-                            context: context,
-                            initialDate: widget.abuseForm.attentionDate == null
-                                ? DateTime.now()
-                                : widget.abuseForm.attentionDate,
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime(2100));
-                        widget.attentionDateController.text = widget
-                            .abuseForm.attentionDate
-                            .toString()
-                            .split(" ")[0];
-                      },
-                    )),
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.attentionDateController,
+                          decoration: InputDecoration(
+                              labelText: 'Attention Date',
+                              hintText: 'Attention Date',
+                              border: OutlineInputBorder()),
+                          onTap: () async {
+                            widget.abuseForm.attentionDate =
+                                await showDatePicker(
+                                    context: context,
+                                    initialDate:
+                                        widget.abuseForm.attentionDate == null
+                                            ? DateTime.now()
+                                            : widget.abuseForm.attentionDate,
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime(2100));
+                            widget.attentionDateController.text = widget
+                                .abuseForm.attentionDate
+                                .toString()
+                                .split(" ")[0];
+                          },
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.victimGenderTextController,
-                      decoration: InputDecoration(
-                          labelText: 'Victim Gender',
-                          hintText: 'Victim Gender',
-                          border: OutlineInputBorder()),
-                      onTap: () => widget._showSelectDialog(
-                          context,
-                          true,
-                          widget.genderList,
-                          nonNullList(
-                              [widget.abuseForm.gender.toGenderString()]),
-                          "Victim Gender", (gender) {
-                        widget.abuseForm.gender = genderFromString(gender);
-                        widget.victimGenderTextController.text = gender;
-                      }),
-                    )),
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.victimGenderTextController,
+                          decoration: InputDecoration(
+                              labelText: 'Victim Gender',
+                              hintText: 'Victim Gender',
+                              border: OutlineInputBorder()),
+                          onTap: () => widget._showSelectDialog(
+                              context,
+                              true,
+                              widget.genderList,
+                              nonNullList(
+                                  [widget.abuseForm.gender.toGenderString()]),
+                              "Victim Gender", (gender) {
+                            widget.abuseForm.gender = genderFromString(gender);
+                            widget.victimGenderTextController.text = gender;
+                          }),
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                        readOnly: true,
-                        controller: widget.victimAgeTextController,
-                        decoration: InputDecoration(
-                          labelText: 'Victim Age',
-                          hintText: 'Victim Age',
-                          border: OutlineInputBorder()),
-                        onTap: () => widget._showSelectDialog(
-                                context,
-                                true,
-                                widget.ageRangeList,
-                                nonNullList([
-                                  widget.abuseForm.ageRange.toNumberString()
-                                ]),
-                                "Victim Age Range", (age) {
-                              widget.abuseForm.ageRange =
-                                  parseAgeFromString(age);
-                              widget.victimAgeTextController.text = age;
-                      }))),
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                            readOnly: true,
+                            controller: widget.victimAgeTextController,
+                            decoration: InputDecoration(
+                                labelText: 'Victim Age',
+                                hintText: 'Victim Age',
+                                border: OutlineInputBorder()),
+                            onTap: () => widget._showSelectDialog(
+                                    context,
+                                    true,
+                                    widget.ageRangeList,
+                                    nonNullList([
+                                      widget.abuseForm.ageRange.toNumberString()
+                                    ]),
+                                    "Victim Age Range", (age) {
+                                  widget.abuseForm.ageRange =
+                                      parseAgeFromString(age);
+                                  widget.victimAgeTextController.text = age;
+                                }))),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      controller: widget.municipalityController,
-                      decoration: InputDecoration(
-                          labelText: 'Municipality',
-                          hintText: 'Municipality',
-                          border: OutlineInputBorder()),
-                      style: TextStyle(fontSize: 18, color: Colors.black87),
-                      onChanged: (value) {
-                        widget.abuseForm.municipality = value;
-                      },
-                    )),
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          controller: widget.municipalityController,
+                          decoration: InputDecoration(
+                              labelText: 'Municipality',
+                              hintText: 'Municipality',
+                              border: OutlineInputBorder()),
+                          style: TextStyle(fontSize: 18, color: Colors.black87),
+                          onChanged: (value) {
+                            widget.abuseForm.municipality = value;
+                          },
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      controller: widget.communityController,
-                      decoration: InputDecoration(
-                          labelText: 'Community',
-                          hintText: 'Community',
-                          border: OutlineInputBorder()),
-                      style: TextStyle(fontSize: 18, color: Colors.black87),
-                      onChanged: (value) {
-                        widget.abuseForm.community = value;
-                      },
-                    )),
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          controller: widget.communityController,
+                          decoration: InputDecoration(
+                              labelText: 'Community',
+                              hintText: 'Community',
+                              border: OutlineInputBorder()),
+                          style: TextStyle(fontSize: 18, color: Colors.black87),
+                          onChanged: (value) {
+                            widget.abuseForm.community = value;
+                          },
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.seekedAttentionController,
-                      decoration: InputDecoration(
-                          labelText: 'Seeked Attention',
-                          hintText: 'Seeked Attention',
-                          border: OutlineInputBorder()),
-                      onTap: () => widget._showSelectDialog(
-                          context,
-                          false,
-                          widget.seekedAttentionList,
-                          widget.abuseForm.seekedAttention
-                              .map((e) => e.toSeekedAttentionString())
-                              .toList(),
-                          "Seeked Attention", (attention) {
-                        widget.abuseForm.seekedAttention.toggleElement(
-                            seekedAttentionFromString(attention));
-                        widget.seekedAttentionController.text =
-                            widget.abuseForm.seekedAttention
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.seekedAttentionController,
+                          decoration: InputDecoration(
+                              labelText: 'Seeked Attention',
+                              hintText: 'Seeked Attention',
+                              border: OutlineInputBorder()),
+                          onTap: () => widget._showSelectDialog(
+                              context,
+                              false,
+                              widget.seekedAttentionList,
+                              widget.abuseForm.seekedAttention
+                                  .map((e) => e.toSeekedAttentionString())
+                                  .toList(),
+                              "Seeked Attention", (attention) {
+                            widget.abuseForm.seekedAttention.toggleElement(
+                                seekedAttentionFromString(attention));
+                            widget.seekedAttentionController.text = widget
+                                .abuseForm.seekedAttention
                                 .map((attention) {
                                   return attention.toSeekedAttentionString();
                                 })
                                 .toString()
                                 .replaceAll(new RegExp(r'[()]'), "");
-                        setState(() {});
-                      }),
-                    )),
+                            setState(() {});
+                          }),
+                        )),
                     Visibility(
-                      visible: widget.abuseForm.seekedAttention
-                      .contains(SeekedAttentionEnum.other),
-                      child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          labelText: 'Other Attention Seeked',
-                          hintText: 'Other Attention Seeked',
-                          border: OutlineInputBorder()),
-                        // style: TextStyle(fontSize: 18, color: Colors.black87),
-                        onChanged: (value) {
-                          widget.abuseForm.seekedAttentionOther = value;
-                        },
-                      ),
-                    )),
+                        visible: widget.abuseForm.seekedAttention
+                            .contains(SeekedAttentionEnum.other),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: TextField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 3,
+                            decoration: InputDecoration(
+                                labelText: 'Other Attention Seeked',
+                                hintText: 'Other Attention Seeked',
+                                border: OutlineInputBorder()),
+                            // style: TextStyle(fontSize: 18, color: Colors.black87),
+                            onChanged: (value) {
+                              widget.abuseForm.seekedAttentionOther = value;
+                            },
+                          ),
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.offeredAttentionController,
-                      decoration: InputDecoration(
-                          labelText: 'Offered Attention',
-                          hintText: 'Offered Attention',
-                          border: OutlineInputBorder()),
-                      onTap: () => widget._showSelectDialog(
-                          context,
-                          false,
-                          widget.offeredAttentionList,
-                          widget.abuseForm.offeredAttention
-                              .map((e) => e.toOfferedAttentionString())
-                              .toList(),
-                          "Offered Attention", (attention) {
-                        widget.abuseForm.offeredAttention.toggleElement(
-                            offeredAttentionFromString(attention));
-                        widget.offeredAttentionController.text =
-                            widget.abuseForm.offeredAttention
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.offeredAttentionController,
+                          decoration: InputDecoration(
+                              labelText: 'Offered Attention',
+                              hintText: 'Offered Attention',
+                              border: OutlineInputBorder()),
+                          onTap: () => widget._showSelectDialog(
+                              context,
+                              false,
+                              widget.offeredAttentionList,
+                              widget.abuseForm.offeredAttention
+                                  .map((e) => e.toOfferedAttentionString())
+                                  .toList(),
+                              "Offered Attention", (attention) {
+                            widget.abuseForm.offeredAttention.toggleElement(
+                                offeredAttentionFromString(attention));
+                            widget.offeredAttentionController.text = widget
+                                .abuseForm.offeredAttention
                                 .map((attention) {
                                   return attention.toOfferedAttentionString();
                                 })
                                 .toString()
                                 .replaceAll(new RegExp(r'[()]'), "");
-                        setState(() {});
-                      }),
-                    )),
+                            setState(() {});
+                          }),
+                        )),
                     Visibility(
-                      visible: widget.abuseForm.offeredAttention
-                         .contains(OfferedAttentionEnum.other),
-                      child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          labelText: 'Other Attention Offered',
-                          hintText: 'Other Attention Offered',
-                          border: OutlineInputBorder()),
-                        // style: TextStyle(fontSize: 18, color: Colors.black87),
-                        onChanged: (value) {
-                          widget.abuseForm.offeredAttentionOther = value;
-                        },
-                      ),
-                    )),
+                        visible: widget.abuseForm.offeredAttention
+                            .contains(OfferedAttentionEnum.other),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: TextField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 3,
+                            decoration: InputDecoration(
+                                labelText: 'Other Attention Offered',
+                                hintText: 'Other Attention Offered',
+                                border: OutlineInputBorder()),
+                            // style: TextStyle(fontSize: 18, color: Colors.black87),
+                            onChanged: (value) {
+                              widget.abuseForm.offeredAttentionOther = value;
+                            },
+                          ),
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.referredAttentionController,
-                      decoration: InputDecoration(
-                          labelText: 'Referred Attention',
-                          hintText: 'Referred Attention',
-                          border: OutlineInputBorder()),
-                      onTap: () => widget._showSelectDialog(
-                          context,
-                          false,
-                          widget.referredAttentionList,
-                          widget.abuseForm.referredAttention
-                              .map((e) => e.toReferredAttentionString())
-                              .toList(),
-                          "Referred Attention", (attention) {
-                        widget.abuseForm.referredAttention.toggleElement(
-                            referredAttentionFromString(attention));
-                        widget.referredAttentionController.text =
-                            widget.abuseForm.referredAttention
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.referredAttentionController,
+                          decoration: InputDecoration(
+                              labelText: 'Referred Attention',
+                              hintText: 'Referred Attention',
+                              border: OutlineInputBorder()),
+                          onTap: () => widget._showSelectDialog(
+                              context,
+                              false,
+                              widget.referredAttentionList,
+                              widget.abuseForm.referredAttention
+                                  .map((e) => e.toReferredAttentionString())
+                                  .toList(),
+                              "Referred Attention", (attention) {
+                            widget.abuseForm.referredAttention.toggleElement(
+                                referredAttentionFromString(attention));
+                            widget.referredAttentionController.text = widget
+                                .abuseForm.referredAttention
                                 .map((attention) {
                                   return attention.toReferredAttentionString();
                                 })
                                 .toString()
                                 .replaceAll(new RegExp(r'[()]'), "");
-                        setState(() {});
-                      }),
-                    )),
+                            setState(() {});
+                          }),
+                        )),
                     Visibility(
-                      visible: widget.abuseForm.referredAttention
-                         .contains(ReferredAttentionEnum.other),
-                      child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          labelText: 'Other Attention Referred',
-                          hintText: 'Other Attention Referred',
-                          border: OutlineInputBorder()),
-                        // style: TextStyle(fontSize: 18, color: Colors.black87),
-                        onChanged: (value) {
-                          widget.abuseForm.referredAttentionOther = value;
-                        },
-                      ),
-                    )),
+                        visible: widget.abuseForm.referredAttention
+                            .contains(ReferredAttentionEnum.other),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: TextField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 3,
+                            decoration: InputDecoration(
+                                labelText: 'Other Attention Referred',
+                                hintText: 'Other Attention Referred',
+                                border: OutlineInputBorder()),
+                            // style: TextStyle(fontSize: 18, color: Colors.black87),
+                            onChanged: (value) {
+                              widget.abuseForm.referredAttentionOther = value;
+                            },
+                          ),
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.physicalAbuseController,
-                      decoration: InputDecoration(
-                          labelText: 'Physical Abuse',
-                          hintText: 'Physical Abuse',
-                          border: OutlineInputBorder()),
-                      onTap: () => widget._showSelectDialog(
-                          context,
-                          false,
-                          widget.physicalAbuseList,
-                          widget.abuseForm.physicalAbuse
-                              .map((e) =>
-                                  e.toPhysicalAbuseClassificationString())
-                              .toList(),
-                          "Physical Abuse", (abuse) {
-                        widget.abuseForm.physicalAbuse
-                            .toggleElement(physicalAbuseFromString(abuse));
-                        widget.physicalAbuseController.text =
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.physicalAbuseController,
+                          decoration: InputDecoration(
+                              labelText: 'Physical Abuse',
+                              hintText: 'Physical Abuse',
+                              border: OutlineInputBorder()),
+                          onTap: () => widget._showSelectDialog(
+                              context,
+                              false,
+                              widget.physicalAbuseList,
+                              widget.abuseForm.physicalAbuse
+                                  .map((e) =>
+                                      e.toPhysicalAbuseClassificationString())
+                                  .toList(),
+                              "Physical Abuse", (abuse) {
                             widget.abuseForm.physicalAbuse
-                                .map((attention) {
-                                  return attention
-                                      .toPhysicalAbuseClassificationString();
-                                })
-                                .toString()
-                                .replaceAll(new RegExp(r'[()]'), "");
-                      }),
-                    )),
+                                .toggleElement(physicalAbuseFromString(abuse));
+                            widget.physicalAbuseController.text =
+                                widget.abuseForm.physicalAbuse
+                                    .map((attention) {
+                                      return attention
+                                          .toPhysicalAbuseClassificationString();
+                                    })
+                                    .toString()
+                                    .replaceAll(new RegExp(r'[()]'), "");
+                          }),
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.psychologicalAbuseController,
-                      decoration: InputDecoration(
-                          labelText: 'Psychological Abuse',
-                          hintText: 'Psychological Abuse',
-                          border: OutlineInputBorder()),
-                      onTap: () => widget._showSelectDialog(
-                          context,
-                          false,
-                          widget.psychologicalAbuseList,
-                          widget.abuseForm.psychologicalAbuse
-                              .map((e) =>
-                                  e.toPsychologicalAbuseClassificationString())
-                              .toList(),
-                          "Psychological Abuse", (abuse) {
-                        widget.abuseForm.psychologicalAbuse
-                            .toggleElement(psychologicalAbuseFromString(abuse));
-                        widget.psychologicalAbuseController.text =
-                            widget.abuseForm.psychologicalAbuse
-                                .map((attention) {
-                                  return attention
-                                      .toPsychologicalAbuseClassificationString();
-                                })
-                                .toString()
-                                .replaceAll(new RegExp(r'[()]'), "");
-                      }),
-                    )),
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.psychologicalAbuseController,
+                          decoration: InputDecoration(
+                              labelText: 'Psychological Abuse',
+                              hintText: 'Psychological Abuse',
+                              border: OutlineInputBorder()),
+                          onTap: () => widget._showSelectDialog(
+                              context,
+                              false,
+                              widget.psychologicalAbuseList,
+                              widget.abuseForm.psychologicalAbuse
+                                  .map((e) => e
+                                      .toPsychologicalAbuseClassificationString())
+                                  .toList(),
+                              "Psychological Abuse", (abuse) {
+                            widget.abuseForm.psychologicalAbuse.toggleElement(
+                                psychologicalAbuseFromString(abuse));
+                            widget.psychologicalAbuseController.text =
+                                widget.abuseForm.psychologicalAbuse
+                                    .map((attention) {
+                                      return attention
+                                          .toPsychologicalAbuseClassificationString();
+                                    })
+                                    .toString()
+                                    .replaceAll(new RegExp(r'[()]'), "");
+                          }),
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.sexualAbuseController,
-                      decoration: InputDecoration(
-                          labelText: 'Sexual Abuse',
-                          hintText: 'Sexual Abuse',
-                          border: OutlineInputBorder()),
-                      onTap: () => widget._showSelectDialog(
-                          context,
-                          false,
-                          widget.sexualAbuseList,
-                          widget.abuseForm.sexualAbuse
-                              .map((e) => e.toSexualAbuseClassificationString())
-                              .toList(),
-                          "Sexual Abuse", (abuse) {
-                        widget.abuseForm.sexualAbuse
-                            .toggleElement(sexualAbuseFromString(abuse));
-                        widget.sexualAbuseController.text =
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.sexualAbuseController,
+                          decoration: InputDecoration(
+                              labelText: 'Sexual Abuse',
+                              hintText: 'Sexual Abuse',
+                              border: OutlineInputBorder()),
+                          onTap: () => widget._showSelectDialog(
+                              context,
+                              false,
+                              widget.sexualAbuseList,
+                              widget.abuseForm.sexualAbuse
+                                  .map((e) =>
+                                      e.toSexualAbuseClassificationString())
+                                  .toList(),
+                              "Sexual Abuse", (abuse) {
                             widget.abuseForm.sexualAbuse
-                                .map((attention) {
-                                  return attention
-                                      .toSexualAbuseClassificationString();
-                                })
-                                .toString()
-                                .replaceAll(new RegExp(r'[()]'), "");
-                      }),
-                    )),
+                                .toggleElement(sexualAbuseFromString(abuse));
+                            widget.sexualAbuseController.text =
+                                widget.abuseForm.sexualAbuse
+                                    .map((attention) {
+                                      return attention
+                                          .toSexualAbuseClassificationString();
+                                    })
+                                    .toString()
+                                    .replaceAll(new RegExp(r'[()]'), "");
+                          }),
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.forcedMarriageController,
-                      decoration: InputDecoration(
-                          labelText: 'Forced Marriage',
-                          hintText: 'Forced Marriage',
-                          border: OutlineInputBorder()),
-                      onTap: () => widget._showSelectDialog(
-                          context,
-                          true,
-                          widget.booleanYesNo,
-                          [
-                            parseBooleanToYesNo(widget.abuseForm.forcedMarriage)
-                          ],
-                          "Forced Marriage", (yesNo) {
-                        widget.abuseForm.forcedMarriage =
-                            parseYesNoToBoolean(yesNo);
-                        widget.forcedMarriageController.text = yesNo;
-                      }),
-                    )),
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.forcedMarriageController,
+                          decoration: InputDecoration(
+                              labelText: 'Forced Marriage',
+                              hintText: 'Forced Marriage',
+                              border: OutlineInputBorder()),
+                          onTap: () => widget._showSelectDialog(
+                              context,
+                              true,
+                              widget.booleanYesNo,
+                              [
+                                parseBooleanToYesNo(
+                                    widget.abuseForm.forcedMarriage)
+                              ],
+                              "Forced Marriage", (yesNo) {
+                            widget.abuseForm.forcedMarriage =
+                                parseYesNoToBoolean(yesNo);
+                            widget.forcedMarriageController.text = yesNo;
+                          }),
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.rightsDeniedController,
-                      decoration: InputDecoration(
-                          labelText: 'Rights Denied',
-                          hintText: 'Rights Denied',
-                          border: OutlineInputBorder()),
-                      onTap: () => widget._showSelectDialog(
-                          context,
-                          false,
-                          widget.rightsDeniedList,
-                          widget.abuseForm.rightsDenied
-                              .map((e) => e.toRightsString())
-                              .toList(),
-                          "Rights Denied", (right) {
-                        widget.abuseForm.rightsDenied
-                            .toggleElement(rightsFromString(right));
-                        widget.rightsDeniedController.text =
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.rightsDeniedController,
+                          decoration: InputDecoration(
+                              labelText: 'Rights Denied',
+                              hintText: 'Rights Denied',
+                              border: OutlineInputBorder()),
+                          onTap: () => widget._showSelectDialog(
+                              context,
+                              false,
+                              widget.rightsDeniedList,
+                              widget.abuseForm.rightsDenied
+                                  .map((e) => e.toRightsString())
+                                  .toList(),
+                              "Rights Denied", (right) {
                             widget.abuseForm.rightsDenied
-                                .map((attention) {
-                                  return attention.toRightsString();
-                                })
-                                .toString()
-                                .replaceAll(new RegExp(r'[()]'), "");
-                      }),
-                    )),
+                                .toggleElement(rightsFromString(right));
+                            widget.rightsDeniedController.text =
+                                widget.abuseForm.rightsDenied
+                                    .map((attention) {
+                                      return attention.toRightsString();
+                                    })
+                                    .toString()
+                                    .replaceAll(new RegExp(r'[()]'), "");
+                          }),
+                        )),
                     Visibility(
-                      visible: widget.abuseForm.rightsDenied
-                          .contains(RightsEnum.other),
-                      child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          labelText: 'Other Rights Denied',
-                          hintText: 'Other Rights Denied',
-                          border: OutlineInputBorder()),
-                        // style: TextStyle(fontSize: 18, color: Colors.black87),
-                        onChanged: (value) {
-                          widget.abuseForm.rightsDeniedOther = value;
-                        },
-                      ),
-                    )),
+                        visible: widget.abuseForm.rightsDenied
+                            .contains(RightsEnum.other),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: TextField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 3,
+                            decoration: InputDecoration(
+                                labelText: 'Other Rights Denied',
+                                hintText: 'Other Rights Denied',
+                                border: OutlineInputBorder()),
+                            // style: TextStyle(fontSize: 18, color: Colors.black87),
+                            onChanged: (value) {
+                              widget.abuseForm.rightsDeniedOther = value;
+                            },
+                          ),
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.perpGenderController,
-                      decoration: InputDecoration(
-                          labelText: 'Perpetrator Gender',
-                          hintText: 'Perpetrator Gender',
-                          border: OutlineInputBorder()),
-                      onTap: () => widget._showSelectDialog(
-                          context,
-                          true,
-                          widget.genderList,
-                          nonNullList([
-                            widget.abuseForm.perpetrator.gender.toGenderString()
-                          ]),
-                          "Perpetrator Gender", (gender) {
-                        widget.abuseForm.perpetrator.gender =
-                            genderFromString(gender);
-                        widget.perpGenderController.text = gender;
-                      }),
-                    )),
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.perpGenderController,
+                          decoration: InputDecoration(
+                              labelText: 'Perpetrator Gender',
+                              hintText: 'Perpetrator Gender',
+                              border: OutlineInputBorder()),
+                          onTap: () => widget._showSelectDialog(
+                              context,
+                              true,
+                              widget.genderList,
+                              nonNullList([
+                                widget.abuseForm.perpetrator.gender
+                                    .toGenderString()
+                              ]),
+                              "Perpetrator Gender", (gender) {
+                            widget.abuseForm.perpetrator.gender =
+                                genderFromString(gender);
+                            widget.perpGenderController.text = gender;
+                          }),
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.perpKnownController,
-                      decoration: InputDecoration(
-                          labelText: 'Perpetrator is Known',
-                          hintText: 'Perpetrator is Known',
-                          border: OutlineInputBorder()),
-                      onTap: () => widget._showSelectDialog(
-                          context,
-                          true,
-                          widget.booleanYesNo,
-                          nonNullList([
-                            parseBooleanToYesNo(
-                                widget.abuseForm.perpetrator.isKnown)
-                          ]),
-                          "Perpetrator is known", (yesNo) {
-                        widget.abuseForm.perpetrator.isKnown =
-                            parseYesNoToBoolean(yesNo);
-                        widget.perpKnownController.text = yesNo;
-                      }),
-                    )),
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.perpKnownController,
+                          decoration: InputDecoration(
+                              labelText: 'Perpetrator is Known',
+                              hintText: 'Perpetrator is Known',
+                              border: OutlineInputBorder()),
+                          onTap: () => widget._showSelectDialog(
+                              context,
+                              true,
+                              widget.booleanYesNo,
+                              nonNullList([
+                                parseBooleanToYesNo(
+                                    widget.abuseForm.perpetrator.isKnown)
+                              ]),
+                              "Perpetrator is known", (yesNo) {
+                            widget.abuseForm.perpetrator.isKnown =
+                                parseYesNoToBoolean(yesNo);
+                            widget.perpKnownController.text = yesNo;
+                          }),
+                        )),
                     Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextField(
-                      readOnly: true,
-                      controller: widget.perpRelationshipController,
-                      decoration: InputDecoration(
-                          labelText: 'Perpetrator Relationship',
-                          hintText: 'Perpetrator Relationship',
-                          border: OutlineInputBorder()),
-                      onTap: () => widget._showSelectDialog(
-                          context,
-                          true,
-                          widget.relationshipList,
-                          [
-                            widget.abuseForm.perpetrator.relationshipToVictim
-                                .toRelationshipString()
-                          ],
-                          "Perpetrator Relationship", (relationship) {
-                        widget.abuseForm.perpetrator.relationshipToVictim =
-                            relationshipFromString(relationship);
-                        widget.perpRelationshipController.text = relationship;
-                      }),
-                    )),
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          readOnly: true,
+                          controller: widget.perpRelationshipController,
+                          decoration: InputDecoration(
+                              labelText: 'Perpetrator Relationship',
+                              hintText: 'Perpetrator Relationship',
+                              border: OutlineInputBorder()),
+                          onTap: () => widget._showSelectDialog(
+                              context,
+                              true,
+                              widget.relationshipList,
+                              [
+                                widget
+                                    .abuseForm.perpetrator.relationshipToVictim
+                                    .toRelationshipString()
+                              ],
+                              "Perpetrator Relationship", (relationship) {
+                            widget.abuseForm.perpetrator.relationshipToVictim =
+                                relationshipFromString(relationship);
+                            widget.perpRelationshipController.text =
+                                relationship;
+                          }),
+                        )),
                     TextButton(
                       onPressed: () {
                         // Provider.of<FormsOperation>(context, listen: false)
                         //     .addNewForm(widget.abuseForm);
-                        FormHttpOperations.sendToBackend(widget.abuseForm);
-                        widget.abuseForm = AbuseForm();
-                        widget.incidentDateController.text = "";
-                        widget.attentionDateController.text = "";
-                        widget.victimGenderTextController.text = "";
-                        widget.victimAgeTextController.text = "";
-                        widget.municipalityController.text = "";
-                        widget.communityController.text = "";
-                        widget.seekedAttentionController.text = "";
-                        widget.offeredAttentionController.text = "";
-                        widget.referredAttentionController.text = "";
-                        widget.physicalAbuseController.text = "";
-                        widget.psychologicalAbuseController.text = "";
-                        widget.sexualAbuseController.text = "";
-                        widget.forcedMarriageController.text = "";
-                        widget.rightsDeniedController.text = "";
-                        widget.perpGenderController.text = "";
-                        widget.perpKnownController.text = "";
-                        widget.perpRelationshipController.text = "";
-                        setState(() {});
+                        if (widget.abuseForm.isReadyToSend()) {
+                          FormHttpOperations.sendToBackend(widget.abuseForm);
+                          widget.abuseForm = AbuseForm();
+                          widget.incidentDateController.text = "";
+                          widget.attentionDateController.text = "";
+                          widget.victimGenderTextController.text = "";
+                          widget.victimAgeTextController.text = "";
+                          widget.municipalityController.text = "";
+                          widget.communityController.text = "";
+                          widget.seekedAttentionController.text = "";
+                          widget.offeredAttentionController.text = "";
+                          widget.referredAttentionController.text = "";
+                          widget.physicalAbuseController.text = "";
+                          widget.psychologicalAbuseController.text = "";
+                          widget.sexualAbuseController.text = "";
+                          widget.forcedMarriageController.text = "";
+                          widget.rightsDeniedController.text = "";
+                          widget.perpGenderController.text = "";
+                          widget.perpKnownController.text = "";
+                          widget.perpRelationshipController.text = "";
+                          setState(() {});
+                        } else {
+                          print("Form Incomplete!!");
+                        }
                       },
                       child: Text('Submit Form',
                           style: TextStyle(

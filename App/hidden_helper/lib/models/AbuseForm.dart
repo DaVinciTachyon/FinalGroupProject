@@ -265,9 +265,12 @@ const Map RelationshipStr = {
   RelationshipEnum.formerPartner: "Former Partner"
 };
 Map relationshipMp = {
-  RelationshipStr[RelationshipEnum.currentPartner]: RelationshipEnum.currentPartner,
-  RelationshipStr[RelationshipEnum.formerPartner]: RelationshipEnum.formerPartner
+  RelationshipStr[RelationshipEnum.currentPartner]:
+      RelationshipEnum.currentPartner,
+  RelationshipStr[RelationshipEnum.formerPartner]:
+      RelationshipEnum.formerPartner
 };
+
 extension ParseToRelationshipString on RelationshipEnum {
   String toRelationshipString() {
     return RelationshipStr[this] ?? toSimpleCapitalEnum(this);
@@ -302,6 +305,10 @@ class Perpetrator {
 
   Perpetrator();
 
+  bool isReadyToSend() {
+    return (this.gender != null && this.isKnown != null);
+  }
+
   Map toJson() => {
         'gender': gender?.toJSONString() ?? "",
         'isKnown': isKnown ?? "",
@@ -331,6 +338,18 @@ class AbuseForm {
   Perpetrator perpetrator = Perpetrator();
 
   AbuseForm();
+
+  bool isReadyToSend() {
+    return this.incidentDate != null &&
+        this.attentionDate != null &&
+        this.gender != null &&
+        this.ageRange != null &&
+        this.municipality != null &&
+        this.municipality.length > 0 &&
+        this.community != null &&
+        this.community.length > 0 &&
+        this.perpetrator.isReadyToSend();
+  }
 
   Map toJson() => {
         'incidentDate': incidentDate?.toIso8601String() ?? "",
@@ -454,6 +473,7 @@ RightsEnum rightsFromString(String str) {
 }
 
 RelationshipEnum relationshipFromString(String str) {
-  return relationshipMp[str] ?? RelationshipEnum.values
-      .firstWhere((e) => describeEnum(e).toLowerCase() == str.toLowerCase());
+  return relationshipMp[str] ??
+      RelationshipEnum.values.firstWhere(
+          (e) => describeEnum(e).toLowerCase() == str.toLowerCase());
 }
