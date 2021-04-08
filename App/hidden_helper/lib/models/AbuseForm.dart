@@ -129,10 +129,21 @@ enum PhysicalAbuseClassificationEnum {
   otherPainfulAttack
 }
 
+const Map PhysicalAbuseClassificationStr = {
+  PhysicalAbuseClassificationEnum.weaponUsage: "Weapon Usage",
+  PhysicalAbuseClassificationEnum.otherPainfulAttack: "Other Painful Attack"
+};
+Map physicalAbuseClassificationMp = {
+  PhysicalAbuseClassificationStr[PhysicalAbuseClassificationEnum.weaponUsage]:
+      PhysicalAbuseClassificationEnum.weaponUsage,
+  PhysicalAbuseClassificationStr[PhysicalAbuseClassificationEnum
+      .otherPainfulAttack]: PhysicalAbuseClassificationEnum.otherPainfulAttack
+};
+
 extension ParseToPhysicalAbuseClassificationString
     on PhysicalAbuseClassificationEnum {
   String toPhysicalAbuseClassificationString() {
-    return toSimpleCapitalEnum(this);
+    return PhysicalAbuseClassificationStr[this] ?? toSimpleCapitalEnum(this);
   }
 }
 
@@ -151,10 +162,42 @@ enum PsychologicalAbuseClassificationEnum {
   childThreats
 }
 
+const Map PsychologicalAbuseClassificationStr = {
+  PsychologicalAbuseClassificationEnum.violenceThreats: "Violence Threats",
+  PsychologicalAbuseClassificationEnum.murderThreats: "Murder Threats",
+  PsychologicalAbuseClassificationEnum.verbalHarrassment: "Verbal Harrassment",
+  PsychologicalAbuseClassificationEnum.unwantedAttention: "Unwanted Attention",
+  PsychologicalAbuseClassificationEnum.nonVerbalThreats: "Non-Verbal Threats",
+  PsychologicalAbuseClassificationEnum.propertyDestruction:
+      "Property Destruction",
+  PsychologicalAbuseClassificationEnum.childThreats: "Child Threats"
+};
+
+Map psychologicalAbuseClassificationMp = {
+  PsychologicalAbuseClassificationStr[PsychologicalAbuseClassificationEnum
+      .violenceThreats]: PsychologicalAbuseClassificationEnum.violenceThreats,
+  PsychologicalAbuseClassificationStr[PsychologicalAbuseClassificationEnum
+      .murderThreats]: PsychologicalAbuseClassificationEnum.murderThreats,
+  PsychologicalAbuseClassificationStr[
+          PsychologicalAbuseClassificationEnum.verbalHarrassment]:
+      PsychologicalAbuseClassificationEnum.verbalHarrassment,
+  PsychologicalAbuseClassificationStr[
+          PsychologicalAbuseClassificationEnum.unwantedAttention]:
+      PsychologicalAbuseClassificationEnum.unwantedAttention,
+  PsychologicalAbuseClassificationStr[PsychologicalAbuseClassificationEnum
+      .nonVerbalThreats]: PsychologicalAbuseClassificationEnum.nonVerbalThreats,
+  PsychologicalAbuseClassificationStr[
+          PsychologicalAbuseClassificationEnum.propertyDestruction]:
+      PsychologicalAbuseClassificationEnum.propertyDestruction,
+  PsychologicalAbuseClassificationStr[PsychologicalAbuseClassificationEnum
+      .childThreats]: PsychologicalAbuseClassificationEnum.childThreats
+};
+
 extension ParseToPsychologicalAbuseClassificationString
     on PsychologicalAbuseClassificationEnum {
   String toPsychologicalAbuseClassificationString() {
-    return toSimpleCapitalEnum(this);
+    return PsychologicalAbuseClassificationStr[this] ??
+        toSimpleCapitalEnum(this);
   }
 }
 
@@ -164,11 +207,24 @@ enum SexualAbuseClassificationEnum {
   attemptedRape,
   rape
 }
+const Map SexualAbuseClassificationStr = {
+  SexualAbuseClassificationEnum.genitalTouching: "Genital Touching",
+  SexualAbuseClassificationEnum.genitalMutilation: "Genital Mutilation",
+  SexualAbuseClassificationEnum.attemptedRape: "Attempted Rape"
+};
+Map sexualAbuseClassificationMp = {
+  SexualAbuseClassificationStr[SexualAbuseClassificationEnum.genitalTouching]:
+      SexualAbuseClassificationEnum.genitalTouching,
+  SexualAbuseClassificationStr[SexualAbuseClassificationEnum.genitalMutilation]:
+      SexualAbuseClassificationEnum.genitalMutilation,
+  SexualAbuseClassificationStr[SexualAbuseClassificationEnum.attemptedRape]:
+      SexualAbuseClassificationEnum.attemptedRape
+};
 
 extension ParseToSexualAbuseClassificationString
     on SexualAbuseClassificationEnum {
   String toSexualAbuseClassificationString() {
-    return toSimpleCapitalEnum(this);
+    return SexualAbuseClassificationStr[this] ?? toSimpleCapitalEnum(this);
   }
 }
 
@@ -180,10 +236,18 @@ enum RightsEnum {
   resourceConflict,
   other
 }
+const Map RightsStr = {
+  RightsEnum.economicResources: "Economic Resources",
+  RightsEnum.resourceConflict: "Resource Conflict"
+};
+Map rightsMp = {
+  RightsStr[RightsEnum.economicResources]: RightsEnum.economicResources,
+  RightsStr[RightsEnum.resourceConflict]: RightsEnum.resourceConflict
+};
 
 extension ParseToRightsString on RightsEnum {
   String toRightsString() {
-    return toSimpleCapitalEnum(this);
+    return RightsStr[this] ?? toSimpleCapitalEnum(this);
   }
 }
 
@@ -196,10 +260,17 @@ enum RelationshipEnum {
   association,
   other
 }
-
+const Map RelationshipStr = {
+  RelationshipEnum.currentPartner: "Current Partner",
+  RelationshipEnum.formerPartner: "Former Partner"
+};
+Map relationshipMp = {
+  RelationshipStr[RelationshipEnum.currentPartner]: RelationshipEnum.currentPartner,
+  RelationshipStr[RelationshipEnum.formerPartner]: RelationshipEnum.formerPartner
+};
 extension ParseToRelationshipString on RelationshipEnum {
   String toRelationshipString() {
-    return toSimpleCapitalEnum(this);
+    return RelationshipStr[this] ?? toSimpleCapitalEnum(this);
   }
 
   String toJSONString() {
@@ -282,8 +353,7 @@ class AbuseForm {
           'physical': physicalAbuse?.toJSONPairString() ?? "",
           'psychological': psychologicalAbuse?.toJSONPairString() ?? "",
           'sexual': sexualAbuse?.toJSONPairString() ?? "",
-          if(forcedMarriage != null)
-            'forcedMarriage': forcedMarriage ?? ""
+          if (forcedMarriage != null) 'forcedMarriage': forcedMarriage ?? ""
         },
         'rightDenied': addOtherIfAvailable(
                 rightsDenied?.toJSONPairString(), rightsDeniedOther) ??
@@ -311,7 +381,7 @@ extension ToggleExtension on List {
 
 extension JSONPairObjectString on List {
   Map toJSONPairString() {
-    return {for (var v in this) v: true};
+    return {for (var v in this) describeEnum(v): true};
   }
 }
 
@@ -360,31 +430,30 @@ ReferredAttentionEnum referredAttentionFromString(String str) {
 }
 
 PhysicalAbuseClassificationEnum physicalAbuseFromString(String str) {
-  String lwrStr = str.toLowerCase();
-  return PhysicalAbuseClassificationEnum.values
-      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return physicalAbuseClassificationMp[str] ??
+      PhysicalAbuseClassificationEnum.values.firstWhere(
+          (e) => describeEnum(e).toLowerCase() == str.toLowerCase());
 }
 
 PsychologicalAbuseClassificationEnum psychologicalAbuseFromString(String str) {
-  String lwrStr = str.toLowerCase();
-  return PsychologicalAbuseClassificationEnum.values
-      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return psychologicalAbuseClassificationMp[str] ??
+      PsychologicalAbuseClassificationEnum.values.firstWhere(
+          (e) => describeEnum(e).toLowerCase() == str.toLowerCase());
 }
 
 SexualAbuseClassificationEnum sexualAbuseFromString(String str) {
-  String lwrStr = str.toLowerCase();
-  return SexualAbuseClassificationEnum.values
-      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return sexualAbuseClassificationMp[str] ??
+      SexualAbuseClassificationEnum.values.firstWhere(
+          (e) => describeEnum(e).toLowerCase() == str.toLowerCase());
 }
 
 RightsEnum rightsFromString(String str) {
-  String lwrStr = str.toLowerCase();
-  return RightsEnum.values
-      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return rightsMp[str] ??
+      RightsEnum.values.firstWhere(
+          (e) => describeEnum(e).toLowerCase() == str.toLowerCase());
 }
 
 RelationshipEnum relationshipFromString(String str) {
-  String lwrStr = str.toLowerCase();
-  return RelationshipEnum.values
-      .firstWhere((e) => describeEnum(e).toLowerCase() == lwrStr);
+  return relationshipMp[str] ?? RelationshipEnum.values
+      .firstWhere((e) => describeEnum(e).toLowerCase() == str.toLowerCase());
 }

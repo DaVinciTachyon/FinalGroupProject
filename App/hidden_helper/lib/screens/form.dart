@@ -7,6 +7,8 @@ class FormScreen extends StatefulWidget {
   final attentionDateController = TextEditingController();
   final victimGenderTextController = TextEditingController();
   final victimAgeTextController = TextEditingController();
+  final municipalityController = TextEditingController();
+  final communityController = TextEditingController();
   final seekedAttentionController = TextEditingController();
   final offeredAttentionController = TextEditingController();
   final referredAttentionController = TextEditingController();
@@ -18,6 +20,9 @@ class FormScreen extends StatefulWidget {
   final perpGenderController = TextEditingController();
   final perpKnownController = TextEditingController();
   final perpRelationshipController = TextEditingController();
+
+  final communityKey = Key("community");
+  final municipalityKey = Key("municipality");
 
   final List<String> genderList = GenderEnum.values.map((gender) {
     return gender.toGenderString();
@@ -68,7 +73,7 @@ class FormScreen extends StatefulWidget {
     return relationship.toRelationshipString();
   }).toList();
 
-  final abuseForm = AbuseForm();
+  var abuseForm = AbuseForm();
 
   @override
   State<StatefulWidget> createState() => FormContentState();
@@ -99,7 +104,7 @@ class FormContentState extends State<FormScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
-        length: 2,
+        length: 1,
         child: Scaffold(
           appBar: AppBar(
             bottom: TabBar(
@@ -108,15 +113,6 @@ class FormContentState extends State<FormScreen> {
                 Padding(
                   padding: EdgeInsets.all(2),
                   child: Text('Submit Form',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold)),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(3),
-                  child: Text('Past Submissions',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 18,
@@ -222,6 +218,7 @@ class FormContentState extends State<FormScreen> {
                               widget.victimAgeTextController.text = age;
                             })),
                     TextField(
+                      controller: widget.municipalityController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Municipality',
@@ -233,6 +230,7 @@ class FormContentState extends State<FormScreen> {
                       },
                     ),
                     TextField(
+                      controller: widget.communityController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Community',
@@ -264,7 +262,7 @@ class FormContentState extends State<FormScreen> {
                         widget.seekedAttentionController.text =
                             widget.abuseForm.seekedAttention.map((attention) {
                           return attention.toSeekedAttentionString();
-                        }).toString();
+                        }).toString().replaceAll(new RegExp(r'[()]'), "");
                         setState(() {});
                       }),
                     ),
@@ -304,7 +302,7 @@ class FormContentState extends State<FormScreen> {
                         widget.offeredAttentionController.text =
                             widget.abuseForm.offeredAttention.map((attention) {
                           return attention.toOfferedAttentionString();
-                        }).toString();
+                        }).toString().replaceAll(new RegExp(r'[()]'), "");
                         setState(() {});
                       }),
                     ),
@@ -344,7 +342,7 @@ class FormContentState extends State<FormScreen> {
                         widget.referredAttentionController.text =
                             widget.abuseForm.referredAttention.map((attention) {
                           return attention.toReferredAttentionString();
-                        }).toString();
+                        }).toString().replaceAll(new RegExp(r'[()]'), "");
                         setState(() {});
                       }),
                     ),
@@ -386,7 +384,7 @@ class FormContentState extends State<FormScreen> {
                             widget.abuseForm.physicalAbuse.map((attention) {
                           return attention
                               .toPhysicalAbuseClassificationString();
-                        }).toString();
+                        }).toString().replaceAll(new RegExp(r'[()]'), "");
                       }),
                     ),
                     TextField(
@@ -413,7 +411,7 @@ class FormContentState extends State<FormScreen> {
                             .map((attention) {
                           return attention
                               .toPsychologicalAbuseClassificationString();
-                        }).toString();
+                        }).toString().replaceAll(new RegExp(r'[()]'), "");
                       }),
                     ),
                     TextField(
@@ -437,7 +435,7 @@ class FormContentState extends State<FormScreen> {
                         widget.sexualAbuseController.text =
                             widget.abuseForm.sexualAbuse.map((attention) {
                           return attention.toSexualAbuseClassificationString();
-                        }).toString();
+                        }).toString().replaceAll(new RegExp(r'[()]'), "");
                       }),
                     ),
                     TextField(
@@ -482,7 +480,7 @@ class FormContentState extends State<FormScreen> {
                         widget.rightsDeniedController.text =
                             widget.abuseForm.rightsDenied.map((attention) {
                           return attention.toRightsString();
-                        }).toString();
+                        }).toString().replaceAll(new RegExp(r'[()]'), "");
                       }),
                     ),
                     Visibility(
@@ -570,6 +568,25 @@ class FormContentState extends State<FormScreen> {
                         // Provider.of<FormsOperation>(context, listen: false)
                         //     .addNewForm(widget.abuseForm);
                         FormHttpOperations.sendToBackend(widget.abuseForm);
+                        widget.abuseForm = AbuseForm();
+                        widget.incidentDateController.text = "";
+                        widget.attentionDateController.text = "";
+                        widget.victimGenderTextController.text = "";
+                        widget.victimAgeTextController.text = "";
+                        widget.municipalityController.text = "";
+                        widget.communityController.text = "";
+                        widget.seekedAttentionController.text = "";
+                        widget.offeredAttentionController.text = "";
+                        widget.referredAttentionController.text = "";
+                        widget.physicalAbuseController.text = "";
+                        widget.psychologicalAbuseController.text = "";
+                        widget.sexualAbuseController.text = "";
+                        widget.forcedMarriageController.text = "";
+                        widget.rightsDeniedController.text = "";
+                        widget.perpGenderController.text = "";
+                        widget.perpKnownController.text = "";
+                        widget.perpRelationshipController.text = "";
+                        setState(() {});
                       },
                       child: Text('Submit Form',
                           style: TextStyle(
@@ -587,7 +604,7 @@ class FormContentState extends State<FormScreen> {
                           },
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
