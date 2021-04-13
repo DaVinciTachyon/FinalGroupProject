@@ -5,6 +5,12 @@ monitor = {}
 administrator = {}
 
 monitor.isActive = async (req, res, next) => {
+	if(req.body.email) {
+		const emailUser = await Monitor.findOne({ email: req.body.email });
+
+		if(emailUser.firstLogin)
+			next();
+	}
 	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
 	if(!user)
         return res.status(400).send({ error: 'macAddress does not exist' });
