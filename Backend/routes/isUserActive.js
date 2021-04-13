@@ -9,7 +9,7 @@ monitor.isActive = async (req, res, next) => {
 		const emailUser = await Monitor.findOne({ email: req.body.email });
 
 		if(emailUser.firstLogin)
-			next();
+			return next();
 	}
 	const user = await Monitor.findOne({ macAddress: req.body.macAddress });
 	if(!user)
