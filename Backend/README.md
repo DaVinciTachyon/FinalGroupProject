@@ -233,3 +233,58 @@ Status 200
 
 Status 400
 Body: { error }
+
+### POST /api/notes/
+
+#### Request
+
+Body is defined in `models/Note.js`
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### GET /api/notes/
+
+#### Request
+
+#### Response
+
+Status 200
+Body: { notes }
+
+Status 400
+Body: { error }
+
+### POST /api/notes/edit/
+
+#### Request
+
+{
+    _id,
+    content,
+    editDate
+}
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
+
+### POST /api/notes/delete/
+
+#### Request
+
+{ _id }
+
+#### Response
+
+Status 200
+
+Status 400
+Body: { error }
