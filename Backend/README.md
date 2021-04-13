@@ -20,6 +20,8 @@ MONITOR_TOKEN_SECRET=<Random String>
 
 #### Request
 
+Header: { auth-token }
+
 Body is defined in `models/Form.js`
 
 #### Response
@@ -33,6 +35,8 @@ Body: { error }
 
 #### Request
 
+Header: { auth-token }
+
 #### Response
 
 Status 200
@@ -41,6 +45,8 @@ Body: { forms: [] }
 ### GET /api/monitors/
 
 #### Request
+
+Header: { auth-token }
 
 #### Response
 
@@ -78,7 +84,7 @@ Body: { error }
 
 #### Request
 
-{
+Body: {
     email,
     name
 }
@@ -94,7 +100,7 @@ Body: { error }
 
 #### Request
 
-{
+Body: {
     email,
     password
 }
@@ -111,7 +117,7 @@ Body: { error }
 
 #### Request
 
-{ email }
+Body: { email }
 
 #### Response
 
@@ -124,7 +130,7 @@ Body: { error }
 
 #### Request
 
-{ email }
+Body: { email }
 
 #### Response
 
@@ -164,7 +170,7 @@ Body: { error }
 
 #### Request
 
-{
+Body: {
     name,
     macAddress
 }
@@ -180,7 +186,7 @@ Body: { error }
 
 #### Request
 
-{
+Body: {
     password,
     macAddress
 }
@@ -196,7 +202,7 @@ Body: { error }
 
 #### Request
 
-{
+Body: {
     macAddress,
     newMacAddress
 }
@@ -212,7 +218,7 @@ Body: { error }
 
 #### Request
 
-{ macAddress }
+Body: { macAddress }
 
 #### Response
 
@@ -225,7 +231,7 @@ Body: { error }
 
 #### Request
 
-{ macAddress }
+Body: { macAddress }
 
 #### Response
 
@@ -237,6 +243,8 @@ Body: { error }
 ### POST /api/notes/
 
 #### Request
+
+Header: { auth-token }
 
 Body is defined in `models/Note.js`
 
@@ -251,6 +259,8 @@ Body: { error }
 
 #### Request
 
+Header: { auth-token }
+
 #### Response
 
 Status 200
@@ -263,7 +273,9 @@ Body: { error }
 
 #### Request
 
-{
+Header: { auth-token }
+
+Body: {
     _id,
     content,
     editDate
@@ -280,7 +292,9 @@ Body: { error }
 
 #### Request
 
-{ _id }
+Header: { auth-token }
+
+Body: { _id }
 
 #### Response
 
