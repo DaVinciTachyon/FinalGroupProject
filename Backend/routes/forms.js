@@ -8,7 +8,7 @@ router.use(function(req, res, next) {
 
 router.post('/', verify.monitor, async (req, res) => {
     const form = new Form({
-        monitorID: req.user.id,
+        monitorID: req.user._id,
         incidentDate: req.body.incidentDate,
         attentionDate: req.body.attentionDate,
         gender: req.body.gender,
