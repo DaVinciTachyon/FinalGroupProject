@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 module.exports = mongoose.model('Form', new mongoose.Schema({
-    //TODO - monitorID
+    monitorID: {
+        type: String,
+        required: true
+    },
     incidentDate: {
         type: Date,
         default: Date.now(),
