@@ -305,8 +305,16 @@ class Perpetrator {
 
   Perpetrator();
 
+  bool genderValid() {
+    return this.gender != null;
+  }
+
+  bool isKnownValid() {
+    return this.isKnown != null;
+  }
+
   bool isReadyToSend() {
-    return (this.gender != null && this.isKnown != null);
+    return genderValid() && isKnownValid();
   }
 
   Map toJson() => {
@@ -339,15 +347,37 @@ class AbuseForm {
 
   AbuseForm();
 
+  bool incidentDateValid() {
+    return this.incidentDate != null;
+  }
+
+  bool attentionDateValid() {
+    return this.attentionDate != null;
+  }
+
+  bool genderValid(){
+    return this.gender != null;
+  }
+
+  bool ageRangeValid() {
+    return this.ageRange != null;
+  }
+
+  bool municipalityValid() {
+    return this.municipality != null && this.municipality.length > 0;
+  }
+
+  bool communityValid() {
+    return this.community != null && this.community.length > 0;
+  }
+
   bool isReadyToSend() {
-    return this.incidentDate != null &&
-        this.attentionDate != null &&
-        this.gender != null &&
-        this.ageRange != null &&
-        this.municipality != null &&
-        this.municipality.length > 0 &&
-        this.community != null &&
-        this.community.length > 0 &&
+    return incidentDateValid() &&
+        attentionDateValid() &&
+        genderValid() &&
+        ageRangeValid() &&
+        municipalityValid() &&
+        communityValid() &&
         this.perpetrator.isReadyToSend();
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_helper/models/AbuseForm.dart';
 import 'package:hidden_helper/models/FormsOperation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class FormScreen extends StatefulWidget {
   final incidentDateController = TextEditingController();
@@ -100,6 +101,8 @@ class FormScreen extends StatefulWidget {
 
 //TODO should probably convert this to a generated list
 class FormContentState extends State<FormScreen> {
+  var submitAttempted = false;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -142,7 +145,10 @@ class FormContentState extends State<FormScreen> {
                           decoration: InputDecoration(
                               labelText: 'Incident Date',
                               hintText: 'Incident Date',
-                              border: OutlineInputBorder()),
+                              border: OutlineInputBorder(),
+                              fillColor: Colors.red[200],
+                              filled: submitAttempted &&
+                                  !widget.abuseForm.incidentDateValid()),
                           onTap: () async {
                             widget.abuseForm.incidentDate =
                                 await showDatePicker(
@@ -167,7 +173,10 @@ class FormContentState extends State<FormScreen> {
                           decoration: InputDecoration(
                               labelText: 'Attention Date',
                               hintText: 'Attention Date',
-                              border: OutlineInputBorder()),
+                              border: OutlineInputBorder(),
+                              fillColor: Colors.red[200],
+                              filled: submitAttempted &&
+                                  !widget.abuseForm.attentionDateValid()),
                           onTap: () async {
                             widget.abuseForm.attentionDate =
                                 await showDatePicker(
@@ -192,7 +201,10 @@ class FormContentState extends State<FormScreen> {
                           decoration: InputDecoration(
                               labelText: 'Victim Gender',
                               hintText: 'Victim Gender',
-                              border: OutlineInputBorder()),
+                              border: OutlineInputBorder(),
+                              fillColor: Colors.red[200],
+                              filled: submitAttempted &&
+                                  !widget.abuseForm.genderValid()),
                           onTap: () => widget._showSelectDialog(
                               context,
                               true,
@@ -212,7 +224,10 @@ class FormContentState extends State<FormScreen> {
                             decoration: InputDecoration(
                                 labelText: 'Victim Age',
                                 hintText: 'Victim Age',
-                                border: OutlineInputBorder()),
+                                border: OutlineInputBorder(),
+                                fillColor: Colors.red[200],
+                                filled: submitAttempted &&
+                                    !widget.abuseForm.ageRangeValid()),
                             onTap: () => widget._showSelectDialog(
                                     context,
                                     true,
@@ -232,7 +247,10 @@ class FormContentState extends State<FormScreen> {
                           decoration: InputDecoration(
                               labelText: 'Municipality',
                               hintText: 'Municipality',
-                              border: OutlineInputBorder()),
+                              border: OutlineInputBorder(),
+                              fillColor: Colors.red[200],
+                              filled: submitAttempted &&
+                                  !widget.abuseForm.municipalityValid()),
                           style: TextStyle(fontSize: 18, color: Colors.black87),
                           onChanged: (value) {
                             widget.abuseForm.municipality = value;
@@ -245,7 +263,10 @@ class FormContentState extends State<FormScreen> {
                           decoration: InputDecoration(
                               labelText: 'Community',
                               hintText: 'Community',
-                              border: OutlineInputBorder()),
+                              border: OutlineInputBorder(),
+                              fillColor: Colors.red[200],
+                              filled: submitAttempted &&
+                                  !widget.abuseForm.communityValid()),
                           style: TextStyle(fontSize: 18, color: Colors.black87),
                           onChanged: (value) {
                             widget.abuseForm.community = value;
@@ -559,7 +580,10 @@ class FormContentState extends State<FormScreen> {
                           decoration: InputDecoration(
                               labelText: 'Perpetrator Gender',
                               hintText: 'Perpetrator Gender',
-                              border: OutlineInputBorder()),
+                              border: OutlineInputBorder(),
+                              fillColor: Colors.red[200],
+                              filled: submitAttempted &&
+                                  !widget.abuseForm.perpetrator.genderValid()),
                           onTap: () => widget._showSelectDialog(
                               context,
                               true,
@@ -582,7 +606,10 @@ class FormContentState extends State<FormScreen> {
                           decoration: InputDecoration(
                               labelText: 'Perpetrator is Known',
                               hintText: 'Perpetrator is Known',
-                              border: OutlineInputBorder()),
+                              border: OutlineInputBorder(),
+                              fillColor: Colors.red[200],
+                              filled: submitAttempted &&
+                                  !widget.abuseForm.perpetrator.isKnownValid()),
                           onTap: () => widget._showSelectDialog(
                               context,
                               true,
@@ -629,6 +656,17 @@ class FormContentState extends State<FormScreen> {
                         if (widget.abuseForm.isReadyToSend()) {
                           FormHttpOperations.sendToBackend(widget.abuseForm);
                           widget.abuseForm = AbuseForm();
+                          setState(() {
+                            submitAttempted = false;
+                          });
+                          Fluttertoast.showToast(
+                              msg: "Report sent.",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
                           widget.incidentDateController.text = "";
                           widget.attentionDateController.text = "";
                           widget.victimGenderTextController.text = "";
@@ -649,6 +687,17 @@ class FormContentState extends State<FormScreen> {
                           setState(() {});
                         } else {
                           print("Form Incomplete!!");
+                          setState(() {
+                            submitAttempted = true;
+                          });
+                          Fluttertoast.showToast(
+                              msg: "Please fill in the required fields.",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
                         }
                       },
                       child: Text('Submit Form',
