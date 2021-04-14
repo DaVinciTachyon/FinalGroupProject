@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hidden_helper/models/Note.dart';
-import 'package:hidden_helper/screens/sos_screen.dart';
+// import 'package:hidden_helper/screens/sos_screen.dart';
 import 'package:hive/hive.dart';
 import 'package:hidden_helper/screens/form.dart';
 import 'package:intl/intl.dart';
 import 'package:get_mac/get_mac.dart';
+import 'package:location/location.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'home_screen.dart';
 
@@ -17,7 +19,8 @@ class NewNoteForm extends StatefulWidget {
 
 class _NewNoteFormState extends State<NewNoteForm> {
   final _formKey = GlobalKey<FormState>();
-
+  String userPwd = "Secrets";
+  String sosCode = 'sos';
   String _title;
   String _description;
   String _platformVersion = 'Unknown';
@@ -39,18 +42,54 @@ class _NewNoteFormState extends State<NewNoteForm> {
     setState(() {
       _platformVersion = platformVersion;
     });
+    Location location = new Location();
 
-    if (note.title == 'Password') {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    if (note.title == userPwd) {
       print('Password Entered');
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => FormScreen()),
       );
-    } else if (note.title == 'SOS') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SOSScreen()),
-      );
+    } else if (note.title == sosCode) {
+      print("SOS entered");
+
+      LocationData _locationData;
+
+      _locationData = await location.getLocation();
+      print(_locationData);
+
+      Fluttertoast.showToast(
+        msg: "SOS sent with GPS location.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => SOSScreen()),
+      // );
     } else {
       final notesBox = Hive.box('NotesBox');
       notesBox.add(note);
@@ -109,7 +148,7 @@ class _NewNoteFormState extends State<NewNoteForm> {
                     child: Text("Add Note"),
                     style: TextButton.styleFrom(
                       primary: Colors.white,
-                      backgroundColor:  Color(0xFF568889),
+                      backgroundColor: Color(0xFF568889),
                       elevation: 20,
                     ),
                     onPressed: () {
