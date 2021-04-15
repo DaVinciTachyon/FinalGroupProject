@@ -9,6 +9,8 @@ import 'package:intl/intl.dart';
 import 'package:get_mac/get_mac.dart';
 import 'package:location/location.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'home_screen.dart';
 
@@ -37,6 +39,21 @@ class _NewNoteFormState extends State<NewNoteForm> {
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
+
+    var url = Uri.parse('https://db.sdart.ie/api/monitor/login/');
+    var test = {
+      'email': note.title,
+      'password': note.description,
+      'macAddress': platformVersion
+    };
+    var response = await http.post(url,
+        body: jsonEncode(test),
+        headers: {'Content-Type': 'application/json'});
+    //print(jsonEncode(submittedForm));
+    print(response.statusCode);
+    print(response.reasonPhrase);
+    print('Response body: ${response.body}');
+
     if (!mounted) return;
 
     setState(() {
@@ -63,7 +80,7 @@ class _NewNoteFormState extends State<NewNoteForm> {
       }
     }
 
-    if (note.title == userPwd) {
+    if (response.statusCode == 200) {
       print('Password Entered');
       Navigator.push(
         context,
