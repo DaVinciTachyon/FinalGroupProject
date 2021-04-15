@@ -632,7 +632,10 @@ class FormContentState extends State<FormScreen> {
                           decoration: InputDecoration(
                               labelText: 'Perpetrator Relationship',
                               hintText: 'Perpetrator Relationship',
-                              border: OutlineInputBorder()),
+                              border: OutlineInputBorder(),
+                              fillColor: Colors.red[200],
+                              filled: submitAttempted &&
+                                  !widget.abuseForm.perpetrator.isRelationshipValid()),
                           onTap: () => widget._showSelectDialog(
                               context,
                               true,

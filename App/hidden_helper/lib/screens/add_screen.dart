@@ -11,10 +11,12 @@ import 'package:location/location.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'home_screen.dart';
 
 class NewNoteForm extends StatefulWidget {
+  static final TOKEN_KEY = 'token_key';
   @override
   _NewNoteFormState createState() => _NewNoteFormState();
 }
@@ -82,6 +84,8 @@ class _NewNoteFormState extends State<NewNoteForm> {
 
     if (response.statusCode == 200) {
       print('Password Entered');
+      final storage = new FlutterSecureStorage();
+      await storage.write(key: NewNoteForm.TOKEN_KEY, value: jsonDecode(response.body)['token']);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => FormScreen()),

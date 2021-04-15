@@ -313,8 +313,12 @@ class Perpetrator {
     return this.isKnown != null;
   }
 
+  bool isRelationshipValid() {
+    return this.relationshipToVictim != null;
+  }
+
   bool isReadyToSend() {
-    return genderValid() && isKnownValid();
+    return genderValid() && isKnownValid() && isRelationshipValid();
   }
 
   Map toJson() => {
