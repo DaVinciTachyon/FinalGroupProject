@@ -17,7 +17,7 @@ class FormsOperation extends ChangeNotifier {
 }
 
 class FormHttpOperations {
-  static Future<void> sendToBackend(AbuseForm submittedForm) async {
+  static Future<int> sendToBackend(AbuseForm submittedForm) async {
     var url = Uri.parse('https://db.sdart.ie/api/forms/');
     var response = await http.post(url,
         body: jsonEncode(submittedForm),
@@ -25,5 +25,6 @@ class FormHttpOperations {
     print(jsonEncode(submittedForm));
     print(response.statusCode);
     print(response.reasonPhrase);
+    return response.statusCode;
   }
 }
