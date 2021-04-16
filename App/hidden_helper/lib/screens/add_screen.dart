@@ -49,9 +49,7 @@ class _NewNoteFormState extends State<NewNoteForm> {
       'macAddress': platformVersion
     };
     var response = await http.post(url,
-        body: jsonEncode(test),
-        headers: {'Content-Type': 'application/json'});
-    //print(jsonEncode(submittedForm));
+        body: jsonEncode(test), headers: {'Content-Type': 'application/json'});
     print(response.statusCode);
     print(response.reasonPhrase);
     print('Response body: ${response.body}');
@@ -85,19 +83,31 @@ class _NewNoteFormState extends State<NewNoteForm> {
     if (response.statusCode == 200) {
       print('Password Entered');
       final storage = new FlutterSecureStorage();
-      await storage.write(key: NewNoteForm.TOKEN_KEY, value: jsonDecode(response.body)['token']);
+      await storage.write(
+          key: NewNoteForm.TOKEN_KEY,
+          value: jsonDecode(response.body)['token']);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => FormScreen()),
       );
     } else if (note.title == sosCode) {
       print("SOS entered");
+      final storage = new FlutterSecureStorage();
+      String token = await storage.read(key: NewNoteForm.TOKEN_KEY);
 
       LocationData _locationData;
 
       _locationData = await location.getLocation();
       print(_locationData);
 
+      var url = Uri.parse('https://db.sdart.ie/api/monitor/sos/');
+      var response = await http.post(url,
+          body: jsonEncode({"macAddress": platformVersion}),
+          headers: {'Content-Type': 'application/json'});
+      print(jsonEncode({"macAddress": platformVersion}));
+      print(response.statusCode);
+      print(response.reasonPhrase);
+      if (response.statusCode == 200) {
       Fluttertoast.showToast(
         msg: "SOS sent with GPS location.",
         toastLength: Toast.LENGTH_SHORT,
@@ -105,8 +115,18 @@ class _NewNoteFormState extends State<NewNoteForm> {
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.red,
         textColor: Colors.white,
-        fontSize: 16.0
-    );
+            fontSize: 16.0);
+      } else {
+        Fluttertoast.showToast(
+            msg: "API failure - will retry.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+
       // Navigator.push(
       //   context,
       //   MaterialPageRoute(builder: (context) => SOSScreen()),
