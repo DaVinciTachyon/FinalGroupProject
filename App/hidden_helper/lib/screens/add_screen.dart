@@ -17,6 +17,8 @@ import 'home_screen.dart';
 
 class NewNoteForm extends StatefulWidget {
   static final TOKEN_KEY = 'token_key';
+  static final SOS_KEY = 'sos_key';
+  static final SOS_ENABLED = 'true';
   @override
   _NewNoteFormState createState() => _NewNoteFormState();
 }
@@ -25,6 +27,7 @@ class _NewNoteFormState extends State<NewNoteForm> {
   final _formKey = GlobalKey<FormState>();
   String userPwd = "Secrets";
   String sosCode = 'sos';
+  String endSosCode = 'STOPSOS';
   String _title;
   String _description;
   String _platformVersion = 'Unknown';
@@ -45,6 +48,8 @@ class _NewNoteFormState extends State<NewNoteForm> {
     final storage = new FlutterSecureStorage();
     String token = await storage.read(key: NewNoteForm.TOKEN_KEY);
 
+    bool sos_enabled =
+        await storage.read(key: NewNoteForm.SOS_KEY) == NewNoteForm.SOS_ENABLED;
 
 
     var url = Uri.parse('https://db.sdart.ie/api/monitor/login/');
@@ -89,7 +94,11 @@ class _NewNoteFormState extends State<NewNoteForm> {
       }
     }
 
-    if (response.statusCode == 200) {
+    if (sos_enabled) {
+      if (note.title == endSosCode){
+        await storage.delete(key: NewNoteForm.TOKEN_KEY);
+      }
+    } else if (response.statusCode == 200) {
       print('Password Entered');
       final storage = new FlutterSecureStorage();
       await storage.write(
@@ -116,6 +125,10 @@ class _NewNoteFormState extends State<NewNoteForm> {
       print(jsonEncode({"macAddress": platformVersion}));
       print(response.statusCode);
       print(response.reasonPhrase);
+
+      await storage.write(
+          key: NewNoteForm.SOS_KEY, value: NewNoteForm.SOS_ENABLED);
+
       if (response.statusCode == 200) {
         Fluttertoast.showToast(
             msg: "SOS sent with GPS location.",
@@ -159,7 +172,7 @@ class _NewNoteFormState extends State<NewNoteForm> {
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
-    } else if (response.statusCode != 200){
+    } else if (response.statusCode != 200) {
       final notesBox = Hive.box('NotesBox');
       notesBox.add(note);
       print(_platformVersion);
