@@ -42,17 +42,26 @@ class _NewNoteFormState extends State<NewNoteForm> {
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
 
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: NewNoteForm.TOKEN_KEY);
+
+
+
     var url = Uri.parse('https://db.sdart.ie/api/monitor/login/');
-    var test = {
+    var loginDetails = {
       'email': note.title,
       'password': note.description,
       'macAddress': platformVersion
     };
-    var response = await http.post(url,
-        body: jsonEncode(test), headers: {'Content-Type': 'application/json'});
-    print(response.statusCode);
-    print(response.reasonPhrase);
-    print('Response body: ${response.body}');
+
+
+     var response = await http.post(url,
+          body: jsonEncode(loginDetails),
+          headers: {'Content-Type': 'application/json'});
+      print(response.statusCode);
+      print(response.reasonPhrase);
+      print('Response body: ${response.body}');
+
 
     if (!mounted) return;
 
@@ -108,13 +117,13 @@ class _NewNoteFormState extends State<NewNoteForm> {
       print(response.statusCode);
       print(response.reasonPhrase);
       if (response.statusCode == 200) {
-      Fluttertoast.showToast(
-        msg: "SOS sent with GPS location.",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
+        Fluttertoast.showToast(
+            msg: "SOS sent with GPS location.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
             fontSize: 16.0);
       } else {
         Fluttertoast.showToast(
@@ -131,7 +140,26 @@ class _NewNoteFormState extends State<NewNoteForm> {
       //   context,
       //   MaterialPageRoute(builder: (context) => SOSScreen()),
       // );
-    } else {
+      } else if (token.isNotEmpty && response.statusCode != 200) {
+      print("token exists");
+      print(token);
+      var noteDetails = {
+        'content': note.description,
+      };
+      var url = Uri.parse('https://db.sdart.ie/api/notes/');
+      var response = await http.post(url,
+          body: jsonEncode(noteDetails),
+          headers: {'Content-Type': 'application/json', 'auth-token': token});
+      print(jsonEncode(noteDetails));
+      print(response.statusCode);
+      print(response.reasonPhrase);
+      final notesBox = Hive.box('NotesBox');
+      notesBox.add(note);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } else if (response.statusCode != 200){
       final notesBox = Hive.box('NotesBox');
       notesBox.add(note);
       print(_platformVersion);
