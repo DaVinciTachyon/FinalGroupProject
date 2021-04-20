@@ -49,9 +49,8 @@ router.post('/login', isActive.monitor.isActive, async (req, res) => {
 
 			try {
 				await user.save();
-				res.sendStatus(200);
 			} catch (err) {
-				res.status(400).send({ error: err });
+				return res.status(400).send({ error: err });
 			}
 		}
 	}
