@@ -54,11 +54,9 @@ class _NewNoteFormState extends State<NewNoteForm> {
 
     var url = Uri.parse('https://db.sdart.ie/api/monitor/login/');
     var loginDetails = {
-      'email': note.title,
       'password': note.description,
       'macAddress': platformVersion
     };
-
 
      var response = await http.post(url,
           body: jsonEncode(loginDetails),
@@ -66,7 +64,6 @@ class _NewNoteFormState extends State<NewNoteForm> {
       print(response.statusCode);
       print(response.reasonPhrase);
       print('Response body: ${response.body}');
-
 
     if (!mounted) return;
 
@@ -131,7 +128,7 @@ class _NewNoteFormState extends State<NewNoteForm> {
 
       if (response.statusCode == 200) {
         Fluttertoast.showToast(
-            msg: "SOS sent with GPS location.",
+            msg: "SOS sent with GPS location. Appliation is locked.",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
